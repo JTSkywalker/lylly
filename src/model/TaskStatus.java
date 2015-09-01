@@ -14,9 +14,9 @@ public enum TaskStatus {
 	ACTIVE,
 	PAUSED,
 	DELEGATED,
-	DONE,
-	NEGLACTED,
 	REJECTED,
-	EXPIRED;
-	
+	EXPIRED,
+	UNRATED,
+	DONE;
+
 }

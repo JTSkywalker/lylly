@@ -6,14 +6,13 @@
 
 package model;
 
+import java.util.Calendar;
+import java.util.List;
 
-public class Interest extends Tree<Interest>{
 
-	private String name;
-	private String descr;
+public class Organizer {
 
-	private int stdMinEffort;
-	private int stdMaxEffort;
-
+	private Calendar start;
+	private List<Week> weeks;
 
 }

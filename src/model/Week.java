@@ -6,14 +6,11 @@
 
 package model;
 
+import java.util.Map;
 
-public class Interest extends Tree<Interest>{
 
-	private String name;
-	private String descr;
+public class Week {
 
-	private int stdMinEffort;
-	private int stdMaxEffort;
-
+	private	Map<Interest, Effort> interEff;
 
 }

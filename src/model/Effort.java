@@ -7,13 +7,8 @@
 package model;
 
 
-public class Interest extends Tree<Interest>{
+public class Effort {
 
-	private String name;
-	private String descr;
-
-	private int stdMinEffort;
-	private int stdMaxEffort;
-
-
+	private int minEff, maxEff, actEff;
+	
 }

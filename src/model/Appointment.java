@@ -13,16 +13,6 @@ public class Appointment extends Task {
 
 	private Calendar startDate;
 
-	public Appointment(String descr) {
-		super(descr);
-	}
-
-	public Appointment(String descr, Interest interest, int importance, int urgency,
-			int minDur, int maxDur, Calendar startDate) {
-		super(descr, interest, importance, urgency, minDur, maxDur);
-		this.startDate = startDate;
-	}
-
 	public Calendar getStartDate() {
 		return startDate;
 	}
