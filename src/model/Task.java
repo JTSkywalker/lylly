@@ -7,7 +7,6 @@
 package model;
 
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -27,10 +26,11 @@ public class Task extends Tree<Task> {
 
 	// essential:
 	private String descr;
-	private Interest interest;
+	private Property interest;
 	private int minDur, maxDur;
 	private int importance, urgency;
-	private Collection<Context> contexts;
+	private List<Property> contexts;
+	private List<Property> tags;
 
 	//optional:
 	private Calendar expires;

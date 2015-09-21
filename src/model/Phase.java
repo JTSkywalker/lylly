@@ -6,14 +6,13 @@
 
 package model;
 
+import java.util.GregorianCalendar;
 
-public class Interest extends Tree<Interest>{
 
-	private String name;
-	private String descr;
+public class Phase {
 
-	private int stdMinEffort;
-	private int stdMaxEffort;
-
+	private GregorianCalendar minStart, maxEnd;
+	private int minEffort, maxEffort;
+	private Property interest;
 
 }

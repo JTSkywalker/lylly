@@ -7,16 +7,8 @@
 package model;
 
 
-public class Context extends Tree<Context> {
+public class Property extends Tree<Property> {
 
 	private String descr;
 
-	public String getDescr() {
-		return descr;
-	}
-
-	public void setDescr(String descr) {
-		this.descr = descr;
-	}
-	
 }

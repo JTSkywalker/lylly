@@ -6,13 +6,25 @@
 
 package model;
 
-import java.util.Calendar;
 import java.util.List;
 
 
 public class Organizer {
 
-	private Calendar start;
-	private List<Week> weeks;
+	private List<Task> toDo;
+	private List<Phase> phases;
+	private List<Prospect> openProspects;
+	private List<Prospect> succProspects;
+	private List<Prospect> failProspects;
+	//TODO: methods
+
+	private List<Property> interests;
+	private List<Property> tags;
+	private List<Property> contexts;
+	//TODO: delegates
+
+	private transient Property currContext;
+	private transient Phase currPhase;
+	//TODO: getter & setter
 
 }
