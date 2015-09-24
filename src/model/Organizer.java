@@ -6,17 +6,21 @@
 
 package model;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 
 public class Organizer {
 
 	private List<Task> toDo;
-	private List<Phase> phases;
+	private SortedMap< Calendar,Map<Property,Integer> > quotas; // maybe other data structure
 	private List<Prospect> openProspects;
 	private List<Prospect> succProspects;
 	private List<Prospect> failProspects;
 	//TODO: methods
+	private List<Generator> gens;
 
 	private List<Property> interests;
 	private List<Property> tags;

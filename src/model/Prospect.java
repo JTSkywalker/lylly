@@ -7,31 +7,23 @@
 package model;
 
 import java.util.GregorianCalendar;
+import static model.ProspectStatus.*;
 
 
 public class Prospect {
 
-	private final String descr;
+	private final String name;
 	private final GregorianCalendar start, end;
-	private final int expEffort;
+	private final int minEffort, maxEffort;
+	private ProspectStatus status;
 
-	public Prospect(String descr, GregorianCalendar start, GregorianCalendar end, int expEffort) {
-		this.descr = descr;
+	public Prospect(String name, GregorianCalendar start, GregorianCalendar end, int minEffort, int maxEffort) {
+		this.name = name;
 		this.start = start;
 		this.end = end;
-		this.expEffort = expEffort;
-	}
-
-	public GregorianCalendar getStart() {
-		return start;
-	}
-
-	public GregorianCalendar getEnd() {
-		return end;
-	}
-
-	public int getExpEffort() {
-		return expEffort;
+		this.minEffort = minEffort;
+		this.maxEffort = maxEffort;
+		this.status = ACTIVE;
 	}
 
 }
