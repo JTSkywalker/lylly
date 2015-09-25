@@ -28,7 +28,6 @@ public class Organizer {
 	//TODO: delegates
 
 	private transient Property currContext;
-	private transient Phase currPhase;
 	//TODO: getter & setter
 
 }

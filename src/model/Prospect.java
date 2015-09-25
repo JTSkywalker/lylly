@@ -17,7 +17,8 @@ public class Prospect {
 	private final int minEffort, maxEffort;
 	private ProspectStatus status;
 
-	public Prospect(String name, GregorianCalendar start, GregorianCalendar end, int minEffort, int maxEffort) {
+	public Prospect(String name, GregorianCalendar start, GregorianCalendar end,
+			int minEffort, int maxEffort) {
 		this.name = name;
 		this.start = start;
 		this.end = end;
@@ -26,4 +27,37 @@ public class Prospect {
 		this.status = ACTIVE;
 	}
 
+	public boolean isActive() {
+		switch (status) {
+			case ACTIVE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public boolean isSucceeded() {
+		switch (status) {
+			case SUCCEEDED:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public boolean isFailed() {
+		switch (status) {
+			case FAILED:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public void timeOver(boolean succeeded) {
+		if (succeeded)
+			status = SUCCEEDED;
+		else
+			status = FAILED;
+	}
 }

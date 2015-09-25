@@ -10,7 +10,7 @@ package model;
 public enum ProspectStatus {
 
 	ACTIVE,
-	DONE,
+	SUCCEEDED,
 	FAILED;
 
 }
