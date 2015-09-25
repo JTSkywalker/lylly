@@ -47,17 +47,23 @@ public class Prospect {
 
 	public boolean isFailed() {
 		switch (status) {
-			case FAILED:
+			case FAILLOW:
+			case FAILHIGH:
 				return true;
 			default:
 				return false;
 		}
 	}
 
-	public void timeOver(boolean succeeded) {
-		if (succeeded)
-			status = SUCCEEDED;
-		else
-			status = FAILED;
+	public void timeOver(int result) {
+		if (result >= minEffort) {
+			if (result <= maxEffort) {
+				status = SUCCEEDED;
+			} else {
+				status = FAILHIGH;
+			}
+		} else {
+			status = FAILLOW;
+		}
 	}
 }

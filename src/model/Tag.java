@@ -7,7 +7,7 @@
 package model;
 
 
-public class Property extends Tree<Property> {
+public class Tag extends Tree<Tag> {
 
 	private String descr;
 

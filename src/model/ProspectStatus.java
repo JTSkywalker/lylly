@@ -11,6 +11,7 @@ public enum ProspectStatus {
 
 	ACTIVE,
 	SUCCEEDED,
-	FAILED;
+	FAILLOW,
+	FAILHIGH;
 
 }

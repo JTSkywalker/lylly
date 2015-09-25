@@ -26,20 +26,13 @@ public class Task extends Tree<Task> {
 
 	// essential:
 	private String descr;
-	private Property interest;
-	private int minDur, maxDur;
+	private Tag tag;
 	private int importance, urgency;
-	private List<Property> contexts;
-	private List<Property> tags;
 
 	//optional:
 	private Calendar expires;
-	private Calendar waitOnTime;
-	private List<Task> waitOnTasks;
-	//there will be no field about reacurring tasks in here!
 
 	//variable
-	private List<String> delHierachy;
-	private int actDur, efficiency;
+	private int actDur;
 
 }

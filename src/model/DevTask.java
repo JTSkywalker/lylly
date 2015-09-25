@@ -10,5 +10,10 @@ package model;
 public class DevTask extends Task {
 
 	private int devlmnt;
+	private final int steps;
+
+	public DevTask(int steps) {
+		this.steps = steps;
+	}
 
 }

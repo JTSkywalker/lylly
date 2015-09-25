@@ -16,7 +16,6 @@ public enum TaskStatus {
 	DELEGATED,
 	REJECTED,
 	EXPIRED,
-	UNRATED,
 	DONE;
 
 }

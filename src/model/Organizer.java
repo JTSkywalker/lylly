@@ -15,19 +15,14 @@ import java.util.SortedMap;
 public class Organizer {
 
 	private List<Task> toDo;
-	private SortedMap< Calendar,Map<Property,Integer> > quotas; // maybe other data structure
+	private SortedMap< Calendar,Map<Tag,Integer> > quotas; // maybe other data structure
 	private List<Prospect> openProspects;
 	private List<Prospect> succProspects;
 	private List<Prospect> failProspects;
 	//TODO: methods
 	private List<Generator> gens;
 
-	private List<Property> interests;
-	private List<Property> tags;
-	private List<Property> contexts;
+	private List<Tag> tags;
 	//TODO: delegates
-
-	private transient Property currContext;
-	//TODO: getter & setter
 
 }
