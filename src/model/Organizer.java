@@ -7,8 +7,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,9 +14,16 @@ import java.util.SortedMap;
 
 
 public class Organizer {
+	
+	/* TODO:
+	constructor
+	adder, deleter for gens, prospects, tasks, tags
+	setter for budgets
+	
+	*/
 
 	private List<Task> toDo;
-	private SortedMap< Calendar,Map<Tag,Integer> > budgets; // maybe other data structure
+	private SortedMap<Long,Map<Tag,Integer> > budgets; // maybe other data structure
 	private List<Prospect> prospects;
 
 	private List<Generator> gens;
@@ -54,7 +59,7 @@ public class Organizer {
 		}
 
 		List<Task> tasks = new ArrayList<>();
-		for (List<Task> ts : taskss) {
+		for (List<Task> ts : taskss) {//TODO: change this, maybe interleaving
 			tasks.addAll(ts);
 		}
 
@@ -77,15 +82,8 @@ public class Organizer {
 		return getBudgets(System.currentTimeMillis());
 	}
 
-	// Warning: this method might behave inappropriate!
 	public Map<Tag,Integer> getBudgets(long timeMillis) {
-		Calendar cal = new GregorianCalendar();
-		cal.setTimeInMillis(timeMillis);
-		return budgets.get(cal);
-	}
-
-	public Map<Tag,Integer> getBudgets(Calendar date) {
-		return budgets.get(date);
+		return budgets.get(timeMillis);
 	}
 
 }

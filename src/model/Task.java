@@ -12,6 +12,11 @@ import java.util.List;
 
 public class Task extends Tree<Task> {
 
+	/*
+	context condition: fragment <==>      descr == null ||   tag == null
+								  || importance == -1 || urgency == -1
+	*/
+
 	public Task() {
 		fragment = true;
 		active = false;
