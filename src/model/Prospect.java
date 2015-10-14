@@ -27,6 +27,10 @@ public class Prospect {
 		this.status = ACTIVE;
 	}
 
+	/**
+	 *
+	 * @return true then and only then {@code status} equals {@code ACTIVE}
+	 */
 	public boolean isActive() {
 		switch (status) {
 			case ACTIVE:
@@ -54,8 +58,17 @@ public class Prospect {
 				return false;
 		}
 	}
-
+	/**
+	 * This function compares the give time spent with the borders of the
+	 * prospect. When {@code status != ACTIVE}, an IllegalStateException is
+	 * thrown.
+	 * @param result
+	 */
 	public void timeOver(int result) {
+		if (status != ACTIVE) {
+			throw new IllegalStateException("prospect status is"
+													+ status);
+		}
 		if (result >= minEffort) {
 			if (result <= maxEffort) {
 				status = SUCCEEDED;

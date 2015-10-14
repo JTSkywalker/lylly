@@ -9,9 +9,27 @@ package model;
 
 public enum ProspectStatus {
 
+	BEFORE,
 	ACTIVE,
 	SUCCEEDED,
 	FAILLOW,
 	FAILHIGH;
+//
+//	public String toString() {
+//		switch (this) {
+//			case BEFORE:
+//				return "BEFORE";
+//			case ACTIVE:
+//				return "ACTIVE";
+//			case SUCCEEDED:
+//				return "SUCCEEDED";
+//			case FAILLOW:
+//				return "FAILLOW";
+//			case FAILHIGH:
+//				return "FAILHIGH";
+//			default:
+//				return "this is never happening";
+//		}
+//	}
 
 }
