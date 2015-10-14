@@ -34,7 +34,8 @@ public class Task extends Tree<Task> {
 	private int importance, urgency;
 
 	//optional:
-	private Calendar expires;
+	private Calendar expieryDate;
+	private Calendar startDate;
 
 	//variable
 	private long actDur;
@@ -130,12 +131,20 @@ public class Task extends Tree<Task> {
 		checkCompleteness();
 	}
 
-	public Calendar getExpires() {
-		return expires;
+	public Calendar getExpieryDate() {
+		return expieryDate;
 	}
 
-	public void setExpires(Calendar expires) {
-		this.expires = expires;
+	public void setExpieryDate(Calendar expieryDate) {
+		this.expieryDate = expieryDate;
+	}
+
+	public Calendar getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Calendar startDate) {
+		this.startDate = startDate;
 	}
 
 }
