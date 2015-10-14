@@ -11,7 +11,19 @@ import java.util.Objects;
 
 public class Tag extends Tree<Tag> {
 
+	public Tag(String descr) {
+		this.descr = descr;
+	}
+
 	private String descr;
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
 
 	@Override
 	public int hashCode() {

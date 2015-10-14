@@ -7,10 +7,10 @@
 package model;
 
 import java.util.Calendar;
+import java.util.List;
 
 
 public class Task extends Tree<Task> {
-
 
 	public Task() {
 		fragment = true;
@@ -38,23 +38,23 @@ public class Task extends Tree<Task> {
 	private Calendar startDate;
 
 	//variable
-	private long actDur;
+	private List<Long> starttimes;
+	private List<Long> stoptimes;
 
-	private long starttime;
 
 	public void start() {
 		if (active) {
 			throw new IllegalStateException("already active");
 		}
-		starttime = System.currentTimeMillis();
+		starttimes.add(System.currentTimeMillis());
 		active = true;
 	}
 
-	private void stop() {
+	public void stop() {
 		if (!active) {
 			throw new IllegalStateException("already non-active");
 		}
-		actDur += System.currentTimeMillis() - starttime;
+		stoptimes.add(System.currentTimeMillis());
 		active = false;
 	}
 
@@ -77,8 +77,18 @@ public class Task extends Tree<Task> {
 		return done;
 	}
 
-	public long getActDur() {
-		return actDur;
+	public long evalDurationSum() {
+		int n = starttimes.size();
+		int m = stoptimes.size();
+		assert(n==m || n==m+1);
+		long sum = 0;
+		for (int i=0; i < m; i++) {
+			sum += stoptimes.get(i) - starttimes.get(i);
+		}
+		if (n > m) {
+			sum += System.currentTimeMillis() - starttimes.get(n);
+		}
+		return sum;
 	}
 
 
@@ -93,6 +103,14 @@ public class Task extends Tree<Task> {
 
 	public void setMngmnt(boolean mngmnt) {
 		this.mngmnt = mngmnt;
+	}
+
+	public List<Long> getStarttimes() {
+		return starttimes;
+	}
+
+	public List<Long> getStoptimes() {
+		return stoptimes;
 	}
 
 	public String getDescr() {

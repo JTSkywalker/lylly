@@ -42,7 +42,7 @@ public class Organizer {
 		for (Task t : toDo) {
 			boolean unset = true;
 			for (int k=0; k < n; k++) {
-				if (t.getTag().equals(tagli.get(k)) && unset) {
+				if (t.getTag().contains(tagli.get(k)) && unset) {
 					taskss.get(k).add(t);
 					unset = false;
 					break;

@@ -8,6 +8,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This is a generics-class for trees
@@ -15,7 +16,7 @@ import java.util.List;
  * @param <T> the type of the tree-nodes, should always be the type of
  * the class extending this class
  */
-public class Tree<T> {
+public class Tree<T extends Tree<T>> {
 
 	private List<T> children;
 	private T parent;
@@ -65,6 +66,49 @@ public class Tree<T> {
 	 */
 	public void setParent(T parent) {
 		this.parent = parent;
+	}
+
+	//TODO: buggy?
+	public boolean contains(T other) {
+		if (this.equals(other)) {
+			return true;
+		}
+		for(T child : children) {
+			if (child.equals(other)) {
+				return true;
+			}
+			if (child.contains(other)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 67 * hash + Objects.hashCode(this.children);
+		hash = 67 * hash + Objects.hashCode(this.parent);
+		return hash;
+	}
+
+	//TODO: buggy?
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Tree<?> other = (Tree<?>) obj;
+		if (!Objects.equals(this.children, other.children)) {
+			return false;
+		}
+		if (!Objects.equals(this.parent, other.parent)) {
+			return false;
+		}
+		return true;
 	}
 
 }

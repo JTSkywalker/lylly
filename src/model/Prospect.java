@@ -6,25 +6,20 @@
 
 package model;
 
-import java.util.GregorianCalendar;
-import static model.ProspectStatus.*;
-
 
 public class Prospect {
 
 	private final String name;
-	private final GregorianCalendar start, end;
-	private final int minEffort, maxEffort;
-	private ProspectStatus status;
+	private final long start, end;
+	private final long min, max;
 
-	public Prospect(String name, GregorianCalendar start, GregorianCalendar end,
-			int minEffort, int maxEffort) {
+	public Prospect(String name, long start, long end,
+			int min, int max) {
 		this.name = name;
 		this.start = start;
 		this.end = end;
-		this.minEffort = minEffort;
-		this.maxEffort = maxEffort;
-		this.status = ACTIVE;
+		this.min = min;
+		this.max = max;
 	}
 
 	/**
@@ -32,51 +27,24 @@ public class Prospect {
 	 * @return true then and only then {@code status} equals {@code ACTIVE}
 	 */
 	public boolean isActive() {
-		switch (status) {
-			case ACTIVE:
-				return true;
-			default:
-				return false;
-		}
+		long now = System.currentTimeMillis();
+		return start <= now && now <= end;
 	}
 
-	public boolean isSucceeded() {
-		switch (status) {
-			case SUCCEEDED:
-				return true;
-			default:
-				return false;
-		}
+	public boolean isOver() {
+		return System.currentTimeMillis() >= end;
 	}
 
-	public boolean isFailed() {
-		switch (status) {
-			case FAILLOW:
-			case FAILHIGH:
-				return true;
-			default:
-				return false;
-		}
+	public boolean isSucceeded(long timespent) {
+		return isOver() && min <= timespent && timespent <= max;
 	}
-	/**
-	 * This function compares the give time spent with the borders of the
-	 * prospect. When {@code status != ACTIVE}, an IllegalStateException is
-	 * thrown.
-	 * @param result
-	 */
-	public void timeOver(int result) {
-		if (status != ACTIVE) {
-			throw new IllegalStateException("prospect status is"
-													+ status);
-		}
-		if (result >= minEffort) {
-			if (result <= maxEffort) {
-				status = SUCCEEDED;
-			} else {
-				status = FAILHIGH;
-			}
-		} else {
-			status = FAILLOW;
-		}
+
+	public boolean tooLow(long timespent) {
+		return isOver() && timespent <= min;
 	}
+
+	public boolean tooHigh(long timespent) {
+		return isOver() && timespent >= max;
+	}
+
 }
