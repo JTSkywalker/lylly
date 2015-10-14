@@ -7,7 +7,6 @@
 package model;
 
 import java.util.Calendar;
-import static model.TaskStatus.*;
 
 
 public class Task extends Tree<Task> {
@@ -22,13 +21,15 @@ public class Task extends Tree<Task> {
 	*/
 
 	public Task() {
-		status = FRAGMENT;
 		importance = -1;
 		urgency = -1;
 	}
 
+	//status:
+	private boolean fragment;
+	private Activity activitiy;
+	private boolean done;
 
-	private TaskStatus status;
 	private boolean mngmnt;
 
 	// essential:
@@ -43,17 +44,19 @@ public class Task extends Tree<Task> {
 	private int actDur;
 
 	void checkCompleteness() {
-		if (descr == null || tag == null || importance == -1 || urgency == -1) {
-			status = FRAGMENT;
-		} else {
-			if (status == FRAGMENT) {
-				status = RECEIVABLE;//TODO: add checking of expiry, etc
-			}
-		}
+		fragment
+			= descr == null || tag == null || importance == -1 || urgency == -1;
 	}
 
 	boolean hasTag(Tag tag) {
 		return this.tag == tag;
 	}
 
+}
+
+enum Activity {
+	BEFORE,
+	ACTIVE,
+	PAUSED,
+	STOPPED;
 }
