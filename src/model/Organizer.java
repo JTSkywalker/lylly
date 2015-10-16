@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 public class Organizer {
@@ -18,25 +19,83 @@ public class Organizer {
 	/*
 	context conditions:
 		tag names must be unique
+		for each budget-prospect-violation there should be a task created
+	*/
+	
+
+	private final List<Task> toDo          = new ArrayList<>();
+	private final List<Tag> tags           = new ArrayList<>();
+	private final List<Generator> gens     = new ArrayList<>();
+	private final List<Prospect> prospects = new ArrayList<>();
+	private final SortedMap<Integer,Map<Tag,Long> > budgets
+										   = new TreeMap<>();
+
+
+	/*
+	toDo delegates:
 	*/
 
-	/* TODO:
-	constructor
-	adder, deleter for gens, prospects, tasks, tags
-	setter for budgets
+	public boolean addTask(Task e) {
+		return toDo.add(e);
+	}
 
+	public boolean removeTask(Task o) {
+		return toDo.remove(o);
+	}
+
+	public Task removeTask(int index) {
+		return toDo.remove(index);
+	}
+
+
+	/*
+	tags delegates:
 	*/
 
-	private List<Task> toDo;
-	private List<Tag> tags;
-	private List<Generator> gens;
-	private List<Prospect> prospects;
-	private SortedMap<Long,Map<Tag,Integer> > budgets; // maybe other data structure
+	public boolean addTag(Tag e) {
+		return tags.add(e);
+	}
+
+	public boolean remove(Tag o) {
+		return tags.remove(o);
+	}
+
+	public Tag removeTag(int index) {
+		return tags.remove(index);
+	}
 
 
+	/*
+	prospects delegates:
+	*/
+
+	public boolean addProspect(Prospect e) {
+		return prospects.add(e);
+	}
+
+	public boolean removeProspect(Prospect o) {
+		return prospects.remove(o);
+	}
+
+	public Prospect removeProspect(int index) {
+		return prospects.remove(index);
+	}
+
+
+	/*
+	change budgets:
+	*/
+	//TODO: implement
+
+
+	/*
+	fetch functions:
+	*/
+
+	//TODO: implement fetchViolations, violations between budgets and prospects
 
 	public List<Task> fetchTodaysToDo() {
-		return partialSort(getTodaysBudgets().keySet());
+		return partialSort(fetchTodaysBudgets().keySet());
 	}
 
 	private List<Task> partialSort(Set<Tag> tags) {
@@ -71,6 +130,20 @@ public class Organizer {
 		return tasks;
 	}
 
+	public Map<Tag,Long> fetchTodaysBudgets() {
+		return fetchBudgets(System.currentTimeMillis());
+	}
+
+	public Map<Tag,Long> fetchBudgets(long timeMillis) {
+		return budgets.get(timeMillis);
+	}
+
+
+
+	/*
+	getter:
+	*/
+
 	public List<Prospect> getProspects() {
 		return prospects;
 	}
@@ -82,13 +155,4 @@ public class Organizer {
 	public List<Tag> getTags() {
 		return tags;
 	}
-
-	public Map<Tag,Integer> getTodaysBudgets() {
-		return getBudgets(System.currentTimeMillis());
-	}
-
-	public Map<Tag,Integer> getBudgets(long timeMillis) {
-		return budgets.get(timeMillis);
-	}
-
 }
