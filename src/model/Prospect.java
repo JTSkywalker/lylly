@@ -9,6 +9,11 @@ package model;
 
 public class Prospect {
 
+
+	/*
+	context conditions: start < end && min <= max
+	*/
+
 	private String name;
 	private Tag tag;
 	private long start, end;
@@ -19,7 +24,7 @@ public class Prospect {
 		if (start >= end) {
 			throw new IllegalArgumentException("start must be less than end");
 		}
-		if (min >= max) {
+		if (min > max) {
 			throw new IllegalArgumentException("min must be less or equal than max");
 		}
 		if (name == null || tag == null) {
@@ -33,10 +38,6 @@ public class Prospect {
 		this.max = max;
 	}
 
-	/**
-	 *
-	 * @return true then and only then {@code status} equals {@code ACTIVE}
-	 */
 	public boolean isActive() {
 		long now = System.currentTimeMillis();
 		return start <= now && now <= end;
@@ -92,7 +93,7 @@ public class Prospect {
 			}
 			this.name = name;
 		} else {
-			throw new UnsupportedOperationException("active prospect is final");
+			throw new UnsupportedOperationException("active prospects are final");
 		}
 	}
 
@@ -103,7 +104,7 @@ public class Prospect {
 			}
 			this.tag = tag;
 		} else {
-			throw new UnsupportedOperationException("active prospect is final");
+			throw new UnsupportedOperationException("active prospects are final");
 		}
 	}
 
@@ -115,7 +116,7 @@ public class Prospect {
 			this.start = start;
 			this.end = end;
 		} else {
-			throw new UnsupportedOperationException("active prospect is final");
+			throw new UnsupportedOperationException("active prospects are final");
 		}
 	}
 
@@ -127,7 +128,7 @@ public class Prospect {
 			this.min = min;
 			this.max = max;
 		} else {
-			throw new UnsupportedOperationException("active prospect is final");
+			throw new UnsupportedOperationException("active prospects are final");
 		}
 	}
 

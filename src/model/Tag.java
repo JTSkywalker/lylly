@@ -11,27 +11,28 @@ import java.util.Objects;
 
 public class Tag extends Tree<Tag> {
 
-	public Tag(String descr) {
-		this.descr = descr;
+	public Tag(String name) {
+		this.name = name;
 	}
 
-	private String descr;
+	private String name;
 
-	public String getDescr() {
-		return descr;
+	public String getName() {
+		return name;
 	}
 
-	public void setDescr(String descr) {
-		this.descr = descr;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 3;
-		hash = 59 * hash + Objects.hashCode(this.descr);
+		hash = 59 * hash + Objects.hashCode(this.name);
 		return hash;
 	}
 
+	//TODO: use tree equals & hashCode
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
@@ -41,7 +42,7 @@ public class Tag extends Tree<Tag> {
 			return false;
 		}
 		final Tag other = (Tag) obj;
-		if (!Objects.equals(this.descr, other.descr)) {
+		if (!Objects.equals(this.name, other.name)) {
 			return false;
 		}
 		return true;

@@ -14,23 +14,28 @@ import java.util.SortedMap;
 
 
 public class Organizer {
-	
+
+	/*
+	context conditions:
+		tag names must be unique
+	*/
+
 	/* TODO:
 	constructor
 	adder, deleter for gens, prospects, tasks, tags
 	setter for budgets
-	
+
 	*/
 
 	private List<Task> toDo;
-	private SortedMap<Long,Map<Tag,Integer> > budgets; // maybe other data structure
-	private List<Prospect> prospects;
-
-	private List<Generator> gens;
-
 	private List<Tag> tags;
+	private List<Generator> gens;
+	private List<Prospect> prospects;
+	private SortedMap<Long,Map<Tag,Integer> > budgets; // maybe other data structure
 
-	public List<Task> determineToDo() {
+
+
+	public List<Task> fetchTodaysToDo() {
 		return partialSort(getTodaysBudgets().keySet());
 	}
 

@@ -12,14 +12,12 @@ import java.util.Objects;
 
 /**
  * This is a generics-class for trees
- * @author JTSkywalker <jtskywalker@t-online.de>
- * @param <T> the type of the tree-nodes, should always be the type of
- * the class extending this class
+ * @param <T> the type of the tree-nodes
  */
 public class Tree<T extends Tree<T>> {
 
 	private List<T> children;
-	private T parent;
+	private T parent;//TODO: maybe no parent
 
 	/**
 	 *
@@ -68,15 +66,11 @@ public class Tree<T extends Tree<T>> {
 		this.parent = parent;
 	}
 
-	//TODO: buggy?
 	public boolean contains(T other) {
 		if (this.equals(other)) {
 			return true;
 		}
 		for(T child : children) {
-			if (child.equals(other)) {
-				return true;
-			}
 			if (child.contains(other)) {
 				return true;
 			}

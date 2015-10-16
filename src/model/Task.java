@@ -6,7 +6,6 @@
 
 package model;
 
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -17,35 +16,32 @@ public class Task extends Tree<Task> {
 								  || importance == -1 || urgency == -1
 	*/
 
-	public Task() {
-		fragment = true;
-		active = false;
-		done = false;
-		importance = -1;
-		urgency = -1;
-		mngmnt = false;
-	}
 
 	//status:
-	private boolean fragment;
-	private boolean active;
-	private boolean done;
+	private boolean fragment = true;
+	private boolean active   = false;
+	private boolean done     = false;
 
-	private boolean mngmnt;
 
 	// essential:
 	private String descr;
 	private Tag tag;
-	private int importance, urgency;
+	private int importance = -1,
+			    urgency    = -1;
 
 	//optional:
-	private Calendar expieryDate;
-	private Calendar startDate;
+	private long startDate;
+	private long expieryDate;
+
 
 	//variable
 	private List<Long> starttimes;
 	private List<Long> stoptimes;
 
+
+	/*
+	status operators:
+	*/
 
 	public void start() {
 		if (active) {
@@ -55,7 +51,7 @@ public class Task extends Tree<Task> {
 		active = true;
 	}
 
-	public void stop() {
+	public void pause() {
 		if (!active) {
 			throw new IllegalStateException("already non-active");
 		}
@@ -65,13 +61,20 @@ public class Task extends Tree<Task> {
 
 	public void finish() {
 		if (active) {
-			stop();
+			pause();
 		}
 		done = true;
 	}
 
+
+
+	/*
+	status getter:
+	*/
+
 	public boolean isFragment() {
 		return fragment;
+
 	}
 
 	public boolean isActive() {
@@ -82,40 +85,15 @@ public class Task extends Tree<Task> {
 		return done;
 	}
 
-	public long evalDurationSum() {
-		int n = starttimes.size();
-		int m = stoptimes.size();
-		assert(n==m || n==m+1);
-		long sum = 0;
-		for (int i=0; i < m; i++) {
-			sum += stoptimes.get(i) - starttimes.get(i);
-		}
-		if (n > m) {
-			sum += System.currentTimeMillis() - starttimes.get(n);
-		}
-		return sum;
-	}
 
+
+	/*
+	get & set properties:
+	*/
 
 	void checkCompleteness() {
 		fragment
 			= descr == null || tag == null || importance == -1 || urgency == -1;
-	}
-
-	public boolean isMngmnt() {
-		return mngmnt;
-	}
-
-	public void setMngmnt(boolean mngmnt) {
-		this.mngmnt = mngmnt;
-	}
-
-	public List<Long> getStarttimes() {
-		return starttimes;
-	}
-
-	public List<Long> getStoptimes() {
-		return stoptimes;
 	}
 
 	public String getDescr() {
@@ -154,20 +132,48 @@ public class Task extends Tree<Task> {
 		checkCompleteness();
 	}
 
-	public Calendar getExpieryDate() {
+	public long getExpieryDate() {
 		return expieryDate;
 	}
 
-	public void setExpieryDate(Calendar expieryDate) {
+	public void setExpieryDate(long expieryDate) {
 		this.expieryDate = expieryDate;
 	}
 
-	public Calendar getStartDate() {
+	public long getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Calendar startDate) {
+	public void setStartDate(long startDate) {
 		this.startDate = startDate;
+	}
+
+
+
+	/*
+	getter for timetracking:
+	*/
+
+	public long evalDurationSum() {
+		int n = starttimes.size();
+		int m = stoptimes.size();
+		assert(n==m || n==m+1);
+		long sum = 0;
+		for (int i=0; i < m; i++) {
+			sum += stoptimes.get(i) - starttimes.get(i);
+		}
+		if (n > m) {
+			sum += System.currentTimeMillis() - starttimes.get(n);
+		}
+		return sum;
+	}
+
+	public List<Long> getStarttimes() {
+		return starttimes;
+	}
+
+	public List<Long> getStoptimes() {
+		return stoptimes;
 	}
 
 }
