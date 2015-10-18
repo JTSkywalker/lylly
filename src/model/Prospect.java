@@ -9,6 +9,11 @@ package model;
 
 public class Prospect {
 
+	/*
+	It has to be possible to turn off and/or down/up a prospect.
+	User should be motivated to get as near as possible even if the original
+	bounds are not reachable any more.
+	*/
 
 	/*
 	context conditions: start < end && min <= max
@@ -16,10 +21,10 @@ public class Prospect {
 
 	private String name;
 	private Tag tag;
-	private long start, end;
+	private int start, end;//epoch = 1; start inclusive, end exclusive
 	private long min, max;
 
-	public Prospect(String name, Tag tag, long start, long end,
+	public Prospect(String name, Tag tag, int start, int end,
 			int min, int max) {
 		if (start >= end) {
 			throw new IllegalArgumentException("start must be less than end");
@@ -74,10 +79,19 @@ public class Prospect {
 	public long getStart() {
 		return start;
 	}
+
+	public long getStartInMillis() {
+		return start*1000*60*60*24 + Organizer.START_OF_DAY;
+	}
+
 	public long getEnd() {
 		return end;
 	}
 
+	public long getEndInMillis() {
+		return end	*1000*60*60*24 + Organizer.START_OF_DAY;
+	}
+	
 	public long getMin() {
 		return min;
 	}
@@ -108,7 +122,7 @@ public class Prospect {
 		}
 	}
 
-	public void setStartEnd(long start, long end) {
+	public void setStartEnd(int start, int end) {
 		if (isBeforeStart()) {
 			if (start >= end) {
 				throw new IllegalArgumentException("start must be less than end");

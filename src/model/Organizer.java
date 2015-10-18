@@ -16,17 +16,24 @@ import java.util.TreeMap;
 
 public class Organizer {
 
+	public static final long START_OF_DAY = 0;
+
 	/*
 	context conditions:
 		tag names must be unique
 		for each budget-prospect-violation there should be a task created
 	*/
-	
+
 
 	private final List<Task> toDo          = new ArrayList<>();
 	private final List<Tag> tags           = new ArrayList<>();
 	private final List<Generator> gens     = new ArrayList<>();
 	private final List<Prospect> prospects = new ArrayList<>();
+
+	/**
+	* the integer is the number of the day where epoch (= 1970/01/01) is the day zero,
+	* the Long value in the Map is the number of milliseconds
+	*/
 	private final SortedMap<Integer,Map<Tag,Long> > budgets
 										   = new TreeMap<>();
 
@@ -86,6 +93,7 @@ public class Organizer {
 	change budgets:
 	*/
 	//TODO: implement
+
 
 
 	/*
