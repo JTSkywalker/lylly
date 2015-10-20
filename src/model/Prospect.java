@@ -6,6 +6,9 @@
 
 package model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class Prospect {
 
@@ -16,16 +19,19 @@ public class Prospect {
 	*/
 
 	/*
-	context conditions: start < end && min <= max
+	context conditions:
+		start < end && min <= max
+		prios.size() == end-start
 	*/
 
 	private String name;
 	private Tag tag;
 	private int start, end;//epoch = 1; start inclusive, end exclusive
 	private long min, max;
+	private List<Integer> prios;
 
 	public Prospect(String name, Tag tag, int start, int end,
-			int min, int max) {
+			int min, int max, List<Integer> prios) {
 		if (start >= end) {
 			throw new IllegalArgumentException("start must be less than end");
 		}
@@ -35,12 +41,16 @@ public class Prospect {
 		if (name == null || tag == null) {
 			throw new IllegalArgumentException("name and tag must not be null");
 		}
+		if (prios.size() != end-start) {
+			throw new IllegalArgumentException("prios.length != end-start");
+		}
 		this.name = name;
 		this.tag = tag;
 		this.start = start;
 		this.end = end;
 		this.min = min;
 		this.max = max;
+		this.prios = prios;
 	}
 
 	public boolean isActive() {
@@ -76,20 +86,20 @@ public class Prospect {
 		return tag;
 	}
 
-	public long getStart() {
+	public int getStart() {
 		return start;
 	}
 
 	public long getStartInMillis() {
-		return start*1000*60*60*24 + Organizer.START_OF_DAY;
+		return start*1000*60*60*24 + OrganizerImpl.START_OF_DAY;
 	}
 
-	public long getEnd() {
+	public int getEnd() {
 		return end;
 	}
 
 	public long getEndInMillis() {
-		return end	*1000*60*60*24 + Organizer.START_OF_DAY;
+		return end	*1000*60*60*24 + OrganizerImpl.START_OF_DAY;
 	}
 
 	public long getMin() {
@@ -100,49 +110,51 @@ public class Prospect {
 		return max;
 	}
 
+	public List<Integer> getPrios() {
+		return prios;
+	}
+
 	public void setName(String name) {
-		if (isBeforeStart()) {
-			if (name == null) {
-				throw new IllegalArgumentException("argument must not be null");
-			}
-			this.name = name;
-		} else {
-			throw new UnsupportedOperationException("active prospects are final");
+		checkBeforeStart();
+		if (name == null) {
+			throw new IllegalArgumentException("argument must not be null");
 		}
+		this.name = name;
 	}
 
 	public void setTag(Tag tag) {
-		if (isBeforeStart()) {
-			if (tag == null) {
-				throw new IllegalArgumentException("argument must not be null");
-			}
-			this.tag = tag;
-		} else {
-			throw new UnsupportedOperationException("active prospects are final");
+		checkBeforeStart();
+		if (tag == null) {
+			throw new IllegalArgumentException("argument must not be null");
 		}
+		this.tag = tag;
 	}
 
-	public void setStartEnd(int start, int end) {
-		if (isBeforeStart()) {
-			if (start >= end) {
-				throw new IllegalArgumentException("start must be less than end");
-			}
-			this.start = start;
-			this.end = end;
-		} else {
-			throw new UnsupportedOperationException("active prospects are final");
+	public void setStartEnd(int start, int end, List<Integer> prios) {
+		checkBeforeStart();
+		if (start >= end) {
+			throw new IllegalArgumentException("start must be less than end");
 		}
+		if (prios.size() != end-start) {
+			throw new IllegalArgumentException("prios.size() != end-start");
+		}
+		this.start = start;
+		this.end = end;
+		this.prios = prios;
 	}
 
 	public void setMinMax(long min, long max) {
-		if (isBeforeStart()) {
-			if (min > max) {
-				throw new IllegalArgumentException("min must be less or equal max");
-			}
-			this.min = min;
-			this.max = max;
-		} else {
-			throw new UnsupportedOperationException("active prospects are final");
+		checkBeforeStart();
+		if (min > max) {
+			throw new IllegalArgumentException("min must be less or equal max");
+		}
+		this.min = min;
+		this.max = max;
+	}
+
+	private void checkBeforeStart() {
+		if(!isBeforeStart()) {
+			throw new UnsupportedOperationException("activeprospects are final");
 		}
 	}
 
