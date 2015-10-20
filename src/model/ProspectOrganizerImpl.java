@@ -7,6 +7,7 @@
 package model;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class ProspectOrganizerImpl implements ProspectOrganizer {
@@ -48,6 +49,11 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 
 	@Override
 	public void removeProspect(Prospect prospect) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

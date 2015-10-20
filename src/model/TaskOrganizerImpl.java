@@ -8,7 +8,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class TaskOrganizerImpl implements TaskOrganizer {
@@ -17,11 +16,6 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 
 	@Override
 	public List<Task> getFilteredTasks(List<Tag> tag) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

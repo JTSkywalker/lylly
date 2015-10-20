@@ -63,7 +63,7 @@ public class OrganizerImpl implements Organizer {
 
 	@Override
 	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
-		return tOrg.getTodaysBudgets();
+		return pOrg.getTodaysBudgets();
 	}
 
 	@Override

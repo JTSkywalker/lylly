@@ -7,6 +7,7 @@
 package model;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProspectOrganizer {
 
@@ -26,5 +27,7 @@ public interface ProspectOrganizer {
 	public void addProspect(Prospect prospect);
 
 	public void removeProspect(Prospect prospect);
+
+	public Map<Tag, Pair<Long, Long>> getTodaysBudgets();
 
 }

@@ -7,13 +7,10 @@
 package model;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TaskOrganizer {
 
 	public List<Task> getFilteredTasks(List<Tag> tag);
-
-	public Map<Tag,Pair<Long,Long> > getTodaysBudgets();
 
 	public long getInvestedTime(int day, Tag tag);
 
