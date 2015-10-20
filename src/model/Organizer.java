@@ -102,6 +102,7 @@ public class Organizer {
 
 	//TODO: implement fetchViolations, violations between budgets and prospects
 
+	//TODO: method name is misleading!
 	public List<Task> fetchTodaysToDo() {
 		return partialSort(fetchTodaysBudgets().keySet());
 	}

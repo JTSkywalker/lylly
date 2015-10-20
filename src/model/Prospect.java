@@ -91,7 +91,7 @@ public class Prospect {
 	public long getEndInMillis() {
 		return end	*1000*60*60*24 + Organizer.START_OF_DAY;
 	}
-	
+
 	public long getMin() {
 		return min;
 	}
