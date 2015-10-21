@@ -6,12 +6,13 @@
 
 package model;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Prospect {
 
+	//TODO: consider moving this restriction to the organizer layer (otherwise it is always possible to delete)
 	/*
 	It has to be possible to turn off and/or down/up a prospect.
 	User should be motivated to get as near as possible even if the original
@@ -91,7 +92,7 @@ public class Prospect {
 	}
 
 	public long getStartInMillis() {
-		return start*1000*60*60*24 + OrganizerImpl.START_OF_DAY;
+		return Util.daysToMillis(start);
 	}
 
 	public int getEnd() {
@@ -99,7 +100,7 @@ public class Prospect {
 	}
 
 	public long getEndInMillis() {
-		return end	*1000*60*60*24 + OrganizerImpl.START_OF_DAY;
+		return Util.daysToMillis(end);
 	}
 
 	public long getMin() {
@@ -114,9 +115,31 @@ public class Prospect {
 		return prios;
 	}
 
-	//TODO: maybe generalize! and think about future budgets
-	public Pair<Long,Long> getBudget(List<Integer> timespent) {
-		throw new UnsupportedOperationException();//TODO: implement
+	public List<Pair<Long,Long>> getBudgets(int relDay, long timespent) {
+		if (relDay >= end-start || relDay < 0) {
+			throw new IllegalArgumentException("day is out of range");
+		}
+		if (timespent < 0) {
+			throw new IllegalArgumentException("timespent < 0");
+		}
+		List<Integer> subl = prios.subList(relDay, prios.size());
+		int sum = 0;
+		for (int k : subl) {
+			sum += k;
+		}
+
+		long minleft = Math.max(0, min - timespent);
+		long maxleft = Math.max(0, max - timespent);
+		List<Pair<Long,Long>> res = new ArrayList<>();
+		for (int k : subl) {
+			res.add(new Pair(k * minleft / sum,
+							 k * maxleft / sum));
+		}
+		return res;
+	}
+
+	public Pair<Long,Long> getNextBudget(int day, long timespent) {
+		return getBudgets(day, timespent).get(0);
 	}
 
 	public void setName(String name) {
@@ -155,6 +178,13 @@ public class Prospect {
 		}
 		this.min = min;
 		this.max = max;
+	}
+
+	public void setPrios(List<Integer> prios) {
+		if (prios.size() != end-start) {
+			throw new IllegalArgumentException("prios.size() != end-stärt");
+		}
+		this.prios = prios;
 	}
 
 	private void checkBeforeStart() {

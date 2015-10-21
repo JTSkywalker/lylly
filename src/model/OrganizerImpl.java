@@ -7,6 +7,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,6 @@ public class OrganizerImpl implements Organizer {
 	/*
 	context conditions:
 		tag names must be unique
-		for each budget-prospect-violation there should be a task created
 	*/
 	//TODO: check context conditions
 
@@ -33,6 +33,8 @@ public class OrganizerImpl implements Organizer {
 	//TODO: think about future budgets
 	@Override
 	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
+		Map<Tag, Pair<Long,Long>> res = new HashMap<>();
+
 		throw new UnsupportedOperationException();//TODO: implement
 	}
 
