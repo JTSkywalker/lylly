@@ -32,7 +32,6 @@ public class Tag {
 		return hash;
 	}
 
-	//TODO: use tree equals & hashCode
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {

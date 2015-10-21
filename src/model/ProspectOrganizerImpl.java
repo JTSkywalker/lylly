@@ -20,82 +20,119 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 		their should be no two overlapping active prospects with the same tag
 	*/
 
-	//TODO: check context conditions
 
-	//TODO: switch to two list model: enabled & discarded
-	private final List<Prospect> pro = new ArrayList<>();
-	private final List<Prospect> dis = new ArrayList<>();
-	private final List<Prospect> fin = new ArrayList<>();
+	private final List<Prospect> enabled   = new ArrayList<>();
+	private final List<Prospect> discarded = new ArrayList<>();
 
+	/**
+	 * returns the first (and hopefully only) active prospect with the given
+	 * tag, null if there is none.
+	 * @param tag
+	 * @return
+	 */
+	@Override
+	public Prospect getActiveProspect(Tag tag) {
+		List<Prospect> active = getActiveProspects();
+		for(Prospect p : active) {
+			if (p.getTag().equals(tag)) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * returns prospects that have not yet started
+	 * @return
+	 */
 	@Override
 	public List<Prospect> getFutureProspects() {
 		List<Prospect> res = new ArrayList<>();
 		long now = System.currentTimeMillis();
-		for (Prospect p : pro) {
-			if (now < p.getStartInMillis()) {
+		for (Prospect p : enabled) {
+			if (p.getStartInMillis() > now) {
 				res.add(p);
 			}
 		}
 		return res;
 	}
 
+	/**
+	 * returns all active prospects, e.g. start<=now<=end
+	 * @return
+	 */
 	@Override
 	public List<Prospect> getActiveProspects() {
 		List<Prospect> res = new ArrayList<>();
-		checkForFinishedProspects();
-		long now = System.currentTimeMillis();
-		for (Prospect p : pro) {
-			if (p.getStartInMillis() <= now) {
+		for (Prospect p : enabled) {
+			if (p.isActive()) {
 				res.add(p);
 			}
 		}
 		return res;
 	}
 
+	/**
+	 * returns all prospects which are already over, also if they were discarded
+	 * e.g. now > end
+	 * @return
+	 */
 	@Override
 	public List<Prospect> getFinishedProspect() {
-		checkForFinishedProspects();
-		return fin;
+		List<Prospect> res = new ArrayList<>();
+		for (Prospect p : enabled) {
+			if (p.isOver()) {
+				res.add(p);
+			}
+		}
+		for (Prospect p : discarded) {
+			if (p.isOver()) {
+				res.add(p);
+			}
+		}
+		return res;
 	}
 
-	//TODO: this also
+	/**
+	 * returns only "active" discarded prospects, e.g. those with start<=now<=end
+	 * @return
+	 */
 	@Override
 	public List<Prospect> getDiscardedProspects() {
-		return dis;
+		List<Prospect> res = new ArrayList<>();
+		for (Prospect p : discarded) {
+			if (p.isActive()) {
+				res.add(p);
+			}
+		}
+		return res;
 	}
 
+	/**
+	 * adds a new prospect. this is only successful when prospec.start > now.
+	 * @param prospect
+	 */
 	@Override
 	public void addProspect(Prospect prospect) {
-		if (prospect.isActive() || prospect.isOver()) {
+		//TODO: context condition is NOT guaranteed!!
+		if (prospect.isBeforeStart()) {
 			throw new IllegalArgumentException("only future prospects can be added");
 		}
-		pro.add(prospect);
+		enabled.add(prospect);
 	}
 
-	//TODO: this needs a javadoc
+	/**
+	 * if prospect is active, it is discarded, if it is beforeStart it is deleted,
+	 * and if it isOver nothing happens.
+	 * @param prospect
+	 */
 	@Override
 	public void discardProspect(Prospect prospect) {
 		if (prospect.isActive()) {
-			dis.add(prospect);
+			discarded.add(prospect);
 		}
 		if (!prospect.isOver()) {
-			pro.remove(prospect);
-		}
-	}
-
-	//TODO: remove/replace this
-	private void checkForFinishedProspects() {
-		for(Prospect p : pro) {
-			if (p.isOver()) {
-				fin.add(p);
-				pro.remove(p);
-			}
-		}
-		for(Prospect p : dis) {
-			if (p.isOver()) {
-				fin.add(p);
-				dis.remove(p);
-			}
+			enabled.remove(prospect);
 		}
 	}
 

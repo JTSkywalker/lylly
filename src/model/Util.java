@@ -9,14 +9,19 @@ package model;
 
 public class Util {
 
-	public static int START_OF_DAY = 0;
+	public static final int START_OF_DAY = 0;
+	public static final int MILLIS_PER_DAY = 86400000;
 
 	public static int millisToDay(long millis) {
-		return (int) ((millis - START_OF_DAY) / 1000 / 60 / 60 / 24);
+		return (int) ((millis - START_OF_DAY) / MILLIS_PER_DAY);
 	}
 
 	public static long daysToMillis(int days) {
-		return days * 24 * 60 * 60 * 1000 + START_OF_DAY;
+		return days * MILLIS_PER_DAY + START_OF_DAY;
+	}
+
+	public static long cutMillis(long millis) {
+		return millis % MILLIS_PER_DAY;
 	}
 
 }

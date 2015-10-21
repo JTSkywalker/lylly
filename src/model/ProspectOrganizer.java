@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ProspectOrganizer {
 
+	public Prospect getActiveProspect(Tag tag);
+
 	public List<Prospect> getFutureProspects();
 
 	public List<Prospect> getActiveProspects();

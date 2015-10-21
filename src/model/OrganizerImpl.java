@@ -97,6 +97,11 @@ public class OrganizerImpl implements Organizer {
 	*/
 
 	@Override
+	public Prospect getActiveProspect(Tag tag) {
+		return prospectOrg.getActiveProspect(tag);
+	}
+
+	@Override
 	public List<Prospect> getFutureProspects() {
 		return prospectOrg.getFutureProspects();
 	}
