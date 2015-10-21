@@ -12,7 +12,17 @@ import java.util.List;
 
 public class TaskOrganizerImpl implements TaskOrganizer {
 
+	//TODO: implement... maybe somehow sorted tasklist?
+
 	private final List<Task> toDo = new ArrayList<>();
+
+	public long getInvestedTime(Prospect prospect) {
+		long sum = 0;
+		for (int i=prospect.getStart(); i < prospect.getEnd(); i++) {
+			sum += getInvestedTime(i, prospect.getTag());
+		}
+		return sum;
+	}
 
 	@Override
 	public List<Task> getFilteredTasks(List<Tag> tag) {

@@ -7,10 +7,11 @@
 package model;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Organizer extends TaskOrganizer, ProspectOrganizer {
 
-	public long getInvestedTime(Prospect prospect);
+	public Map<Tag, Pair<Long, Long>> getTodaysBudgets();
 
 	public List<Tag> getTags();
 

@@ -114,6 +114,11 @@ public class Prospect {
 		return prios;
 	}
 
+	//TODO: maybe generalize! and think about future budgets
+	public Pair<Long,Long> getBudget(List<Integer> timespent) {
+		throw new UnsupportedOperationException();//TODO: implement
+	}
+
 	public void setName(String name) {
 		checkBeforeStart();
 		if (name == null) {

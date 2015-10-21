@@ -16,6 +16,8 @@ public interface TaskOrganizer {
 
 	public long getTodaysInvTime(Tag tag);
 
+	public long getInvestedTime(Prospect prospect);
+
 
 	public void addTask(Task task);
 

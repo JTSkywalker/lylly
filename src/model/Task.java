@@ -16,6 +16,7 @@ public class Task extends Tree<Task> {
 								  || importance == -1 || urgency == -1
 	*/
 
+	//TODO: check context conditions
 
 	//status:
 	private boolean fragment = true;
@@ -174,6 +175,10 @@ public class Task extends Tree<Task> {
 
 	public List<Long> getStoptimes() {
 		return stoptimes;
+	}
+
+	public List<Long> getTimeSpentInInterval(long start, long end) {
+		throw new UnsupportedOperationException();//TODO: implement
 	}
 
 }

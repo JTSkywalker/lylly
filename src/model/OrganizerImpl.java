@@ -20,23 +20,24 @@ public class OrganizerImpl implements Organizer {
 		tag names must be unique
 		for each budget-prospect-violation there should be a task created
 	*/
+	//TODO: check context conditions
 
 
 	private final List<Tag> tags = new ArrayList<>();
 
-	private final TaskOrganizer     tOrg = new TaskOrganizerImpl();
-	private final ProspectOrganizer pOrg = new ProspectOrganizerImpl();
+	private final TaskOrganizer     taskOrg     = new TaskOrganizerImpl();
+	private final ProspectOrganizer prospectOrg = new ProspectOrganizerImpl();
 
-	public long getInvestedTime(Prospect prospect) {
-		long sum = 0;
-		for (int i=prospect.getStart(); i < prospect.getEnd(); i++) {
-			sum += tOrg.getInvestedTime(i, prospect.getTag());
-		}
-		return sum;
+
+	//TODO: maybe generalize this
+	//TODO: think about future budgets
+	@Override
+	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
+		throw new UnsupportedOperationException();//TODO: implement
 	}
 
 	/*
-	tags delegates:
+	tag functions:
 	*/
 
 	public List<Tag> getTags() {
@@ -58,33 +59,32 @@ public class OrganizerImpl implements Organizer {
 
 	@Override
 	public List<Task> getFilteredTasks(List<Tag> tag) {
-		return tOrg.getFilteredTasks(tag);
-	}
-
-	@Override
-	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
-		return pOrg.getTodaysBudgets();
+		return taskOrg.getFilteredTasks(tag);
 	}
 
 	@Override
 	public long getInvestedTime(int day, Tag tag) {
-		return tOrg.getInvestedTime(day, tag);
+		return taskOrg.getInvestedTime(day, tag);
 	}
 
+	@Override
+	public long getInvestedTime(Prospect prospect) {
+		return taskOrg.getInvestedTime(prospect);
+	}
 
 	@Override
 	public long getTodaysInvTime(Tag tag) {
-		return tOrg.getTodaysInvTime(tag);
+		return taskOrg.getTodaysInvTime(tag);
 	}
 
 	@Override
 	public void addTask(Task task) {
-		tOrg.addTask(task);
+		taskOrg.addTask(task);
 	}
 
 	@Override
 	public void removeTask(Task task) {
-		tOrg.removeTask(task);
+		taskOrg.removeTask(task);
 	}
 
 
@@ -96,41 +96,32 @@ public class OrganizerImpl implements Organizer {
 
 	@Override
 	public List<Prospect> getFutureProspects() {
-		return pOrg.getFutureProspects();
+		return prospectOrg.getFutureProspects();
 	}
 
 	@Override
 	public List<Prospect> getActiveProspects() {
-		return pOrg.getActiveProspects();
+		return prospectOrg.getActiveProspects();
 	}
 
 	@Override
 	public List<Prospect> getFinishedProspect() {
-		return pOrg.getFinishedProspect();
-	}
-
-	@Override
-	public List<Prospect> getFailLowProspects() {
-		return pOrg.getFailLowProspects();
-	}
-
-	@Override
-	public List<Prospect> getFailHighProspects() {
-		return pOrg.getFailHighProspects();
+		return prospectOrg.getFinishedProspect();
 	}
 
 	@Override
 	public List<Prospect> getDiscardedProspects() {
-		return pOrg.getDiscardedProspects();
+		return prospectOrg.getDiscardedProspects();
 	}
 
 	@Override
 	public void addProspect(Prospect prospect) {
-		pOrg.addProspect(prospect);
+		prospectOrg.addProspect(prospect);
 	}
 
 	@Override
-	public void removeProspect(Prospect prospect) {
-		pOrg.removeProspect(prospect);
+	public void discardProspect(Prospect prospect) {
+		prospectOrg.discardProspect(prospect);
 	}
+
 }
