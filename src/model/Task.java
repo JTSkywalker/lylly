@@ -177,8 +177,17 @@ public class Task {
 		return stoptimes;
 	}
 
-	public List<Long> getTimeSpentInInterval(long start, long end) {
-		throw new UnsupportedOperationException();//TODO: implement
+	public long getTimeSpentInInterval(long iStart, long iEnd) {
+		long sum = 0;
+		for (int i=0; i <= stoptimes.size(); i++) {
+			sum +=  Math.max(0,  Math.min(iEnd,   stoptimes.get(i))
+								-Math.max(iStart, starttimes.get(i)));
+		}
+		if (starttimes.size() > stoptimes.size()) {
+			sum += Math.max(0, Math.min(iEnd,   System.currentTimeMillis())
+							  -Math.max(iStart, starttimes.get(starttimes.size()-1)));
+		}
+		return sum;
 	}
 
 }
