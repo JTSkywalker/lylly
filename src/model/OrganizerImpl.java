@@ -34,8 +34,15 @@ public class OrganizerImpl implements Organizer {
 	@Override
 	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
 		Map<Tag, Pair<Long,Long>> res = new HashMap<>();
+		for (Tag tag : tags) {
+			res.put(tag, getBudget(prospectOrg.getActiveProspect(tag)));
+		}
+		return res;
+	}
 
-		throw new UnsupportedOperationException();//TODO: implement
+	private Pair<Long,Long> getBudget(Prospect prospect) {
+		return prospect.getNextBudget(Util.millisToDay(System.currentTimeMillis()),
+									  taskOrg.getInvestedTime(prospect));
 	}
 
 	/*

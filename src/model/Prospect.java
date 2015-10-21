@@ -115,7 +115,8 @@ public class Prospect {
 		return prios;
 	}
 
-	public List<Pair<Long,Long>> getBudgets(int relDay, long timespent) {
+	public List<Pair<Long,Long>> getBudgets(int absDay, long timespent) {
+		int relDay = absDay - start;
 		if (relDay >= end-start || relDay < 0) {
 			throw new IllegalArgumentException("day is out of range");
 		}
@@ -138,8 +139,8 @@ public class Prospect {
 		return res;
 	}
 
-	public Pair<Long,Long> getNextBudget(int day, long timespent) {
-		return getBudgets(day, timespent).get(0);
+	public Pair<Long,Long> getNextBudget(int absDay, long timespent) {
+		return getBudgets(absDay, timespent).get(0);
 	}
 
 	public void setName(String name) {
