@@ -9,7 +9,7 @@ package model;
 import java.util.Objects;
 
 
-public class Tag extends Tree<Tag> {
+public class Tag {
 
 	public Tag(String name) {
 		this.name = name;

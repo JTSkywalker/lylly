@@ -9,7 +9,7 @@ package model;
 import java.util.List;
 
 
-public class Task extends Tree<Task> {
+public class Task {
 
 	/*
 	context condition: fragment <==>      descr == null ||   tag == null
