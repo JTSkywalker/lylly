@@ -14,8 +14,6 @@ import java.util.Map;
 
 public class OrganizerImpl implements Organizer {
 
-	public static final long START_OF_DAY = 0;
-
 	/*
 	context conditions:
 		tag names must be unique
@@ -35,7 +33,10 @@ public class OrganizerImpl implements Organizer {
 	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
 		Map<Tag, Pair<Long,Long>> res = new HashMap<>();
 		for (Tag tag : tags) {
-			res.put(tag, getBudget(prospectOrg.getActiveProspect(tag)));
+			Prospect prospect = prospectOrg.getActiveProspect(tag);
+			if (prospect != null) {
+				res.put(tag, getBudget(prospect));
+			}
 		}
 		return res;
 	}
