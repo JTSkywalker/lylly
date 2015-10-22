@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ProspectOrganizer {
 
+	public List<Prospect> getProspects(Tag tag);
+
 	public Prospect getActiveProspect(Tag tag);
 
 	public List<Prospect> getFutureProspects();
@@ -18,7 +20,10 @@ public interface ProspectOrganizer {
 
 	public List<Prospect> getFinishedProspect();
 
-	//TODO: define discarded! Are finished discarded prospects discarded?
+	/**
+	 * returns only "active" discarded prospects, e.g. those with start<=now<=end
+	 * @return
+	 */
 	public List<Prospect> getDiscardedProspects();
 
 

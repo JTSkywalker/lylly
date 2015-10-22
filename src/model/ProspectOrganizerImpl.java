@@ -24,6 +24,17 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 	private final List<Prospect> enabled   = new ArrayList<>();
 	private final List<Prospect> discarded = new ArrayList<>();
 
+	@Override
+	public List<Prospect> getProspects(Tag tag) {
+		List<Prospect> res = new ArrayList<>();
+		for (Prospect p : enabled) {
+			if (p.getTag().equals(tag)) {
+				res.add(p);
+			}
+		}
+		return res;
+	}
+
 	/**
 	 * returns the first (and hopefully only) active prospect with the given
 	 * tag, null if there is none.
@@ -114,10 +125,10 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 	 */
 	@Override
 	public void addProspect(Prospect prospect) {
-		//TODO: context condition is NOT guaranteed!!
 		if (prospect.isBeforeStart()) {
 			throw new IllegalArgumentException("only future prospects can be added");
 		}
+		checkOverlaps(prospect, getProspects(prospect.getTag()));
 		enabled.add(prospect);
 	}
 
@@ -133,6 +144,15 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 		}
 		if (!prospect.isOver()) {
 			enabled.remove(prospect);
+		}
+	}
+
+	private void checkOverlaps(Prospect newie, List<Prospect> olds) {
+		for (Prospect p : olds) {
+			if (p.getStart() <= newie.getStart() && newie.getStart() <= p.getEnd()
+			 || p.getStart() <= newie.getEnd()   && newie.getEnd()   <= p.getEnd()) {
+				throw new IllegalArgumentException("newie overlaps");
+			}
 		}
 	}
 

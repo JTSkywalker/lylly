@@ -18,8 +18,6 @@ public class OrganizerImpl implements Organizer {
 	context conditions:
 		tag names must be unique
 	*/
-	//TODO: check context conditions
-
 
 	private final List<Tag> tags = new ArrayList<>();
 
@@ -55,7 +53,9 @@ public class OrganizerImpl implements Organizer {
 	}
 
 	public void addTag(Tag e) {
-		tags.add(e);
+		if (!tags.contains(e)) {
+			tags.add(e);
+		}
 	}
 
 	public void removeTag(Tag o) {
@@ -73,8 +73,8 @@ public class OrganizerImpl implements Organizer {
 	}
 
 	@Override
-	public long getInvestedTime(int day, Tag tag) {
-		return taskOrg.getInvestedTime(day, tag);
+	public long getInvestedTime(long start, long end, Tag tag) {
+		return taskOrg.getInvestedTime(start, end, tag);
 	}
 
 	@Override
@@ -103,6 +103,11 @@ public class OrganizerImpl implements Organizer {
 	/*
 	pOrg delegates:
 	*/
+
+	@Override
+	public List<Prospect> getProspects(Tag tag) {
+		return prospectOrg.getProspects(tag);
+	}
 
 	@Override
 	public Prospect getActiveProspect(Tag tag) {

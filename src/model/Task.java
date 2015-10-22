@@ -16,8 +16,6 @@ public class Task {
 								  || importance == -1 || urgency == -1
 	*/
 
-	//TODO: check context conditions
-
 	//status:
 	private boolean fragment = true;
 	private boolean active   = false;
