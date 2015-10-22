@@ -6,11 +6,12 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
 
-public class ProspectGenerator implements Generator {
+public class ProspectGenerator implements Generator, Serializable {
 
 	// implement later
 

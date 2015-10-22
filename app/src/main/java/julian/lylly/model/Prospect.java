@@ -6,11 +6,12 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Prospect {
+public class Prospect implements Serializable {
 
 	/*
 	It has to be possible to turn off and/or down/up a prospect.

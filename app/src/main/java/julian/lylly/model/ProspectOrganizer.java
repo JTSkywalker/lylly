@@ -6,9 +6,10 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface ProspectOrganizer {
+public interface ProspectOrganizer extends Serializable {
 
 	public List<Prospect> getProspects(Tag tag);
 

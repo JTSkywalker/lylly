@@ -6,10 +6,11 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Tag {
+public class Tag implements Serializable {
 
 	public Tag(String name) {
 		this.name = name;

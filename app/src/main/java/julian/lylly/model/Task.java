@@ -6,10 +6,11 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class Task {
+public class Task implements Serializable {
 
 	/*
 	context condition: fragment <==>      descr == null ||   tag == null

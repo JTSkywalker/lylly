@@ -6,9 +6,10 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface TaskOrganizer {
+public interface TaskOrganizer extends Serializable {
 
 	public List<Task> getFilteredTasks(List<Tag> tag);
 

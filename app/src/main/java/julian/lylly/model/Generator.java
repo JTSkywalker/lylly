@@ -6,11 +6,12 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
 
-public interface Generator<E> {
+public interface Generator<E> extends Serializable {
 
 	public List<E> genTasksFromTill(Calendar start, Calendar end);
 

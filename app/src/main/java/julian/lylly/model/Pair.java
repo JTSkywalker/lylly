@@ -6,11 +6,12 @@
 
 package julian.lylly.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 
-public class Pair<F,S> {
+public class Pair<F,S> implements Serializable {
 
 	private F first;
 	private S second;
