@@ -12,7 +12,7 @@ public interface TaskOrganizer {
 
 	public List<Task> getFilteredTasks(List<Tag> tag);
 
-	public long getInvestedTime(int day, Tag tag);
+	public long getInvestedTime(long start, long end, Tag tag);
 
 	public long getTodaysInvTime(Tag tag);
 
