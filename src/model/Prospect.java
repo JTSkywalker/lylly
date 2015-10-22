@@ -12,7 +12,6 @@ import java.util.List;
 
 public class Prospect {
 
-	//TODO: consider moving this restriction to the organizer layer (otherwise it is always possible to delete)
 	/*
 	It has to be possible to turn off and/or down/up a prospect.
 	User should be motivated to get as near as possible even if the original
