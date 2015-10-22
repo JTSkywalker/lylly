@@ -8,42 +8,43 @@ import android.view.MenuItem;
 import android.view.View;
 
 import julian.lylly.R;
+import julian.lylly.model.Organizer;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Organizer organizer;
+    private int view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        view = R.layout.activity_main;
+        setContentView(view);
     }
 
     public void onClickTaskOrganizer(View v) {
-        Intent intent = new Intent(this, TaskOrganizer.class);
-        startActivity(intent);
+        view = R.layout.activity_task_organizer;
+        setContentView(view);
     }
 
     public void onClickProspectOrganizer(View v) {
-        Intent intent = new Intent(this, ProspectOrganizer.class);
-        startActivity(intent);
+        view = R.layout.activity_prospect_organizer;
+        setContentView(view);
     }
 
     public void onClickTagOrganizer(View v) {
-        Intent intent = new Intent(this, TagOrganizer.class);
-        startActivity(intent);
+        view = R.layout.activity_tag_organizer;
+        setContentView(view);
+    }
+
+    public void onBackPressed() {
+        if (view == R.layout.activity_prospect_organizer
+                || view == R.layout.activity_tag_organizer
+                || view == R.layout.activity_task_organizer) {
+            view = R.layout.activity_main;
+            setContentView(view);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
