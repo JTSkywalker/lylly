@@ -4,9 +4,46 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="julian.lylly.view.Lylly">
+    tools:context="julian.lylly.view.MainActivity"
+    android:background="#000000">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TaskOrganizer"
+        android:id="@+id/taskOrg"
+        android:textSize="20dp"
+        android:layout_marginTop="30dp"
+        android:minHeight="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:onClick="onClickTaskOrganizer" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ProspectOrganizer"
+        android:id="@+id/prospectOrg"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:minHeight="80dp"
+        android:layout_below="@+id/taskOrg"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/taskOrg"
+        android:onClick="onClickProspectOrganizer"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TagOrganizer"
+        android:id="@+id/tagOrg"
+        android:layout_below="@+id/prospectOrg"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"
+        android:layout_alignEnd="@+id/prospectOrg"
+        android:textSize="20dp"
+        android:minHeight="80dp"
+        android:onClick="onClickTagOrganizer"/>
 </RelativeLayout>

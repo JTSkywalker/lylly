@@ -4,4 +4,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_task_organizer">TaskOrganizer</string>
+    <string name="title_activity_prospect_organizer">ProspectOrganizer</string>
+    <string name="title_activity_tag_organizer">TagOrganizer</string>
 </resources>
