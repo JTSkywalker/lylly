@@ -1,5 +1,6 @@
 package julian.lylly.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,13 +15,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override
@@ -39,14 +33,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickTaskOrganizer(View v) {
-        setContentView(R.layout.activity_task_organizer);
+        Intent intent = new Intent(this, TaskOrganizer.class);
+        startActivity(intent);
     }
 
     public void onClickProspectOrganizer(View v) {
-        setContentView(R.layout.activity_prospect_organizer);
+        Intent intent = new Intent(this, ProspectOrganizer.class);
+        startActivity(intent);
     }
 
     public void onClickTagOrganizer(View v) {
-        setContentView(R.layout.activity_tag_organizer);
+        Intent intent = new Intent(this, TagOrganizer.class);
+        startActivity(intent);
     }
 }
