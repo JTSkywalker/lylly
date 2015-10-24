@@ -29,7 +29,7 @@ public class Tag implements Serializable {
 	@Override
 	public int hashCode() {
 		int hash = 3;
-		hash = 59 * hash + Objects.hashCode(this.name);
+		hash = 59 * hash + this.name.hashCode();
 		return hash;
 	}
 
@@ -42,10 +42,14 @@ public class Tag implements Serializable {
 			return false;
 		}
 		final Tag other = (Tag) obj;
-		if (!Objects.equals(this.name, other.name)) {
+		if (!this.name.equals(other.name)) {
 			return false;
 		}
 		return true;
+	}
+
+	public String toString() {
+		return name;
 	}
 
 }

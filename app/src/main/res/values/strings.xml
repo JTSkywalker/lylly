@@ -2,9 +2,13 @@
     <string name="app_name">Lylly</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="buttonToTaskOrganizer">TaskOrganizer</string>
     <string name="buttonToProspectOrganizer">ProspectOrganizer</string>
     <string name="buttonToTagOrganizer">TagOrganizer</string>
+    <string name="buttonNewTag">+</string>
+    <string name="tagName">enter tag name:</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_task_organizer">TaskOrganizer</string>
     <string name="title_activity_prospect_organizer">ProspectOrganizer</string>
