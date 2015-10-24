@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Organizer organizer;
     private int view;
     private TagsView tavi;
+    private ProspectsView prvi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToProspectOrganizer() {
         setView(R.layout.activity_prospect_organizer);
+        prvi = new ProspectsView(this);
     }
 
     public void goToTagOrganizer() {
@@ -60,8 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         switch (view) {
+            case (R.layout.activity_prospect_edit):
+                goToProspectOrganizer();
+                break;
             case (R.layout.activity_tag_edit):
-                onClickTagOrganizer(null);
+                goToTagOrganizer();
                 break;
             case (R.layout.activity_prospect_organizer):
             case (R.layout.activity_tag_organizer):
@@ -100,5 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickTagEditCancel(View view) {
         tavi.onClickCancel();
+    }
+
+    public void onClickNewProspect(View view) {
+        prvi.onClickNewProspect();
     }
 }

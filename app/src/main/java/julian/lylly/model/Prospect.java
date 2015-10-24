@@ -22,17 +22,17 @@ public class Prospect implements Serializable {
 	/*
 	context conditions:
 		start < end && min <= max
-		prios.size() == end-start
+		weights.size() == end-start
 	*/
 
 	private String name;
 	private Tag tag;
-	private int start, end;//epoch = 1; start inclusive, end exclusive
+	private int start, end;//epoch = 0; start inclusive, end exclusive
 	private long min, max;
-	private List<Integer> prios;
+	private List<Integer> weights;
 
 	public Prospect(String name, Tag tag, int start, int end,
-			int min, int max, List<Integer> prios) {
+			int min, int max, List<Integer> weights) {
 		if (start >= end) {
 			throw new IllegalArgumentException("start must be less than end");
 		}
@@ -42,8 +42,8 @@ public class Prospect implements Serializable {
 		if (name == null || tag == null) {
 			throw new IllegalArgumentException("name and tag must not be null");
 		}
-		if (prios.size() != end-start) {
-			throw new IllegalArgumentException("prios.length != end-start");
+		if (weights.size() != end-start) {
+			throw new IllegalArgumentException("weights.length != end-start");
 		}
 		this.name = name;
 		this.tag = tag;
@@ -51,7 +51,7 @@ public class Prospect implements Serializable {
 		this.end = end;
 		this.min = min;
 		this.max = max;
-		this.prios = prios;
+		this.weights = weights;
 	}
 
 	public boolean isActive() {
@@ -111,8 +111,8 @@ public class Prospect implements Serializable {
 		return max;
 	}
 
-	public List<Integer> getPrios() {
-		return prios;
+	public List<Integer> getWeights() {
+		return weights;
 	}
 
 	public List<Pair<Long,Long>> getBudgets(int absDay, long timespent) {
@@ -123,7 +123,7 @@ public class Prospect implements Serializable {
 		if (timespent < 0) {
 			throw new IllegalArgumentException("timespent < 0");
 		}
-		List<Integer> subl = prios.subList(relDay, prios.size());
+		List<Integer> subl = weights.subList(relDay, weights.size());
 		int sum = 0;
 		for (int k : subl) {
 			sum += k;
@@ -165,11 +165,11 @@ public class Prospect implements Serializable {
 			throw new IllegalArgumentException("start must be less than end");
 		}
 		if (prios.size() != end-start) {
-			throw new IllegalArgumentException("prios.size() != end-start");
+			throw new IllegalArgumentException("weights.size() != end-start");
 		}
 		this.start = start;
 		this.end = end;
-		this.prios = prios;
+		this.weights = prios;
 	}
 
 	public void setMinMax(long min, long max) {
@@ -181,16 +181,16 @@ public class Prospect implements Serializable {
 		this.max = max;
 	}
 
-	public void setPrios(List<Integer> prios) {
-		if (prios.size() != end-start) {
-			throw new IllegalArgumentException("prios.size() != end-stärt");
+	public void setWeights(List<Integer> weights) {
+		if (weights.size() != end-start) {
+			throw new IllegalArgumentException("weights.size() != end-stärt");
 		}
-		this.prios = prios;
+		this.weights = weights;
 	}
 
 	private void checkBeforeStart() {
 		if(!isBeforeStart()) {
-			throw new UnsupportedOperationException("activeprospects are final");
+			throw new UnsupportedOperationException("active prospects are final");
 		}
 	}
 
