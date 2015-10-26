@@ -2,88 +2,98 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp" >
+    android:layout_margin="10dp" >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/prospectTagInput" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <EditText
-                android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scaleY="0.8">
+            <DatePicker
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner" />
+                android:id="@+id/prospectStartInput"
+                android:calendarViewShown="false" /><!--TODO: this solution should be improved! -->
 
             <DatePicker
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/datePicker2"
-                android:calendarViewShown="false" />
-
-            <DatePicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/datePicker"
-                android:calendarViewShown="false" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="from"
-                    android:id="@+id/textView" />
-
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/startHourPicker" />
-
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/startMinutePicker" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="to"
-                    android:id="@+id/textView2" />
-
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/endHourPicker" />
-
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/endMinutePicker" />
-
-            </LinearLayout>
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </ListView>
-
+                android:id="@+id/prospectEndInput"
+                android:calendarViewShown="false" /><!--TODO: this solution should be improved! -->
 
         </LinearLayout>
-    </ScrollView>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:id="@+id/prospectWeightsProvisionalInput" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scaleY="0.8">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prospectMin"
+                android:id="@+id/prospectMin" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prospectMinHourInput" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prospectMaxMinuteInput" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prospectMax"
+                android:id="@+id/prospectMax" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prospectMaxHourInput" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prospectMinMinuteInput" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleY="0.8">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ok"
+                android:id="@+id/prospectOk" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:id="@+id/prospectCancel"/>
+        </LinearLayout>
 
 </LinearLayout>

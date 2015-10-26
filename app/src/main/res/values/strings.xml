@@ -2,6 +2,8 @@
     <string name="app_name">Lylly</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <string name="prospectMin">Min:</string>
+    <string name="prospectMax">Max:</string>
     <string name="buttonNewProspect">+</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

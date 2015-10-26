@@ -14,6 +14,7 @@ import java.lang.reflect.Array;
 import julian.lylly.R;
 import julian.lylly.model.Organizer;
 import julian.lylly.model.OrganizerImpl;
+import julian.lylly.model.Prospect;
 import julian.lylly.model.Tag;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private int view;
     private TagsView tavi;
     private ProspectsView prvi;
+    private ProspectEdit pred;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
     public void goToTagOrganizer() {
         setView(R.layout.activity_tag_organizer);
         tavi = new TagsView(this);
+    }
+
+    public void goToProspectEdit(Prospect prospect) {
+        setView(R.layout.activity_prospect_edit);
+        pred = new ProspectEdit(this, prospect);
     }
     
     public void onClickTaskOrganizer(View v) {
@@ -93,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void helper() {//TODO:delete
         organizer = new OrganizerImpl();
+        organizer.addTag(new Tag("du"));
+        organizer.addTag(new Tag("du"));
+        organizer.addTag(new Tag("dömel"));
+        organizer.addTag(new Tag("kenguru"));
+        organizer.addTag(new Tag("düm düm düüüüm düdüum"));
     }
 
     public void onClickNewTag(View view) {
@@ -108,6 +120,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickNewProspect(View view) {
-        prvi.onClickNewProspect();
+        goToProspectEdit(null);
     }
 }
