@@ -17,7 +17,7 @@
         android:onClick="onClickNewTag"/>
 
     <ListView
-        android:id ="@+id/listView"
+        android:id ="@+id/tagListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

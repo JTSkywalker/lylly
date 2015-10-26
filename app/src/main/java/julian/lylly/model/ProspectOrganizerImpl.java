@@ -25,6 +25,14 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 	private final List<Prospect> discarded = new ArrayList<>();
 
 	@Override
+	public List<Prospect> getProspects() {
+		List<Prospect> res = new ArrayList<>();
+		res.addAll(enabled);
+		res.addAll(discarded);
+		return res;
+	}
+
+	@Override
 	public List<Prospect> getProspects(Tag tag) {
 		List<Prospect> res = new ArrayList<>();
 		for (Prospect p : enabled) {

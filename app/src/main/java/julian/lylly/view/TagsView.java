@@ -27,7 +27,7 @@ public class TagsView {
 
         tagAdapter = new ArrayAdapter<>(mainActivity, R.layout.text_view,
                                         mainActivity.getOrganizer().getTags());
-        listView = (ListView) mainActivity.findViewById(R.id.listView);
+        listView = (ListView) mainActivity.findViewById(R.id.tagListView);
         listView.setAdapter(tagAdapter);
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {

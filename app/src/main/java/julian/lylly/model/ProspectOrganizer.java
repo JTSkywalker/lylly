@@ -13,6 +13,8 @@ public interface ProspectOrganizer extends Serializable {
 
 	public List<Prospect> getProspects(Tag tag);
 
+	public List<Prospect> getProspects();
+
 	public Prospect getActiveProspect(Tag tag);
 
 	public List<Prospect> getFutureProspects();
