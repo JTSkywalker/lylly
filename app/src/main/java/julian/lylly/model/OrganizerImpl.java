@@ -104,6 +104,10 @@ public class OrganizerImpl implements Organizer, Serializable {
 	/*
 	pOrg delegates:
 	*/
+	@Override
+	public List<Prospect> getProspects() {
+		return prospectOrg.getProspects();
+	}
 
 	@Override
 	public List<Prospect> getProspects(Tag tag) {

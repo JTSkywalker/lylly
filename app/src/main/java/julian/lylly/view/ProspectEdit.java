@@ -6,9 +6,13 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import julian.lylly.R;
 import julian.lylly.model.Prospect;
 import julian.lylly.model.Tag;
+import julian.lylly.model.Util;
 
 /**
  * Created by VAIO on 26.10.2015.
@@ -66,6 +70,49 @@ public class ProspectEdit {
 
     private void initWeightsInput() {
         //nothing to do here?
+    }
+
+    public void onClickOk() {
+        try {
+            String name = "";
+            Tag tag = (Tag) tagInput.getSelectedItem();
+            int start = Util.millisToDay(
+                    (new GregorianCalendar(startInput.getYear(),
+                            startInput.getMonth(),
+                            startInput.getDayOfMonth())
+                            .getTimeInMillis()));
+            int end = Util.millisToDay(
+                    (new GregorianCalendar(endInput.getYear(),
+                            endInput.getMonth(),
+                            endInput.getDayOfMonth())
+                            .getTimeInMillis()));
+            long min = minHourInput.getValue()*60*60*1000 + minMinuteInput.getValue()*60*1000;
+            long max = maxHourInput.getValue()*60*60*1000 + maxMinuteInput.getValue()*60*1000;
+            List<Integer> weights = Util.calcWeights(weightsProvisionalInput.getText().toString());
+
+            if (weights.size() != end - start) {
+                return;
+            }
+            if (editing == null) {
+                 main.getOrganizer().addProspect(new Prospect(name, tag, start, end, min, max, weights));
+            } else {
+                if (editing.isBeforeStart()) {
+                    editing.setName(name);
+                    editing.setTag(tag);
+                    editing.setStartEnd(start, end, weights);
+                    editing.setMinMax(min, max);
+                } else {
+                    editing.setWeights(weights);
+                }
+            }
+        } catch (IllegalArgumentException exc) {
+        return;
+    }
+        main.goToProspectOrganizer();
+    }
+
+    public void onClickCancel() {
+        main.goToProspectOrganizer();
     }
 
 }

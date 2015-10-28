@@ -32,7 +32,7 @@ public class Prospect implements Serializable {
 	private List<Integer> weights;
 
 	public Prospect(String name, Tag tag, int start, int end,
-			int min, int max, List<Integer> weights) {
+			long min, long max, List<Integer> weights) {
 		if (start >= end) {
 			throw new IllegalArgumentException("start must be less than end");
 		}

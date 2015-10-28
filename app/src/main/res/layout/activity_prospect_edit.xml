@@ -86,14 +86,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ok"
-                android:id="@+id/prospectOk" />
+                android:id="@+id/prospectOk"
+                android:onClick="onClickProspectEditOk"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/cancel"
-                android:id="@+id/prospectCancel"/>
+                android:id="@+id/prospectCancel"
+                android:onClick="onClickProspectEditCancel"/>
         </LinearLayout>
 
 </LinearLayout>

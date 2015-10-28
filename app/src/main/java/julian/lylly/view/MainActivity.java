@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import julian.lylly.R;
 import julian.lylly.model.Organizer;
@@ -99,12 +101,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void helper() {//TODO:delete
+        Tag tag1 = new Tag("du"), tag2 = new Tag("dömel"), tag3 = new Tag("kenguru");
         organizer = new OrganizerImpl();
-        organizer.addTag(new Tag("du"));
-        organizer.addTag(new Tag("du"));
-        organizer.addTag(new Tag("dömel"));
-        organizer.addTag(new Tag("kenguru"));
+        organizer.addTag(tag1);
+        organizer.addTag(tag2);
+        organizer.addTag(tag3);
         organizer.addTag(new Tag("düm düm düüüüm düdüum"));
+        List<Integer> weights = new ArrayList<>();
+        weights.add(5);
+        weights.add(5);
+        weights.add(3);
+        weights.add(3);
+        weights.add(3);
+        weights.add(5);
+        weights.add(5);
+        organizer.addProspect(new Prospect("test", tag1, 200, 207, 3600000, 5000000, weights));
     }
 
     public void onClickNewTag(View view) {
@@ -121,5 +132,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickNewProspect(View view) {
         goToProspectEdit(null);
+    }
+
+    public void onClickProspectEditOk(View view) {
+        pred.onClickOk();
+    }
+
+    public void onClickProspectEditCancel(View view) {
+        pred.onClickCancel();
     }
 }
