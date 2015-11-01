@@ -55,7 +55,7 @@
             <NumberPicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/prospectMaxMinuteInput" />
+                android:id="@+id/prospectMinMinuteInput" />
 
 
             <TextView
@@ -72,7 +72,7 @@
             <NumberPicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/prospectMinMinuteInput" />
+                android:id="@+id/prospectMaxMinuteInput" />
 
         </LinearLayout>
 

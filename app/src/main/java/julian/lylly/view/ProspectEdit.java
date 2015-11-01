@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -47,6 +48,24 @@ public class ProspectEdit {
         initStartEndInput();
         initMinMaxInput();
         initWeightsInput();
+        if (editing != null) {
+            tagInput.setSelection(((ArrayAdapter) tagInput.getAdapter()).getPosition(editing.getTag()));
+            int start = editing.getStart();
+            startInput.updateDate(Util.getYearFromDays(start),
+                                  Util.getMonthFromDays(start),
+                                  Util.getDayFromDays(start));
+            int end = editing.getEnd();
+            endInput.updateDate(Util.getYearFromDays(end),
+                    Util.getMonthFromDays(end),
+                    Util.getDayFromDays(end));
+            long min = editing.getMin();
+            minHourInput.setValue(Util.getHourFromMillis(min));
+            minMinuteInput.setValue(Util.getMinuteFromMillis(min));
+            long max = editing.getMax();
+            maxHourInput.setValue(Util.getHourFromMillis(max));
+            maxMinuteInput.setValue(Util.getMinuteFromMillis(max));
+            weightsProvisionalInput.setText(Util.intListToString(editing.getWeights()));
+        }
     }
 
     private void initTagInput() {
@@ -106,8 +125,8 @@ public class ProspectEdit {
                 }
             }
         } catch (IllegalArgumentException exc) {
-        return;
-    }
+            return;
+        }
         main.goToProspectOrganizer();
     }
 

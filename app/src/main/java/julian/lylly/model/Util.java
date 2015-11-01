@@ -7,8 +7,13 @@
 package julian.lylly.model;
 
 
+import android.widget.EditText;
+
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Util {
@@ -30,11 +35,11 @@ public class Util {
 
 	public static String millisToHourMinuteString(long millis) {
 		//calc hours
-		String h = Long.toString(millis/1000/60/60);
+		long h = millis/1000/60/60;
 		//calc minutes
-		String m = Long.toString(millis%(1000*60*60)/1000/60);
+		long m = millis%(1000*60*60)/1000/60;
 
-		return h + ":" + m;
+		return longTo2DigitString(h) + ":" + longTo2DigitString(m);
 	}
 
 	public static List<Integer> calcWeights(String s) {
@@ -47,5 +52,57 @@ public class Util {
 			}
 		}
 		return result;
+	}
+
+	public static String daysToDate(int days) {
+		int month = getMonthFromDays(days);
+		int day = getDayFromDays(days);
+		return longTo2DigitString(month) + "-" + longTo2DigitString(day);
+	}
+
+	public static String longTo2DigitString(long src) {
+		if (src < 10) {
+			return "0" + src;
+		} else {
+			return Long.toString(src);
+		}
+	}
+
+	public static int getYearFromDays(int days) {
+		Calendar date = new GregorianCalendar();
+		date.setTimeInMillis(daysToMillis(days));
+		return date.get(Calendar.YEAR);
+	}
+
+	public static int getMonthFromDays(int days) {
+		Calendar date = new GregorianCalendar();
+		date.setTimeInMillis(daysToMillis(days));
+		return date.get(Calendar.MONTH);
+	}
+
+	public static int getDayFromDays(int days) {
+		Calendar date = new GregorianCalendar();
+		date.setTimeInMillis(daysToMillis(days));
+		return date.get(Calendar.DATE);
+	}
+
+	public static int getHourFromMillis(long millis) {
+		Calendar date = new GregorianCalendar();
+		date.setTimeInMillis(millis);
+		return date.get(Calendar.HOUR_OF_DAY);
+	}
+
+	public static int getMinuteFromMillis(long millis) {
+		Calendar date = new GregorianCalendar();
+		date.setTimeInMillis(millis);
+		return date.get(Calendar.MINUTE);
+	}
+
+	public static String intListToString(List<Integer> weights) {
+		String res = "";
+		for (int i : weights) {
+			res = res + i;
+		}
+		return res;
 	}
 }

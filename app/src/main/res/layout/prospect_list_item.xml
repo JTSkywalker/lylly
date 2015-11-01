@@ -7,8 +7,24 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/running"
-        android:ems="5"
         android:textSize="20sp"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/minMinusRunning" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/maxMinusRunning" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="0dp"
@@ -25,14 +41,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/minMinusRunning"
-            android:ems="5"/>
+            android:id="@+id/startDate" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/maxMinusRunning"
-            android:ems="5"/>
+            android:id="@+id/endDate" />
 
     </LinearLayout>
 
