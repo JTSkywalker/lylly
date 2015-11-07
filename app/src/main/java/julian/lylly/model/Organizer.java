@@ -6,17 +6,19 @@
 
 package julian.lylly.model;
 
+import org.joda.time.Duration;
+
 import java.util.List;
 import java.util.Map;
 
 public interface Organizer extends TaskOrganizer, ProspectOrganizer {
 
-	public Map<Tag, Pair<Long, Long>> getTodaysBudgets();
+	Map<Tag, Pair<Duration, Duration>> getTodaysBudgets();
 
-	public List<Tag> getTags();
+	List<Tag> getTags();
 
-	public void addTag(Tag tag);
+	void addTag(Tag tag);
 
-	public void removeTag(Tag tag);
+	void removeTag(Tag tag);
 
 }

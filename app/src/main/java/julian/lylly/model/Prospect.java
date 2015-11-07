@@ -6,6 +6,10 @@
 
 package julian.lylly.model;
 
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +31,22 @@ public class Prospect implements Serializable {
 
 	private String name;
 	private Tag tag;
-	private int start, end;//epoch = 0; start inclusive, end exclusive
-	private long min, max;
+	private LocalDate start, end;
+	private Duration min, max;
 	private List<Integer> weights;
 
-	public Prospect(String name, Tag tag, int start, int end,
-			long min, long max, List<Integer> weights) {
-		if (start >= end) {
+	public Prospect(String name, Tag tag, LocalDate start, LocalDate end,
+			Duration min, Duration max, List<Integer> weights) {
+		if (!start.isBefore(end)) {
 			throw new IllegalArgumentException("start must be less than end");
 		}
-		if (min > max) {
+		if (max.isShorterThan(min)) {
 			throw new IllegalArgumentException("min must be less or equal than max");
 		}
 		if (name == null || tag == null) {
 			throw new IllegalArgumentException("name and tag must not be null");
 		}
-		if (weights.size() != end-start) {
+		if (weights.size() != (new Period(start, end)).getDays()) {
 			throw new IllegalArgumentException("weights.length != end-start");
 		}
 		this.name = name;
@@ -55,28 +59,28 @@ public class Prospect implements Serializable {
 	}
 
 	public boolean isActive() {
-		long now = System.currentTimeMillis();
-		return start <= now && now <= end;
+		LocalDate now = LocalDate.now();
+		return !now.isBefore(start) && !end.isBefore(now);
 	}
 
 	public boolean isBeforeStart() {
-		return System.currentTimeMillis() <= start;
+		return LocalDate.now().isBefore(start);
 	}
 
 	public boolean isOver() {
-		return System.currentTimeMillis() >= end;
+		return LocalDate.now().isAfter(end);
 	}
 
-	public boolean isSucceeded(long timespent) {
-		return isOver() && min <= timespent && timespent <= max;
+	public boolean isSucceeded(Duration timespent) {
+		return isOver() && !timespent.isShorterThan(min) && !timespent.isLongerThan(max);
 	}
 
-	public boolean tooLow(long timespent) {
-		return isOver() && timespent <= min;
+	public boolean tooLow(Duration timespent) {
+		return isOver() && timespent.isShorterThan(min);
 	}
 
-	public boolean tooHigh(long timespent) {
-		return isOver() && timespent >= max;
+	public boolean tooHigh(Duration timespent) {
+		return isOver() && timespent.isLongerThan(max);
 	}
 
 	public String getName() {
@@ -87,27 +91,19 @@ public class Prospect implements Serializable {
 		return tag;
 	}
 
-	public int getStart() {
+	public LocalDate getStart() {
 		return start;
 	}
 
-	public long getStartInMillis() {
-		return Util.daysToMillis(start);
-	}
-
-	public int getEnd() {
+	public LocalDate getEnd() {
 		return end;
 	}
 
-	public long getEndInMillis() {
-		return Util.daysToMillis(end);
-	}
-
-	public long getMin() {
+	public Duration getMin() {
 		return min;
 	}
 
-	public long getMax() {
+	public Duration getMax() {
 		return max;
 	}
 
@@ -115,32 +111,29 @@ public class Prospect implements Serializable {
 		return weights;
 	}
 
-	public List<Pair<Long,Long>> getBudgets(int absDay, long timespent) {
-		int relDay = absDay - start;
-		if (relDay >= end-start || relDay < 0) {
+	public List<Pair<Duration,Duration>> getBudgets(LocalDate pointer, Duration timespent) {
+		int relDay = Period.fieldDifference(start, pointer).getDays();
+		if (pointer.isBefore(start) || !end.isAfter(pointer)) {
 			throw new IllegalArgumentException("day is out of range");
 		}
-		if (timespent < 0) {
-			throw new IllegalArgumentException("timespent < 0");
-		}
-		List<Integer> subl = weights.subList(relDay, weights.size());
+		List<Integer> subl = weights.subList(relDay - 1, weights.size());
 		int sum = 0;
 		for (int k : subl) {
 			sum += k;
 		}
 
-		long minleft = Math.max(0, min - timespent);
-		long maxleft = Math.max(0, max - timespent);
-		List<Pair<Long,Long>> res = new ArrayList<>();
+		Duration minleft = Util.maxDuration(new Duration(0), min.minus(timespent));
+		Duration maxleft = Util.maxDuration(new Duration(0), max.minus(timespent));
+		List<Pair<Duration, Duration>> res = new ArrayList<>();
 		for (int k : subl) {
-			res.add(new Pair(k * minleft / sum,
-							 k * maxleft / sum));
+			res.add(new Pair(minleft.multipliedBy(k).dividedBy(sum),
+							 maxleft.multipliedBy(k).dividedBy(sum)));
 		}
 		return res;
 	}
 
-	public Pair<Long,Long> getNextBudget(int absDay, long timespent) {
-		return getBudgets(absDay, timespent).get(0);
+	public Pair<Duration,Duration> getNextBudget(LocalDate date, Duration timespent) {
+		return getBudgets(date, timespent).get(0);
 	}
 
 	public void setName(String name) {
@@ -159,22 +152,20 @@ public class Prospect implements Serializable {
 		this.tag = tag;
 	}
 
-	public void setStartEnd(int start, int end, List<Integer> prios) {
+	public void setStartEnd(LocalDate start, LocalDate end, List<Integer> weights) {
 		checkBeforeStart();
-		if (start >= end) {
+		if (!start.isBefore(end)) {
 			throw new IllegalArgumentException("start must be less than end");
 		}
-		if (prios.size() != end-start) {
-			throw new IllegalArgumentException("weights.size() != end-start");
-		}
+		checkWeightsLength(weights);
 		this.start = start;
 		this.end = end;
-		this.weights = prios;
+		this.weights = weights;
 	}
 
-	public void setMinMax(long min, long max) {
+	public void setMinMax(Duration min, Duration max) {
 		checkBeforeStart();
-		if (min > max) {
+		if (min.isLongerThan(max)) {
 			throw new IllegalArgumentException("min must be less or equal max");
 		}
 		this.min = min;
@@ -182,10 +173,14 @@ public class Prospect implements Serializable {
 	}
 
 	public void setWeights(List<Integer> weights) {
-		if (weights.size() != end-start) {
-			throw new IllegalArgumentException("weights.size() != end-stärt");
-		}
+		checkWeightsLength(weights);
 		this.weights = weights;
+	}
+
+	private void checkWeightsLength(List<Integer> weights) {
+		if (weights.size() != Period.fieldDifference(start, end).getDays()) {
+			throw new IllegalArgumentException("weights.size() != end-start");
+		}
 	}
 
 	private void checkBeforeStart() {
@@ -194,4 +189,32 @@ public class Prospect implements Serializable {
 		}
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Prospect prospect = (Prospect) o;
+
+		if (!name.equals(prospect.name)) return false;
+		if (!tag.equals(prospect.tag)) return false;
+		if (!start.equals(prospect.start)) return false;
+		if (!end.equals(prospect.end)) return false;
+		if (!min.equals(prospect.min)) return false;
+		if (!max.equals(prospect.max)) return false;
+		return weights.equals(prospect.weights);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = name.hashCode();
+		result = 31 * result + tag.hashCode();
+		result = 31 * result + start.hashCode();
+		result = 31 * result + end.hashCode();
+		result = 31 * result + min.hashCode();
+		result = 31 * result + max.hashCode();
+		result = 31 * result + weights.hashCode();
+		return result;
+	}
 }

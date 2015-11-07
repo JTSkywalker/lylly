@@ -6,6 +6,9 @@
 
 package julian.lylly.model;
 
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +32,8 @@ public class OrganizerImpl implements Organizer, Serializable {
 	//TODO: maybe generalize this
 	//TODO: think about future budgets
 	@Override
-	public Map<Tag, Pair<Long, Long>> getTodaysBudgets() {
-		Map<Tag, Pair<Long,Long>> res = new HashMap<>();
+	public Map<Tag, Pair<Duration, Duration>> getTodaysBudgets() {
+		Map<Tag, Pair<Duration,Duration>> res = new HashMap<>();
 		for (Tag tag : tags) {
 			Prospect prospect = prospectOrg.getActiveProspect(tag);
 			if (prospect != null) {
@@ -40,9 +43,8 @@ public class OrganizerImpl implements Organizer, Serializable {
 		return res;
 	}
 
-	private Pair<Long,Long> getBudget(Prospect prospect) {
-		return prospect.getNextBudget(Util.millisToDay(System.currentTimeMillis()),
-									  taskOrg.getInvestedTime(prospect));
+	private Pair<Duration,Duration> getBudget(Prospect prospect) {
+		return prospect.getNextBudget(LocalDate.now(), taskOrg.getInvestedTime(prospect));
 	}
 
 	/*
@@ -74,17 +76,17 @@ public class OrganizerImpl implements Organizer, Serializable {
 	}
 
 	@Override
-	public long getInvestedTime(long start, long end, Tag tag) {
+	public Duration getInvestedTime(LocalDate start, LocalDate end, Tag tag) {
 		return taskOrg.getInvestedTime(start, end, tag);
 	}
 
 	@Override
-	public long getInvestedTime(Prospect prospect) {
+	public Duration getInvestedTime(Prospect prospect) {
 		return taskOrg.getInvestedTime(prospect);
 	}
 
 	@Override
-	public long getTodaysInvTime(Tag tag) {
+	public Duration getTodaysInvTime(Tag tag) {
 		return taskOrg.getTodaysInvTime(tag);
 	}
 

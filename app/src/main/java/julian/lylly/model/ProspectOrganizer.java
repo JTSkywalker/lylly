@@ -11,27 +11,27 @@ import java.util.List;
 
 public interface ProspectOrganizer extends Serializable {
 
-	public List<Prospect> getProspects(Tag tag);
+	List<Prospect> getProspects(Tag tag);
 
-	public List<Prospect> getProspects();
+	List<Prospect> getProspects();
 
-	public Prospect getActiveProspect(Tag tag);
+	Prospect getActiveProspect(Tag tag);
 
-	public List<Prospect> getFutureProspects();
+	List<Prospect> getFutureProspects();
 
-	public List<Prospect> getActiveProspects();
+	List<Prospect> getActiveProspects();
 
-	public List<Prospect> getFinishedProspect();
+	List<Prospect> getFinishedProspect();
 
 	/**
 	 * returns only "active" discarded prospects, e.g. those with start<=now<=end
 	 * @return
 	 */
-	public List<Prospect> getDiscardedProspects();
+	List<Prospect> getDiscardedProspects();
 
 
-	public void addProspect(Prospect prospect);
+	void addProspect(Prospect prospect);
 
-	public void discardProspect(Prospect prospect);
+	void discardProspect(Prospect prospect);
 
 }

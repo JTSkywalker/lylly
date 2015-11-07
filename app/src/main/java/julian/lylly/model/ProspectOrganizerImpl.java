@@ -6,6 +6,8 @@
 
 package julian.lylly.model;
 
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,9 +69,8 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 	@Override
 	public List<Prospect> getFutureProspects() {
 		List<Prospect> res = new ArrayList<>();
-		long now = System.currentTimeMillis();
 		for (Prospect p : enabled) {
-			if (p.getStartInMillis() > now) {
+			if (LocalDate.now().isAfter(p.getEnd())) {
 				res.add(p);
 			}
 		}
@@ -157,8 +158,8 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 
 	private void checkOverlaps(Prospect newie, List<Prospect> olds) {
 		for (Prospect p : olds) {
-			if (p.getStart() <= newie.getStart() && newie.getStart() <= p.getEnd()
-			 || p.getStart() <= newie.getEnd()   && newie.getEnd()   <= p.getEnd()) {
+			if (!p.getStart().isAfter(newie.getStart()) && !newie.getStart().isAfter(p.getEnd())
+			 || !p.getStart().isAfter(newie.getEnd())   && !newie.getEnd().isAfter(p.getEnd())) {
 				throw new IllegalArgumentException("newie overlaps");
 			}
 		}

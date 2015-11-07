@@ -6,22 +6,25 @@
 
 package julian.lylly.model;
 
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+
 import java.io.Serializable;
 import java.util.List;
 
 public interface TaskOrganizer extends Serializable {
 
-	public List<Task> getFilteredTasks(List<Tag> tag);
+	List<Task> getFilteredTasks(List<Tag> tag);
 
-	public long getInvestedTime(long start, long end, Tag tag);
+	Duration getInvestedTime(LocalDate start, LocalDate end, Tag tag);
 
-	public long getTodaysInvTime(Tag tag);
+	Duration getTodaysInvTime(Tag tag);
 
-	public long getInvestedTime(Prospect prospect);
+	Duration getInvestedTime(Prospect prospect);
 
 
-	public void addTask(Task task);
+	void addTask(Task task);
 
-	public void removeTask(Task task);
+	void removeTask(Task task);
 
 }

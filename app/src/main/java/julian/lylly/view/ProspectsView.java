@@ -5,13 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.joda.time.Duration;
+
 import julian.lylly.R;
 import julian.lylly.model.Prospect;
-import julian.lylly.model.Tag;
 import julian.lylly.model.Util;
 
 /**
@@ -34,9 +34,9 @@ public class ProspectsView {
                 LayoutInflater inflater = main.getLayoutInflater();
                 View view = inflater.inflate(R.layout.prospect_list_item, parent, false);
                 Prospect p = getItem(position);
-                long running = main.getOrganizer().getInvestedTime(p);
-                long toMin = p.getMin() - running;
-                long toMax = p.getMax() - running;
+                Duration running = main.getOrganizer().getInvestedTime(p);
+                Duration toMin = p.getMin().minus(running);
+                Duration toMax = p.getMax().minus(running);
                 ((TextView) view.findViewById(R.id.running))
                         .setText(Util.millisToHourMinuteString(running));
                 ((TextView) view.findViewById(R.id.tagName))

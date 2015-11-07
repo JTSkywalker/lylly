@@ -7,12 +7,11 @@
 package julian.lylly.model;
 
 
-import android.widget.EditText;
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -33,12 +32,9 @@ public class Util {
 		return millis % MILLIS_PER_DAY;
 	}
 
-	public static String millisToHourMinuteString(long millis) {
-		//calc hours
-		long h = millis/1000/60/60;
-		//calc minutes
-		long m = millis%(1000*60*60)/1000/60;
-
+	public static String millisToHourMinuteString(Duration duration) {
+		long h = duration.getStandardHours();
+		long m = duration.getStandardMinutes() % h;
 		return longTo2DigitString(h) + ":" + longTo2DigitString(m);
 	}
 
@@ -54,9 +50,9 @@ public class Util {
 		return result;
 	}
 
-	public static String daysToDate(int days) {
-		int month = getMonthFromDays(days);
-		int day = getDayFromDays(days);
+	public static String daysToDate(LocalDate date) {
+		long month = date.getMonthOfYear();
+		int day = date.getDayOfMonth();
 		return longTo2DigitString(month) + "-" + longTo2DigitString(day);
 	}
 
@@ -104,5 +100,29 @@ public class Util {
 			res = res + i;
 		}
 		return res;
+	}
+
+	public static <T extends Comparable<? super T>> T max(T... objects) {
+		T curr = null;
+		for (T t : objects) {
+			if (curr == null || t.compareTo(curr) > 0) {
+				curr = t;
+			}
+		}
+		return curr;
+	}
+
+	public static <T extends Comparable<? super T>> T min(T... objects) {
+		T curr = null;
+		for (T t : objects) {
+			if (curr == null || t.compareTo(curr) < 0) {
+				curr = t;
+			}
+		}
+		return curr;
+	}
+
+	public static Duration maxDuration(Duration... durations) {
+		return max(durations);
 	}
 }

@@ -6,7 +6,8 @@
 
 package julian.lylly.model;
 
-import java.util.Calendar;
+import org.joda.time.LocalDate;
+
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ public class TaskGenerator implements Generator {
 	// implement later
 
 	@Override
-	public List genTasksFromTill(Calendar start, Calendar end) {
+	public List genTasksFromTill(LocalDate start, LocalDate end) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

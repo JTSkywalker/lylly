@@ -6,6 +6,9 @@
 
 package julian.lylly.model;
 
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +19,8 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 
 	private final Map<Tag,List<Task>> toDo = new HashMap<>();
 
-	public long getInvestedTime(Prospect prospect) {
-		return getInvestedTime(prospect.getStartInMillis(),
-							   prospect.getEndInMillis(),
-							   prospect.getTag());
+	public Duration getInvestedTime(Prospect prospect) {
+		return getInvestedTime(prospect.getStart(), prospect.getEnd(), prospect.getTag());
 	}
 
 	@Override
@@ -34,22 +35,22 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 	}
 
 	@Override
-	public long getInvestedTime(long start, long end, Tag tag) {
+	public Duration getInvestedTime(LocalDate start, LocalDate end, Tag tag) {
 		if (!toDo.containsKey(tag)) {
-			return 0;
+			return new Duration(0);
 		}
 		List<Task> li = toDo.get(tag);
-		long sum = 0;
+		Duration sum = Duration.ZERO;
 		for (Task t : li) {
-			sum += t.getTimeSpentInInterval(start, end);
+			sum.plus(t.getTimeSpentInInterval(start, end));
 		}
 		return sum;
 	}
 
 	@Override
-	public long getTodaysInvTime(Tag tag) {
-		long today = Util.cutMillis(System.currentTimeMillis());
-		return getInvestedTime(today, today + Util.MILLIS_PER_DAY, tag);
+	public Duration getTodaysInvTime(Tag tag) {
+		LocalDate today = LocalDate.now();
+		return getInvestedTime(today, today.plusDays(1), tag);
 	}
 
 	@Override

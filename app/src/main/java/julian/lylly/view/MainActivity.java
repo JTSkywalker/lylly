@@ -1,15 +1,12 @@
 package julian.lylly.view;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import java.lang.reflect.Array;
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
         weights.add(3);
         weights.add(5);
         weights.add(5);
-        organizer.addProspect(new Prospect("test", tag1, 200, 207, 3600000, 5000000, weights));
+        organizer.addProspect(new Prospect("test", tag1,
+                new LocalDate(2015,10,10), new LocalDate(2015,10,15),
+                new Duration(1000*60*60*2), new Duration(1000*60*60*3), weights));
     }
 
     public void onClickNewTag(View view) {

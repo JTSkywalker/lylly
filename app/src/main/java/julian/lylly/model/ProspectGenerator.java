@@ -6,8 +6,9 @@
 
 package julian.lylly.model;
 
+import org.joda.time.LocalDate;
+
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -16,7 +17,7 @@ public class ProspectGenerator implements Generator, Serializable {
 	// implement later
 
 	@Override
-	public List genTasksFromTill(Calendar start, Calendar end) {
+	public List genTasksFromTill(LocalDate start, LocalDate end) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

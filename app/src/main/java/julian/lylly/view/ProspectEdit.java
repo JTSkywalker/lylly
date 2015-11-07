@@ -6,8 +6,10 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+
 import java.util.List;
 
 import julian.lylly.R;
@@ -50,20 +52,21 @@ public class ProspectEdit {
         initWeightsInput();
         if (editing != null) {
             tagInput.setSelection(((ArrayAdapter) tagInput.getAdapter()).getPosition(editing.getTag()));
-            int start = editing.getStart();
-            startInput.updateDate(Util.getYearFromDays(start),
-                                  Util.getMonthFromDays(start),
-                                  Util.getDayFromDays(start));
-            int end = editing.getEnd();
-            endInput.updateDate(Util.getYearFromDays(end),
-                    Util.getMonthFromDays(end),
-                    Util.getDayFromDays(end));
-            long min = editing.getMin();
-            minHourInput.setValue(Util.getHourFromMillis(min));
-            minMinuteInput.setValue(Util.getMinuteFromMillis(min));
-            long max = editing.getMax();
-            maxHourInput.setValue(Util.getHourFromMillis(max));
-            maxMinuteInput.setValue(Util.getMinuteFromMillis(max));
+
+            LocalDate start = editing.getStart();
+            startInput.updateDate(start.getYear(), start.getMonthOfYear(), start.getDayOfMonth());
+
+            LocalDate end = editing.getEnd();
+            endInput.updateDate(end.getYear(), end.getMonthOfYear(), end.getDayOfMonth());
+
+            Duration min = editing.getMin();
+            minHourInput.setValue((int) min.getStandardHours());
+            minMinuteInput.setValue((int) min.getStandardMinutes());
+
+            Duration max = editing.getMax();
+            maxHourInput.setValue((int) max.getStandardHours());
+            maxMinuteInput.setValue((int) max.getStandardMinutes());
+
             weightsProvisionalInput.setText(Util.intListToString(editing.getWeights()));
         }
     }
@@ -94,22 +97,26 @@ public class ProspectEdit {
     public void onClickOk() {
         try {
             String name = "";
+
             Tag tag = (Tag) tagInput.getSelectedItem();
-            int start = Util.millisToDay(
-                    (new GregorianCalendar(startInput.getYear(),
-                            startInput.getMonth(),
-                            startInput.getDayOfMonth())
-                            .getTimeInMillis()));
-            int end = Util.millisToDay(
-                    (new GregorianCalendar(endInput.getYear(),
-                            endInput.getMonth(),
-                            endInput.getDayOfMonth())
-                            .getTimeInMillis()));
-            long min = minHourInput.getValue()*60*60*1000 + minMinuteInput.getValue()*60*1000;
-            long max = maxHourInput.getValue()*60*60*1000 + maxMinuteInput.getValue()*60*1000;
+
+            LocalDate start = new LocalDate(startInput.getYear(),
+                                            startInput.getMonth() + 1,
+                                            startInput.getDayOfMonth());
+
+            LocalDate end = new LocalDate(endInput.getYear(),
+                                          endInput.getMonth() + 1,
+                                          endInput.getDayOfMonth());
+
+            Duration min = new Duration(  minHourInput.getValue()*60*60*1000
+                                        + minMinuteInput.getValue()*60*1000);
+
+            Duration max = new Duration(  maxHourInput.getValue()*60*60*1000
+                                        + maxMinuteInput.getValue()*60*1000);
+
             List<Integer> weights = Util.calcWeights(weightsProvisionalInput.getText().toString());
 
-            if (weights.size() != end - start) {
+            if (weights.size() != (Period.fieldDifference(start,end)).getDays()) {
                 return;
             }
             if (editing == null) {

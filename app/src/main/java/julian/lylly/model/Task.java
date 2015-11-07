@@ -6,6 +6,11 @@
 
 package julian.lylly.model;
 
+import org.joda.time.Duration;
+import org.joda.time.Instant;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -30,13 +35,13 @@ public class Task implements Serializable {
 			    urgency    = -1;
 
 	//optional:
-	private long startDate;
-	private long expieryDate;
+	private LocalDate startDate;
+	private LocalDate expieryDate;
 
 
 	//variable
-	private List<Long> starttimes;
-	private List<Long> stoptimes;
+	private List<Interval> intervals;
+	private Instant starttime;
 
 
 	/*
@@ -47,7 +52,7 @@ public class Task implements Serializable {
 		if (active) {
 			throw new IllegalStateException("already active");
 		}
-		starttimes.add(System.currentTimeMillis());
+		starttime = Instant.now();
 		active = true;
 	}
 
@@ -55,7 +60,8 @@ public class Task implements Serializable {
 		if (!active) {
 			throw new IllegalStateException("already non-active");
 		}
-		stoptimes.add(System.currentTimeMillis());
+		intervals.add(new Interval(starttime, Instant.now()));
+		starttime = null;
 		active = false;
 	}
 
@@ -132,19 +138,19 @@ public class Task implements Serializable {
 		checkCompleteness();
 	}
 
-	public long getExpieryDate() {
+	public LocalDate getExpieryDate() {
 		return expieryDate;
 	}
 
-	public void setExpieryDate(long expieryDate) {
+	public void setExpieryDate(LocalDate expieryDate) {
 		this.expieryDate = expieryDate;
 	}
 
-	public long getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(long startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
@@ -154,39 +160,49 @@ public class Task implements Serializable {
 	getter for timetracking:
 	*/
 
-	public long evalDurationSum() {
-		int n = starttimes.size();
-		int m = stoptimes.size();
-		assert(n==m || n==m+1);
-		long sum = 0;
-		for (int i=0; i < m; i++) {
-			sum += stoptimes.get(i) - starttimes.get(i);
-		}
-		if (n > m) {
-			sum += System.currentTimeMillis() - starttimes.get(n);
-		}
-		return sum;
+	public Duration evalDurationSum() {
+		return getTimeSpentInInterval(null, null);
 	}
 
-	public List<Long> getStarttimes() {
-		return starttimes;
+	public List<Interval> getIntervals() {
+		return intervals;
 	}
 
-	public List<Long> getStoptimes() {
-		return stoptimes;
-	}
 
-	public long getTimeSpentInInterval(long iStart, long iEnd) {
-		long sum = 0;
-		for (int i=0; i <= stoptimes.size(); i++) {
-			sum +=  Math.max(0,  Math.min(iEnd,   stoptimes.get(i))
-								-Math.max(iStart, starttimes.get(i)));
+	/**
+	 * any {@code null} input is interpreted as a non-bound in that direction
+	 * @param focusStart
+	 * @param focusEnd
+	 * @return
+	 */
+	public Duration getTimeSpentInInterval(LocalDate focusStart, LocalDate focusEnd) {
+		Instant startInst, endInst;
+		if (intervals.size() == 0 && starttime == null) {
+			return Duration.ZERO;
 		}
-		if (starttimes.size() > stoptimes.size()) {
-			sum += Math.max(0, Math.min(iEnd,   System.currentTimeMillis())
-							  -Math.max(iStart, starttimes.get(starttimes.size()-1)));
+		if (focusStart == null) {
+			startInst = intervals.size() == 0 ? starttime : intervals.get(0).getStart().toInstant();
+		} else {
+			startInst = focusStart.toDateTimeAtStartOfDay().toInstant();
 		}
-		return sum;
+		if (focusEnd == null) {
+			endInst = intervals.size() == 0 ? Instant.now() : intervals.get(intervals.size() - 1)
+					.getEnd().toInstant();
+		} else {
+			endInst   = focusEnd.toDateTimeAtStartOfDay().toInstant();
+		}
+		Interval focus = new Interval(startInst, endInst);
+		Duration timespent = Duration.ZERO;
+
+		for (Interval i : intervals) {
+			timespent.plus(i.overlap(focus).toDuration());
+		}
+		if (active) {
+			assert(starttime != null);
+			timespent.plus(new Interval(starttime, Instant.now()).overlap(focus).toDuration());
+		}
+
+		return timespent;
 	}
 
 }
