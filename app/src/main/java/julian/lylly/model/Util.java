@@ -34,7 +34,7 @@ public class Util {
 
 	public static String millisToHourMinuteString(Duration duration) {
 		long h = duration.getStandardHours();
-		long m = duration.getStandardMinutes() % h;
+		long m = duration.getStandardMinutes() % 60;
 		return longTo2DigitString(h) + ":" + longTo2DigitString(m);
 	}
 

@@ -25,7 +25,10 @@ public class Prospect implements Serializable {
 
 	/*
 	context conditions:
-		start < end && min <= max
+		name != null
+		tag != null
+		start < end
+		min <= max
 		weights.size() == end-start
 	*/
 
@@ -36,19 +39,14 @@ public class Prospect implements Serializable {
 	private List<Integer> weights;
 
 	public Prospect(String name, Tag tag, LocalDate start, LocalDate end,
-			Duration min, Duration max, List<Integer> weights) {
-		if (!start.isBefore(end)) {
-			throw new IllegalArgumentException("start must be less than end");
-		}
-		if (max.isShorterThan(min)) {
-			throw new IllegalArgumentException("min must be less or equal than max");
-		}
-		if (name == null || tag == null) {
-			throw new IllegalArgumentException("name and tag must not be null");
-		}
-		if (weights.size() != (new Period(start, end)).getDays()) {
-			throw new IllegalArgumentException("weights.length != end-start");
-		}
+					Duration min, Duration max, List<Integer> weights) {
+
+		checkNameConstraint(name);
+		checkTagConstraint(tag);
+		checkStartEndConstraint(start, end);
+		checkMinMaxConstraint(min, max);
+		checkWeightsConstraint(start, end, weights);
+
 		this.name = name;
 		this.tag = tag;
 		this.start = start;
@@ -111,7 +109,7 @@ public class Prospect implements Serializable {
 		return weights;
 	}
 
-	public List<Pair<Duration,Duration>> getBudgets(LocalDate pointer, Duration timespent) {
+	public List<Pair<Duration, Duration>> getBudgets(LocalDate pointer, Duration timespent) {
 		int relDay = Period.fieldDifference(start, pointer).getDays();
 		if (pointer.isBefore(start) || !end.isAfter(pointer)) {
 			throw new IllegalArgumentException("day is out of range");
@@ -127,37 +125,31 @@ public class Prospect implements Serializable {
 		List<Pair<Duration, Duration>> res = new ArrayList<>();
 		for (int k : subl) {
 			res.add(new Pair(minleft.multipliedBy(k).dividedBy(sum),
-							 maxleft.multipliedBy(k).dividedBy(sum)));
+					maxleft.multipliedBy(k).dividedBy(sum)));
 		}
 		return res;
 	}
 
-	public Pair<Duration,Duration> getNextBudget(LocalDate date, Duration timespent) {
+	public Pair<Duration, Duration> getNextBudget(LocalDate date, Duration timespent) {
 		return getBudgets(date, timespent).get(0);
 	}
 
 	public void setName(String name) {
 		checkBeforeStart();
-		if (name == null) {
-			throw new IllegalArgumentException("argument must not be null");
-		}
+		checkNameConstraint(name);
 		this.name = name;
 	}
 
 	public void setTag(Tag tag) {
 		checkBeforeStart();
-		if (tag == null) {
-			throw new IllegalArgumentException("argument must not be null");
-		}
+		checkTagConstraint(tag);
 		this.tag = tag;
 	}
 
 	public void setStartEnd(LocalDate start, LocalDate end, List<Integer> weights) {
 		checkBeforeStart();
-		if (!start.isBefore(end)) {
-			throw new IllegalArgumentException("start must be less than end");
-		}
-		checkWeightsLength(weights);
+		checkStartEndConstraint(start, end);
+		checkWeightsConstraint(start, end, weights);
 		this.start = start;
 		this.end = end;
 		this.weights = weights;
@@ -165,21 +157,45 @@ public class Prospect implements Serializable {
 
 	public void setMinMax(Duration min, Duration max) {
 		checkBeforeStart();
-		if (min.isLongerThan(max)) {
-			throw new IllegalArgumentException("min must be less or equal max");
-		}
+		checkMinMaxConstraint(min, max);
 		this.min = min;
 		this.max = max;
 	}
 
 	public void setWeights(List<Integer> weights) {
-		checkWeightsLength(weights);
+		checkWeightsConstraint(start, end, weights);
 		this.weights = weights;
 	}
 
-	private void checkWeightsLength(List<Integer> weights) {
-		if (weights.size() != Period.fieldDifference(start, end).getDays()) {
-			throw new IllegalArgumentException("weights.size() != end-start");
+	private void checkNameConstraint(String name) {
+		if(name == null) {
+			throw new IllegalArgumentException("name must not be null");
+		}
+	}
+
+	private void checkTagConstraint(Tag tag) {
+		if(tag == null) {
+			throw new IllegalArgumentException("tag must not be null");
+		}
+	}
+
+	private void checkStartEndConstraint(LocalDate start, LocalDate end) {
+		if (!start.isBefore(end)) {
+			throw new IllegalArgumentException("start must be less than end");
+		}
+	}
+
+	private void checkMinMaxConstraint(Duration min, Duration max) {
+		if (min.isLongerThan(max)) {
+			throw new IllegalArgumentException("min must be less or equal max");
+		}
+	}
+
+	private void checkWeightsConstraint(LocalDate start, LocalDate end, List<Integer> weights) {
+		int len = Period.fieldDifference(start, end).getDays();
+		if (weights.size() != len) {
+			throw new IllegalArgumentException(
+					"weights.size() = " + weights.size() + " != " + len + " = end-start");
 		}
 	}
 

@@ -104,15 +104,22 @@ public class MainActivity extends AppCompatActivity {
         organizer.addTag(tag2);
         organizer.addTag(tag3);
         organizer.addTag(new Tag("düm düm düüüüm düdüum"));
-        List<Integer> weights = new ArrayList<>();
-        weights.add(5);
-        weights.add(5);
-        weights.add(3);
-        weights.add(3);
-        weights.add(3);
-        organizer.addProspect(new Prospect("test", tag1,
-                new LocalDate(2015,10,10), new LocalDate(2015,10,15),
-                new Duration(1000*60*60*2), new Duration(1000*60*60*3), weights));
+        List<Integer> weightsPast = new ArrayList<>();
+        weightsPast.add(5);
+        weightsPast.add(5);
+        weightsPast.add(3);
+        weightsPast.add(3);
+        weightsPast.add(3);
+        organizer.addProspect(new Prospect("past", tag1,
+                new LocalDate(2015, 10, 10), new LocalDate(2015, 10, 15),
+                new Duration(1000 * 60 * 60 * 2), new Duration(1000 * 60 * 60 * 3), weightsPast));
+        List<Integer> weightsFuture = new ArrayList<>();
+        weightsFuture.add(6);
+        weightsFuture.add(6);
+        weightsFuture.add(6);
+        organizer.addProspect(new Prospect("future", tag2,
+                new LocalDate(2016,1,20), new LocalDate(2016,1,23),
+                new Duration(1000*60*60*1), new Duration(1000*60*30*5), weightsFuture));
     }
 
     public void onClickNewTag(View view) {

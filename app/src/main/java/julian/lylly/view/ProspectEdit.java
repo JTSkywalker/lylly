@@ -5,6 +5,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
@@ -54,20 +55,32 @@ public class ProspectEdit {
             tagInput.setSelection(((ArrayAdapter) tagInput.getAdapter()).getPosition(editing.getTag()));
 
             LocalDate start = editing.getStart();
-            startInput.updateDate(start.getYear(), start.getMonthOfYear(), start.getDayOfMonth());
+            //jodatime 1-based; datepicker 0-based
+            startInput.updateDate(start.getYear(), start.getMonthOfYear()-1, start.getDayOfMonth());
 
             LocalDate end = editing.getEnd();
-            endInput.updateDate(end.getYear(), end.getMonthOfYear(), end.getDayOfMonth());
+            //jodatime 1-based; datepicker 0-based -
+            endInput.updateDate(end.getYear(), end.getMonthOfYear()-1, end.getDayOfMonth());
 
             Duration min = editing.getMin();
             minHourInput.setValue((int) min.getStandardHours());
-            minMinuteInput.setValue((int) min.getStandardMinutes());
+            minMinuteInput.setValue((int) min.getStandardMinutes() % 60);
 
             Duration max = editing.getMax();
             maxHourInput.setValue((int) max.getStandardHours());
-            maxMinuteInput.setValue((int) max.getStandardMinutes());
+            maxMinuteInput.setValue((int) max.getStandardMinutes() % 60);
 
             weightsProvisionalInput.setText(Util.intListToString(editing.getWeights()));
+
+            if (!editing.isBeforeStart()) {
+                tagInput.setEnabled(false);
+                startInput.setEnabled(false);
+                endInput.setEnabled(false);
+                minHourInput.setEnabled(false);
+                maxHourInput.setEnabled(false);
+                minMinuteInput.setEnabled(false);
+                maxMinuteInput.setEnabled(false);
+            }
         }
     }
 
@@ -101,11 +114,11 @@ public class ProspectEdit {
             Tag tag = (Tag) tagInput.getSelectedItem();
 
             LocalDate start = new LocalDate(startInput.getYear(),
-                                            startInput.getMonth() + 1,
+                                            startInput.getMonth()+1,//jodatime 1-based; datepicker 0-based
                                             startInput.getDayOfMonth());
 
             LocalDate end = new LocalDate(endInput.getYear(),
-                                          endInput.getMonth() + 1,
+                                          endInput.getMonth()+1,//jodatime 1-based; datepicker 0-based
                                           endInput.getDayOfMonth());
 
             Duration min = new Duration(  minHourInput.getValue()*60*60*1000
@@ -116,9 +129,6 @@ public class ProspectEdit {
 
             List<Integer> weights = Util.calcWeights(weightsProvisionalInput.getText().toString());
 
-            if (weights.size() != (Period.fieldDifference(start,end)).getDays()) {
-                return;
-            }
             if (editing == null) {
                  main.getOrganizer().addProspect(new Prospect(name, tag, start, end, min, max, weights));
             } else {
@@ -131,10 +141,10 @@ public class ProspectEdit {
                     editing.setWeights(weights);
                 }
             }
+            main.goToProspectOrganizer();
         } catch (IllegalArgumentException exc) {
-            return;
+            Toast.makeText(main, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        main.goToProspectOrganizer();
     }
 
     public void onClickCancel() {

@@ -129,14 +129,11 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 	}
 
 	/**
-	 * adds a new prospect. this is only successful when prospec.start > now.
+	 * adds a new prospect.
 	 * @param prospect
 	 */
 	@Override
 	public void addProspect(Prospect prospect) {
-		if (prospect.isBeforeStart()) {
-			throw new IllegalArgumentException("only future prospects can be added");
-		}
 		checkOverlaps(prospect, getProspects(prospect.getTag()));
 		enabled.add(prospect);
 	}
