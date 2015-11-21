@@ -110,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
         weights.add(3);
         weights.add(3);
         weights.add(3);
-        weights.add(5);
-        weights.add(5);
         organizer.addProspect(new Prospect("test", tag1,
                 new LocalDate(2015,10,10), new LocalDate(2015,10,15),
                 new Duration(1000*60*60*2), new Duration(1000*60*60*3), weights));
