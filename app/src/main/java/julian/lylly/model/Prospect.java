@@ -6,6 +6,7 @@
 
 package julian.lylly.model;
 
+import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
@@ -192,7 +193,7 @@ public class Prospect implements Serializable {
 	}
 
 	private void checkWeightsConstraint(LocalDate start, LocalDate end, List<Integer> weights) {
-		int len = Period.fieldDifference(start, end).getDays();
+		int len = Days.daysBetween(start, end).getDays();
 		if (weights.size() != len) {
 			throw new IllegalArgumentException(
 					"weights.size() = " + weights.size() + " != " + len + " = end-start");

@@ -36,7 +36,7 @@ public class Task implements Serializable {
 
 	//optional:
 	private LocalDate startDate;
-	private LocalDate expieryDate;
+	private LocalDate expiryDate;
 
 
 	//variable
@@ -138,12 +138,12 @@ public class Task implements Serializable {
 		checkCompleteness();
 	}
 
-	public LocalDate getExpieryDate() {
-		return expieryDate;
+	public LocalDate getExpiryDate() {
+		return expiryDate;
 	}
 
-	public void setExpieryDate(LocalDate expieryDate) {
-		this.expieryDate = expieryDate;
+	public void setExpiryDate(LocalDate expiryDate) {
+		this.expiryDate = expiryDate;
 	}
 
 	public LocalDate getStartDate() {

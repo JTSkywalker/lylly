@@ -50,10 +50,11 @@ public class Util {
 		return result;
 	}
 
-	public static String daysToDate(LocalDate date) {
-		long month = date.getMonthOfYear();
-		int day = date.getDayOfMonth();
-		return longTo2DigitString(month) + "-" + longTo2DigitString(day);
+	public static String daysToDate(LocalDate date) {//TODO: weak
+		int y = date.getYear();
+		int m = date.getMonthOfYear();
+		int d = date.getDayOfMonth();
+		return y + "-" + longTo2DigitString(m) + "-" + longTo2DigitString(d);
 	}
 
 	public static String longTo2DigitString(long src) {
