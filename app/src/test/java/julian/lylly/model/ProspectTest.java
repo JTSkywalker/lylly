@@ -3,7 +3,7 @@ package julian.lylly.model;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.junit.Test;
-
+import org.junit.Before;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,22 +16,84 @@ import static org.junit.Assert.*;
  */
 public class ProspectTest {
 
-    @Test
-    public void testGetBudgets() {
+    @Before
+    public void Before() {
         List<Integer> weights = new ArrayList<>();
+        weights.add(4);
         weights.add(3);
         weights.add(3);
         weights.add(6);
-        Prospect instance = new Prospect("test", new Tag("tag"),
-                new LocalDate(2115,11,10), new LocalDate(2115,11,13),
-                new Duration(1000*9), new Duration(1000*13),
-                weights);
-        List<Pair<Duration,Duration>> result = instance.getBudgets(new LocalDate(2115,11,11),
-                new Duration(1000*1));
+        start = new LocalDate(2115,11,10);
+        end = new LocalDate(2115,11,14);
+        Duration min = new Duration(1000*9);
+        Duration max = new Duration(1000*13);
+        prospect1 = new Prospect("test", new Tag("tag"),
+            start, end, min, max, weights);
+        date1 = new LocalDate(2115,11,11);
+        duration1 = new Duration(1000);
+        durationMinPlus = min.plus(1000);
+        durationMaxPlus = max.plus(1000 * 4);
+    }
+
+    Prospect prospect1;
+    LocalDate start, end, date1;
+    Duration duration1, durationMinPlus, durationMaxPlus;
+
+    @Test
+    public void testGetBudgets() {
+        List<Pair<Duration,Duration>> result =
+                prospect1.getBudgets(date1, duration1);
         List<Pair<Duration,Duration>> expRes = new ArrayList<>();
         expRes.add(new Pair<>(new Duration(1000*2), new Duration(1000*3)));
         expRes.add(new Pair<>(new Duration(1000*2), new Duration(1000*3)));
         expRes.add(new Pair<>(new Duration(1000*4), new Duration(1000*6)));
+        assertEquals(expRes, result);
+    }
+
+    @Test
+    public void testGetBudgetsPointerEqStart() {
+        prospect1.getBudgets(start, duration1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetBudgetsPointerEqDecrStart() {
+        prospect1.getBudgets(start.minusDays(1), duration1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetBudgetsPointerEqEnd() {
+        prospect1.getBudgets(end, duration1);
+    }
+    @Test
+    public void testGetBudgetsPointerEqDecrEnd() {
+        prospect1.getBudgets(end.minusDays(1), duration1);
+    }
+
+    @Test
+    public void testGetBudgetsMinPlus() {
+        ArrayList<Integer> weights = new ArrayList<>();
+        weights.add(2);
+        weights.add(2);
+        weights.add(2);
+        weights.add(2);
+        prospect1.setWeights(weights);
+        List<Pair<Duration,Duration>> result =
+                prospect1.getBudgets(date1, durationMinPlus);
+        List<Pair<Duration,Duration>> expRes = new ArrayList<>();
+        expRes.add(new Pair<>(new Duration(0), new Duration(1000)));
+        expRes.add(new Pair<>(new Duration(0), new Duration(1000)));
+        expRes.add(new Pair<>(new Duration(0), new Duration(1000)));
+        assertEquals(expRes, result);
+    }
+
+    @Test
+    public void testGetBudgetsMaxPlus() {
+        List<Pair<Duration,Duration>> result =
+                prospect1.getBudgets(date1, durationMaxPlus);
+        List<Pair<Duration,Duration>> expRes = new ArrayList<>();
+        expRes.add(new Pair<>(new Duration(0), new Duration(0)));
+        expRes.add(new Pair<>(new Duration(0), new Duration(0)));
+        expRes.add(new Pair<>(new Duration(0), new Duration(0)));
         assertEquals(expRes, result);
     }
 

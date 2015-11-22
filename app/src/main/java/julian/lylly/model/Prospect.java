@@ -111,22 +111,24 @@ public class Prospect implements Serializable {
 	}
 
 	public List<Pair<Duration, Duration>> getBudgets(LocalDate pointer, Duration timespent) {
-		int relDay = Period.fieldDifference(start, pointer).getDays();
+		int relDay = Days.daysBetween(start, pointer).getDays();
 		if (pointer.isBefore(start) || !end.isAfter(pointer)) {
 			throw new IllegalArgumentException("day is out of range");
 		}
-		List<Integer> subl = weights.subList(relDay - 1, weights.size());
+		List<Integer> subl = weights.subList(relDay, weights.size());
 		int sum = 0;
 		for (int k : subl) {
 			sum += k;
 		}
 
-		Duration minleft = Util.maxDuration(new Duration(0), min.minus(timespent));
-		Duration maxleft = Util.maxDuration(new Duration(0), max.minus(timespent));
+		Duration minleft = Util.max(Duration.ZERO, min.minus(timespent));
+		Duration maxleft = Util.max(Duration.ZERO, max.minus(timespent));
+
 		List<Pair<Duration, Duration>> res = new ArrayList<>();
 		for (int k : subl) {
-			res.add(new Pair(minleft.multipliedBy(k).dividedBy(sum),
-					maxleft.multipliedBy(k).dividedBy(sum)));
+			Duration bMin = minleft.multipliedBy(k).dividedBy(sum);
+			Duration bMax = maxleft.multipliedBy(k).dividedBy(sum);
+			res.add(new Pair(bMin, bMax));
 		}
 		return res;
 	}
