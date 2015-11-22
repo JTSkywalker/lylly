@@ -168,31 +168,31 @@ public class Prospect implements Serializable {
 		this.weights = weights;
 	}
 
-	private void checkNameConstraint(String name) {
+	static void checkNameConstraint(String name) {
 		if(name == null) {
 			throw new IllegalArgumentException("name must not be null");
 		}
 	}
 
-	private void checkTagConstraint(Tag tag) {
+	static void checkTagConstraint(Tag tag) {
 		if(tag == null) {
 			throw new IllegalArgumentException("tag must not be null");
 		}
 	}
 
-	private void checkStartEndConstraint(LocalDate start, LocalDate end) {
+	static void checkStartEndConstraint(LocalDate start, LocalDate end) {
 		if (!start.isBefore(end)) {
 			throw new IllegalArgumentException("start must be less than end");
 		}
 	}
 
-	private void checkMinMaxConstraint(Duration min, Duration max) {
+	static void checkMinMaxConstraint(Duration min, Duration max) {
 		if (min.isLongerThan(max)) {
 			throw new IllegalArgumentException("min must be less or equal max");
 		}
 	}
 
-	private void checkWeightsConstraint(LocalDate start, LocalDate end, List<Integer> weights) {
+	static void checkWeightsConstraint(LocalDate start, LocalDate end, List<Integer> weights) {
 		int len = Days.daysBetween(start, end).getDays();
 		if (weights.size() != len) {
 			throw new IllegalArgumentException(
