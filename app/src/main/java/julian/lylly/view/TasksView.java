@@ -24,6 +24,8 @@ public class TasksView {
 
     private final MainActivity main;
 
+    //TODO: implement budgetListView
+    //TODO: implement timer sync
     //private final ListView budgetListView;
     //private final ArrayAdapter budgetAdapter;
 

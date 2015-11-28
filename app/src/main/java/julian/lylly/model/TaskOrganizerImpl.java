@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class TaskOrganizerImpl implements TaskOrganizer {
 
+	//TODO: test!
+
 	private final Map<Tag,List<Task>> toDo = new HashMap<>();
 
 	public Duration getInvestedTime(Prospect prospect) {

@@ -26,6 +26,8 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 	private final List<Prospect> enabled   = new ArrayList<>();
 	private final List<Prospect> discarded = new ArrayList<>();
 
+	//TODO: testing!
+
 	@Override
 	public List<Prospect> getProspects() {
 		List<Prospect> res = new ArrayList<>();

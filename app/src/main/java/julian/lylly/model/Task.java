@@ -18,6 +18,8 @@ import java.util.List;
 
 public class Task implements Serializable {
 
+	//TODO: test! especially getTimeSpentInInterval & evalDurationSum
+
 	/*
 	context condition: fragment <==>      descr == null ||   tag == null
 								  || importance == -1 || urgency == -1

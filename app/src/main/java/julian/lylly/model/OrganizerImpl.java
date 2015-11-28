@@ -31,6 +31,7 @@ public class OrganizerImpl implements Organizer, Serializable {
 
 	//TODO: maybe generalize this
 	//TODO: think about future budgets
+	//TODO: test!
 	@Override
 	public Map<Tag, Pair<Duration, Duration>> getTodaysBudgets() {
 		Map<Tag, Pair<Duration,Duration>> res = new HashMap<>();
