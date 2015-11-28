@@ -32,7 +32,7 @@ public class Util {
 		return millis % MILLIS_PER_DAY;
 	}
 
-	public static String millisToHourMinuteString(Duration duration) {
+	public static String durationToHourMinuteString(Duration duration) {
 		long h = duration.getStandardHours();
 		long m = duration.getStandardMinutes() % 60;
 		return longTo2DigitString(h) + ":" + longTo2DigitString(m);

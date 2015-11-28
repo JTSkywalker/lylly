@@ -15,6 +15,7 @@ import julian.lylly.model.Organizer;
 import julian.lylly.model.OrganizerImpl;
 import julian.lylly.model.Prospect;
 import julian.lylly.model.Tag;
+import julian.lylly.model.Task;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TagsView tavi;
     private ProspectsView prvi;
     private ProspectEdit pred;
+    private TasksView tasvi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToTaskOrganizer() {
         setView(R.layout.activity_task_organizer);
+        tasvi = new TasksView(this);
     }
 
     public void goToProspectOrganizer() {
@@ -118,8 +121,13 @@ public class MainActivity extends AppCompatActivity {
         weightsFuture.add(6);
         weightsFuture.add(6);
         organizer.addProspect(new Prospect("future", tag2,
-                new LocalDate(2016,1,20), new LocalDate(2016,1,23),
-                new Duration(1000*60*60*1), new Duration(1000*60*30*5), weightsFuture));
+                new LocalDate(2016, 1, 20), new LocalDate(2016, 1, 23),
+                new Duration(1000 * 60 * 60 * 1), new Duration(1000 * 60 * 30 * 5), weightsFuture));
+
+        Task task = new Task();
+        task.setDescr("test task");
+        task.setTag(tag2);
+        organizer.addTask(task);
     }
 
     public void onClickNewTag(View view) {
@@ -144,5 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickProspectEditCancel(View view) {
         pred.onClickCancel();
+    }
+
+    public void onClickTaskPlayPause(View view) {
+        tasvi.onClickTaskPlayPause(view);
     }
 }

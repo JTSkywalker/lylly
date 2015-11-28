@@ -12,6 +12,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,7 +41,7 @@ public class Task implements Serializable {
 
 
 	//variable
-	private List<Interval> intervals;
+	private List<Interval> intervals = new ArrayList<>();
 	private Instant starttime;
 
 
@@ -63,6 +64,14 @@ public class Task implements Serializable {
 		intervals.add(new Interval(starttime, Instant.now()));
 		starttime = null;
 		active = false;
+	}
+
+	public void playPause() {
+		if (active) {
+			pause();
+		} else {
+			start();
+		}
 	}
 
 	public void finish() {

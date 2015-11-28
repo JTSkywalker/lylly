@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import julian.lylly.R;
 import julian.lylly.model.Tag;
 import julian.lylly.model.Task;
+import julian.lylly.model.Util;
 
 /**
  * Created by VAIO on 28.11.2015.
@@ -51,8 +52,8 @@ public class TasksView {
                 TextView descrTextView = (TextView) convertView.findViewById(R.id.taskDescr);
                 TextView tagTextView   = (TextView) convertView.findViewById(R.id.taskTag);
 
-                playPauseButton.setText(active ? "> " : "||");
-                timerTextView  .setText(timer.toString());
+                playPauseButton.setText(active ? "||" : "> ");
+                timerTextView  .setText(Util.durationToHourMinuteString(timer));
                 descrTextView  .setText(descr);
                 tagTextView    .setText(tag.toString());
 
@@ -62,5 +63,13 @@ public class TasksView {
 
         taskListView = (ListView) main.findViewById(R.id.taskListView);
         taskListView.setAdapter(taskAdapter);
+    }
+
+    public void onClickTaskPlayPause(View view) {
+        Button button = (Button) view;
+        int pos = taskListView.getPositionForView((View) button.getParent());
+        Task task = ((Task) taskAdapter.getItem(pos));
+        task.playPause();
+        button.setText(task.isActive() ? "||" : "> ");
     }
 }

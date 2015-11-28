@@ -38,13 +38,13 @@ public class ProspectsView {
                 Duration toMin = p.getMin().minus(running);
                 Duration toMax = p.getMax().minus(running);
                 ((TextView) view.findViewById(R.id.running))
-                        .setText(Util.millisToHourMinuteString(running));
+                        .setText(Util.durationToHourMinuteString(running));
                 ((TextView) view.findViewById(R.id.tagName))
                         .setText(p.getTag().getName());
                 ((TextView) view.findViewById(R.id.minMinusRunning))
-                        .setText(" " + Util.millisToHourMinuteString(toMin) + " ");
+                        .setText(" " + Util.durationToHourMinuteString(toMin) + " ");
                 ((TextView) view.findViewById(R.id.maxMinusRunning))
-                        .setText(" " + Util.millisToHourMinuteString(toMax) + " ");
+                        .setText(" " + Util.durationToHourMinuteString(toMax) + " ");
                 ((TextView) view.findViewById(R.id.startDate))
                         .setText(Util.daysToDate(p.getStart()));
                 ((TextView) view.findViewById(R.id.endDate))
