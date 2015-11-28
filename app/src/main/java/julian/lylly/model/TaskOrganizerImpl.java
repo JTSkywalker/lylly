@@ -25,6 +25,9 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 
 	@Override
 	public List<Task> getFilteredTasks(List<Tag> tags) {
+		if (tags.isEmpty()) {
+			tags = new ArrayList<>(toDo.keySet());
+		}
 		List<Task> res = new ArrayList<>();
 		for (Tag tag : tags) {
 			if (toDo.containsKey(tag)) {
