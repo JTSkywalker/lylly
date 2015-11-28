@@ -175,6 +175,15 @@ public class Task implements Serializable {
 		return getTimeSpentInInterval(null, null);
 	}
 
+	public void setIntervals(List<Interval> intervals) {
+		checkDistinctness(intervals);
+		this.intervals = intervals;
+	}
+
+	static void checkDistinctness(List<Interval> intervals) {
+		//TODO: implement
+	}
+
 	public List<Interval> getIntervals() {
 		return intervals;
 	}
@@ -197,8 +206,8 @@ public class Task implements Serializable {
 			startInst = focusStart.toDateTimeAtStartOfDay().toInstant();
 		}
 		if (focusEnd == null) {
-			endInst = intervals.size() == 0 ? Instant.now() : intervals.get(intervals.size() - 1)
-					.getEnd().toInstant();
+			endInst = starttime != null ? Instant.now() : intervals.get(intervals.size() - 1)
+					.getEnd().toInstant();//TODO
 		} else {
 			endInst   = focusEnd.toDateTimeAtStartOfDay().toInstant();
 		}
@@ -206,7 +215,7 @@ public class Task implements Serializable {
 		Duration timespent = Duration.ZERO;
 
 		for (Interval i : intervals) {
-			timespent.plus(i.overlap(focus).toDuration());
+			timespent = timespent.plus(i.overlap(focus).toDuration());
 		}
 		if (active) {
 			assert(starttime != null);
