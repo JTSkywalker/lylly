@@ -16,4 +16,5 @@
     <string name="title_activity_task_organizer">TaskOrganizer</string>
     <string name="title_activity_prospect_organizer">ProspectOrganizer</string>
     <string name="title_activity_tag_organizer">TagOrganizer</string>
+    <string name="buttonNewTask">+</string>
 </resources>
