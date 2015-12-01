@@ -158,7 +158,7 @@ public class TaskTest {
         intervals.add(ivD);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
-        Duration exp = ivD.toDuration();
+        Duration exp = new Duration(42*d);
         assertEquals(exp, res);
     }
 
@@ -168,7 +168,7 @@ public class TaskTest {
         intervals.add(ivH);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
-        Duration exp = ivH.toDuration();
+        Duration exp = new Duration(42*h);
         assertEquals(exp, res);
     }
 
@@ -178,7 +178,7 @@ public class TaskTest {
         intervals.add(ivM);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
-        Duration exp = ivM.toDuration();
+        Duration exp = new Duration(42*m);
         assertEquals(exp, res);
     }
 
@@ -188,17 +188,110 @@ public class TaskTest {
         intervals.add(ivS);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
-        Duration exp = ivS.toDuration();
+        Duration exp = new Duration(42*s);
         assertEquals(exp, res);
     }
 
     @Test
-    public void testEvalDurationSum() throws Exception {
+    public void testEvalDurationSumL() throws Exception {
         List<Interval> intervals = new ArrayList<>();
         intervals.add(iv);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
-        Duration exp = iv.toDuration();
+        Duration exp = new Duration(42);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumDH() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(ivH);
+        intervals.add(ivD);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*d + 42*h);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumMD() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(ivM);
+        intervals.add(ivD);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*d + 42*m);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumSH() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(ivS);
+        intervals.add(ivH);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*s + 42*h);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumLS() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(iv);
+        intervals.add(ivS);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*s + 42);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumLD() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(iv);
+        intervals.add(ivD);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*d + 42);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumMHD() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(ivM);
+        intervals.add(ivH);
+        intervals.add(ivD);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*d + 42*h + 42*m);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumLMH() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(iv);
+        intervals.add(ivM);
+        intervals.add(ivH);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*h + 42*m + 42);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testEvalDurationSumLSMHD() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(iv);
+        intervals.add(ivS);
+        intervals.add(ivM);
+        intervals.add(ivH);
+        intervals.add(ivD);
+        taskW.setIntervals(intervals);
+        Duration res = taskW.evalDurationSum();
+        Duration exp = new Duration(42*d + 42*h + 42*m + 42*s + 42);
         assertEquals(exp, res);
     }
 

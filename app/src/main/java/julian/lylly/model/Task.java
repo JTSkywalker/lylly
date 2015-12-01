@@ -190,6 +190,7 @@ public class Task implements Serializable {
 
 
 	/**
+	 * behaviour undefined if interval list is unsorted
 	 * any {@code null} input is interpreted as a non-bound in that direction
 	 * @param focusStart
 	 * @param focusEnd
