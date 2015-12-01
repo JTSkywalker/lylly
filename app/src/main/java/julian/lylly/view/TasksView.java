@@ -55,7 +55,7 @@ public class TasksView {
                 TextView tagTextView   = (TextView) convertView.findViewById(R.id.taskTag);
 
                 playPauseButton.setText(active ? "||" : "> ");
-                timerTextView  .setText(Util.durationToHourMinuteString(timer));
+                timerTextView  .setText(Util.durationToHourMinuteSecondString(timer));
                 descrTextView  .setText(descr);
                 tagTextView    .setText(tag.toString());
 

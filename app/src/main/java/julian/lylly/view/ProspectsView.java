@@ -57,7 +57,6 @@ public class ProspectsView {
         listView.setAdapter(tagAdapter);
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                main.setView(R.layout.activity_prospect_edit);
                 main.goToProspectEdit((Prospect) parent.getAdapter().getItem(position));
             }
         };

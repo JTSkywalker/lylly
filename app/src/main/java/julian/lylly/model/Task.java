@@ -198,17 +198,21 @@ public class Task implements Serializable {
 	 */
 	public Duration getTimeSpentInInterval(LocalDate focusStart, LocalDate focusEnd) {
 		Instant startInst, endInst;
-		if (intervals.size() == 0 && starttime == null) {
+		if (intervals.size() == 0 && starttime == null) { // #
 			return Duration.ZERO;
 		}
 		if (focusStart == null) {
-			startInst = intervals.size() == 0 ? starttime : intervals.get(0).getStart().toInstant();
+			startInst = intervals.size() == 0
+					? starttime // != null because #
+					: intervals.get(0).getStart().toInstant();
 		} else {
 			startInst = focusStart.toDateTimeAtStartOfDay().toInstant();
 		}
 		if (focusEnd == null) {
-			endInst = starttime != null ? Instant.now() : intervals.get(intervals.size() - 1)
-					.getEnd().toInstant();//TODO
+			endInst = starttime != null
+					? Instant.now()
+					//v intervals.size() != 0 because #
+					: intervals.get(intervals.size() - 1).getEnd().toInstant();//TODO
 		} else {
 			endInst   = focusEnd.toDateTimeAtStartOfDay().toInstant();
 		}
@@ -220,7 +224,8 @@ public class Task implements Serializable {
 		}
 		if (active) {
 			assert(starttime != null);
-			timespent.plus(new Interval(starttime, Instant.now()).overlap(focus).toDuration());
+			Interval activeOverlap = new Interval(starttime, Instant.now()).overlap(focus);
+			timespent.plus(activeOverlap.toDuration());
 		}
 
 		return timespent;

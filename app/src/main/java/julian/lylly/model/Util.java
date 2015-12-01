@@ -38,6 +38,13 @@ public class Util {
 		return longTo2DigitString(h) + ":" + longTo2DigitString(m);
 	}
 
+	public static String durationToHourMinuteSecondString(Duration duration) {
+		long h = duration.getStandardHours();
+		long m = duration.getStandardMinutes() % 60;
+		long s = duration.getStandardSeconds() % 60;
+		return longTo2DigitString(h) + ":" + longTo2DigitString(m) + ":" + longTo2DigitString(s);
+	}
+
 	public static List<Integer> calcWeights(String s) {
 		List<Integer> result = new ArrayList<>();
 		for (char c : s.toCharArray()) {
