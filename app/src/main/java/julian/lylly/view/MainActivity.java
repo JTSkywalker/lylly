@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ProspectsView prvi;
     private ProspectEdit pred;
     private TasksView tasvi;
+    private TaskEdit taed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         setView(R.layout.activity_prospect_edit);
         pred = new ProspectEdit(this, prospect);
     }
+
+    public void goToTaskEdit(Task task) {
+        setView(R.layout.activity_task_edit);
+        taed = new TaskEdit(this, task);
+    }
     
     public void onClickTaskOrganizer(View v) {
         goToTaskOrganizer();
@@ -71,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         switch (view) {
+            case (R.layout.activity_task_edit):
+                goToTaskOrganizer();
+                break;
             case (R.layout.activity_prospect_edit):
                 goToProspectOrganizer();
                 break;
@@ -156,5 +165,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickTaskPlayPause(View view) {
         tasvi.onClickTaskPlayPause(view);
+    }
+
+    public void onClickNewTask(View view) {
+        goToTaskEdit(null);
+    }
+
+    public void onClickTaskEditOk(View view) {
+        taed.onClickOk();
+    }
+
+    public void onClickTaskEditCancel(View view) {
+        taed.onClickCancel();
+    }
+
+    public void onClickEditTask(View view) {
+        tasvi.onClickEditTask(view);
     }
 }

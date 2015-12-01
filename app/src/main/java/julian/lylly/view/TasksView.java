@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import julian.lylly.R;
+import julian.lylly.model.Prospect;
 import julian.lylly.model.Tag;
 import julian.lylly.model.Task;
 import julian.lylly.model.Util;
@@ -71,6 +73,14 @@ public class TasksView {
         taskListView = (ListView) main.findViewById(R.id.taskListView);
         taskListView.setAdapter(taskAdapter);
 
+        //TODO: doesn't work v
+        AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                main.goToTaskEdit((Task) parent.getAdapter().getItem(position));
+            }
+        };
+        taskListView.setOnItemClickListener(mMessageClickedHandler);
+
     }
 
     public void onClickTaskPlayPause(View view) {
@@ -83,5 +93,12 @@ public class TasksView {
         Duration timer = task.evalDurationSum();
         TextView timerView = (TextView) parent.findViewById(R.id.taskTimer);
         timerView.setText(Util.durationToHourMinuteSecondString(timer));//bad style
+    }
+
+    public void onClickEditTask(View view) {
+        View parent = (View) view.getParent();
+        int pos = taskListView.getPositionForView(parent);
+        Task task = ((Task) taskAdapter.getItem(pos));
+        main.goToTaskEdit(task);
     }
 }
