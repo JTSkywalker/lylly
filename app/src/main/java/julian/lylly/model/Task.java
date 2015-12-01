@@ -199,7 +199,7 @@ public class Task implements Serializable {
 	 */
 	public Duration getTimeSpentInInterval(LocalDate focusStart, LocalDate focusEnd) {
 		Instant startInst, endInst;
-		if (intervals.size() == 0 && isActive()) { // #
+		if (intervals.size() == 0 && !isActive()) { // #
 			return Duration.ZERO;
 		}
 		if (focusStart == null) {
@@ -226,16 +226,24 @@ public class Task implements Serializable {
 		Duration timespent = Duration.ZERO;
 
 		for (Interval i : intervals) {
-			timespent = timespent.plus(i.overlap(focus).toDuration());
+			Duration ov = computeOverlap(i, focus);
+			timespent = timespent.plus(ov);
 		}
 		if (isActive()) {
 			Interval activeInterval = new Interval(starttime, Instant.now());
-			Interval activeOverlap = activeInterval.overlap(focus);
-			Duration overlapDuration = activeOverlap.toDuration();
+			Duration overlapDuration = computeOverlap(activeInterval, focus);
 			timespent = timespent.plus(overlapDuration);
 		}
 
 		return timespent;
+	}
+
+	private Duration computeOverlap(Interval x, Interval y) {
+		if (x.overlaps(y)) {
+			return x.overlap(y).toDuration();
+		} else {
+			return Duration.ZERO;
+		}
 	}
 
 }

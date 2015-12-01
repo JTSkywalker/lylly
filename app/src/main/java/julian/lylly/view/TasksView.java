@@ -1,5 +1,7 @@
 package julian.lylly.view;
 
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import org.joda.time.Duration;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import julian.lylly.R;
 import julian.lylly.model.Tag;
@@ -31,6 +35,7 @@ public class TasksView {
 
     private final ListView taskListView;
     private final ArrayAdapter taskAdapter;
+    private Button playPauseButton;
 
     public TasksView(final MainActivity main) {
         this.main = main;
@@ -65,13 +70,18 @@ public class TasksView {
 
         taskListView = (ListView) main.findViewById(R.id.taskListView);
         taskListView.setAdapter(taskAdapter);
+
     }
 
     public void onClickTaskPlayPause(View view) {
         Button button = (Button) view;
-        int pos = taskListView.getPositionForView((View) button.getParent());
+        View parent = (View) button.getParent();
+        int pos = taskListView.getPositionForView(parent);
         Task task = ((Task) taskAdapter.getItem(pos));
         task.playPause();
         button.setText(task.isActive() ? "||" : "> ");
+        Duration timer = task.evalDurationSum();
+        TextView timerView = (TextView) parent.findViewById(R.id.taskTimer);
+        timerView.setText(Util.durationToHourMinuteSecondString(timer));//bad style
     }
 }
