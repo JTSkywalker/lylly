@@ -1,3 +1,39 @@
 -- version 0.1:
 	• TagOrganizer UI
+	• ProspectOrganizer UI
+	• TaskOrganizer UI
+		- non-zero prospect budgets shown & filter
+		- show relevant urgent filter option
+		- show filtered tasks
+	• model as is
+	• usable! (but maybe ugly)
+
+-- version 0.2:
+	• bug fixes
+	• minor improvements especially usability
+		
+-- version 1.0:
+	• split model into model and controller (no .now() applications in the model)
+	• redesign model
+		– new Task interface, maybe DevTasks, Appointments
+		– think about changing the relationship between prospect and tag
+		– add tree structure for tags, prospects, tasks 
+		– add generators
+		- generalize tags and/or add task properties like context, folder…
+		- add a user status e.g. where, mental condition …
+		- develop ordering and filtering of tasks depending on budgets, status, etc
+	• proprietary UI for the new model
+		- roughly the same functionality as 0.1 (0.2)
+		- some new features of the model are not yet available
 	
+-- version 1.1:
+	• fancy UI for the new model
+	• the features of the model should all be reachable in an intuitive way
+
+…
+	
+-- version ?:
+	• synchronized and/or server based?
+	• more users?
+	• distributed tasks?
+	• delegate stack for tasks?
