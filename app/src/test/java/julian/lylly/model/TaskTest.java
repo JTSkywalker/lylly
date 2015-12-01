@@ -41,20 +41,20 @@ public class TaskTest {
         ieM = new Instant(49*m);
         isS = new Instant( 7*s);
         ieS = new Instant(49*s);
-        is  = new Instant( 7  );
-        ie  = new Instant(49  );
+        isL = new Instant( 7  );
+        ieL = new Instant(49  );
 
         ivD = new Interval(isD, ieD);
         ivH = new Interval(isH, ieH);
         ivM = new Interval(isM, ieM);
         ivS = new Interval(isS, ieS);
-        iv  = new Interval( is,  ie);
+        ivL = new Interval(isL, ieL);
     }
 
     Tag tag;
     Task taskE, taskW;
-    Interval ivD, ivH, ivM, ivS, iv;
-    Instant isD, ieD, isH, ieH, isM, ieM, isS, ieS, is, ie;
+    Interval ivD, ivH, ivM, ivS, ivL;
+    Instant isD, ieD, isH, ieH, isM, ieM, isS, ieS, isL, ieL;
 
     @Test
     public void testStartOk() throws Exception {
@@ -135,7 +135,7 @@ public class TaskTest {
         assertTrue(!taskE.isActive() && taskE.isDone());
     }
 
-    @Test
+    //@Test TODO:implement
     public void testIsFragment() throws Exception {
         fail("not yet implemented");
     }
@@ -195,7 +195,7 @@ public class TaskTest {
     @Test
     public void testEvalDurationSumL() throws Exception {
         List<Interval> intervals = new ArrayList<>();
-        intervals.add(iv);
+        intervals.add(ivL);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
         Duration exp = new Duration(42);
@@ -238,7 +238,7 @@ public class TaskTest {
     @Test
     public void testEvalDurationSumLS() throws Exception {
         List<Interval> intervals = new ArrayList<>();
-        intervals.add(iv);
+        intervals.add(ivL);
         intervals.add(ivS);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
@@ -249,7 +249,7 @@ public class TaskTest {
     @Test
     public void testEvalDurationSumLD() throws Exception {
         List<Interval> intervals = new ArrayList<>();
-        intervals.add(iv);
+        intervals.add(ivL);
         intervals.add(ivD);
         taskW.setIntervals(intervals);
         Duration res = taskW.evalDurationSum();
@@ -272,7 +272,7 @@ public class TaskTest {
     @Test
     public void testEvalDurationSumLMH() throws Exception {
         List<Interval> intervals = new ArrayList<>();
-        intervals.add(iv);
+        intervals.add(ivL);
         intervals.add(ivM);
         intervals.add(ivH);
         taskW.setIntervals(intervals);
@@ -284,7 +284,7 @@ public class TaskTest {
     @Test
     public void testEvalDurationSumLSMHD() throws Exception {
         List<Interval> intervals = new ArrayList<>();
-        intervals.add(iv);
+        intervals.add(ivL);
         intervals.add(ivS);
         intervals.add(ivM);
         intervals.add(ivH);
@@ -295,8 +295,16 @@ public class TaskTest {
         assertEquals(exp, res);
     }
 
+
     @Test
     public void testGetTimeSpentInInterval() throws Exception {
-        fail("not yet implemented");
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(ivL);
+        taskW.setIntervals(intervals);
+        taskW.setStartTime(isS);
+        Interval focus = new Interval(new Instant(0), ieS);
+        Duration res = taskW.getTimeSpentInInterval(focus);
+        Duration exp = new Duration(42*s + 42);
+        assertEquals(exp, res);
     }
 }

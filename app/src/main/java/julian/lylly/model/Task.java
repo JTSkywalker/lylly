@@ -27,7 +27,6 @@ public class Task implements Serializable {
 
 	//status:
 	private boolean fragment = true;
-	private boolean active   = false;
 	private boolean done     = false;
 
 
@@ -52,24 +51,22 @@ public class Task implements Serializable {
 	*/
 
 	public void start() {
-		if (active) {
+		if (isActive()) {
 			throw new IllegalStateException("already active");
 		}
 		starttime = Instant.now();
-		active = true;
 	}
 
 	public void pause() {
-		if (!active) {
+		if (!isActive()) {
 			throw new IllegalStateException("already non-active");
 		}
 		intervals.add(new Interval(starttime, Instant.now()));
 		starttime = null;
-		active = false;
 	}
 
 	public void playPause() {
-		if (active) {
+		if (isActive()) {
 			pause();
 		} else {
 			start();
@@ -77,7 +74,7 @@ public class Task implements Serializable {
 	}
 
 	public void finish() {
-		if (active) {
+		if (isActive()) {
 			pause();
 		}
 		done = true;
@@ -95,7 +92,7 @@ public class Task implements Serializable {
 	}
 
 	public boolean isActive() {
-		return active;
+		return starttime != null;
 	}
 
 	public boolean isDone() {
@@ -138,6 +135,10 @@ public class Task implements Serializable {
 	public void setImportance(int importance) {
 		this.importance = importance;
 		checkCompleteness();
+	}
+
+	public void setStartTime(Instant starttime) {
+		this.starttime = starttime;
 	}
 
 	public int getUrgency() {
@@ -198,7 +199,7 @@ public class Task implements Serializable {
 	 */
 	public Duration getTimeSpentInInterval(LocalDate focusStart, LocalDate focusEnd) {
 		Instant startInst, endInst;
-		if (intervals.size() == 0 && starttime == null) { // #
+		if (intervals.size() == 0 && isActive()) { // #
 			return Duration.ZERO;
 		}
 		if (focusStart == null) {
@@ -209,7 +210,7 @@ public class Task implements Serializable {
 			startInst = focusStart.toDateTimeAtStartOfDay().toInstant();
 		}
 		if (focusEnd == null) {
-			endInst = starttime != null
+			endInst = isActive()
 					? Instant.now()
 					//v intervals.size() != 0 because #
 					: intervals.get(intervals.size() - 1).getEnd().toInstant();//TODO
@@ -217,15 +218,21 @@ public class Task implements Serializable {
 			endInst   = focusEnd.toDateTimeAtStartOfDay().toInstant();
 		}
 		Interval focus = new Interval(startInst, endInst);
+
+		return getTimeSpentInInterval(focus);
+	}
+
+	public Duration getTimeSpentInInterval(Interval focus) {
 		Duration timespent = Duration.ZERO;
 
 		for (Interval i : intervals) {
 			timespent = timespent.plus(i.overlap(focus).toDuration());
 		}
-		if (active) {
-			assert(starttime != null);
-			Interval activeOverlap = new Interval(starttime, Instant.now()).overlap(focus);
-			timespent.plus(activeOverlap.toDuration());
+		if (isActive()) {
+			Interval activeInterval = new Interval(starttime, Instant.now());
+			Interval activeOverlap = activeInterval.overlap(focus);
+			Duration overlapDuration = activeOverlap.toDuration();
+			timespent = timespent.plus(overlapDuration);
 		}
 
 		return timespent;
