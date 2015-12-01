@@ -223,6 +223,10 @@ public class Task implements Serializable {
 	}
 
 	public Duration getTimeSpentInInterval(Interval focus) {
+		if (focus == null) {
+			throw new IllegalArgumentException("focus == nul");
+		}
+
 		Duration timespent = Duration.ZERO;
 
 		for (Interval i : intervals) {

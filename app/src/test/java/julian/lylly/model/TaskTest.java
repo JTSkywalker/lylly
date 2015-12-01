@@ -153,6 +153,13 @@ public class TaskTest {
     }
 
     @Test
+    public void testEvalDurationSumZERO() throws Exception {
+        Duration res = taskW.evalDurationSum();
+        Duration exp = Duration.ZERO;
+        assertEquals(exp, res);
+    }
+
+    @Test
     public void testEvalDurationSumD() throws Exception {
         List<Interval> intervals = new ArrayList<>();
         intervals.add(ivD);
@@ -297,7 +304,7 @@ public class TaskTest {
 
 
     @Test
-    public void testGetTimeSpentInInterval() throws Exception {
+    public void testGetTimeSpentInIntervalActive() throws Exception {
         List<Interval> intervals = new ArrayList<>();
         intervals.add(ivL);
         taskW.setIntervals(intervals);
@@ -305,6 +312,44 @@ public class TaskTest {
         Interval focus = new Interval(new Instant(0), ieS);
         Duration res = taskW.getTimeSpentInInterval(focus);
         Duration exp = new Duration(42*s + 42);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testGetTimeSpentInIntervalOverlap2() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(ivL);
+        intervals.add(ivS);
+        intervals.add(ivM);
+        intervals.add(ivH);
+        taskW.setIntervals(intervals);
+        Interval focus = new Interval(isS, ieM);
+        Duration res = taskW.getTimeSpentInInterval(focus);
+        Duration exp = new Duration(42*m + 42*s);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testGetTimeSpentInIntervalRealOverlap() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(new Interval(isL, isS));
+        taskW.setIntervals(intervals);
+        Interval focus = new Interval(ieL, ieS);
+        Duration res = taskW.getTimeSpentInInterval(focus);
+        Duration exp = new Duration(7*s - 49);
+        assertEquals(exp, res);
+    }
+
+    @Test
+    public void testGetTimeSpentInIntervalOverlapBig() throws Exception {
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(new Interval(isL, isS));
+        intervals.add(ivM);
+        intervals.add(new Interval(isH, ieD));
+        taskW.setIntervals(intervals);
+        Interval focus = new Interval(ieL, isD);
+        Duration res = taskW.getTimeSpentInInterval(focus);
+        Duration exp = new Duration(7*d - 7*h + 42*m + 7*s - 49);
         assertEquals(exp, res);
     }
 }
