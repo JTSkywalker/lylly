@@ -47,7 +47,7 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 		List<Task> li = toDo.get(tag);
 		Duration sum = Duration.ZERO;
 		for (Task t : li) {
-			sum.plus(t.getTimeSpentInInterval(start, end));
+			sum = sum.plus(t.getTimeSpentInInterval(start, end));
 		}
 		return sum;
 	}

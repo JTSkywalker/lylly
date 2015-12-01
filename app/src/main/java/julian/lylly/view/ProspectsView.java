@@ -35,8 +35,8 @@ public class ProspectsView {
                 View view = inflater.inflate(R.layout.prospect_list_item, parent, false);
                 Prospect p = getItem(position);
                 Duration running = main.getOrganizer().getInvestedTime(p);
-                Duration toMin = p.getMin().minus(running);
-                Duration toMax = p.getMax().minus(running);
+                Duration toMin = Util.max(Duration.ZERO, p.getMin().minus(running));
+                Duration toMax = Util.max(Duration.ZERO, p.getMax().minus(running));
                 ((TextView) view.findViewById(R.id.running))
                         .setText(Util.durationToHourMinuteString(running));
                 ((TextView) view.findViewById(R.id.tagName))
