@@ -123,29 +123,30 @@ public class MainActivity extends AppCompatActivity {
         weightsPast.add(3);
         weightsPast.add(3);
         organizer.addProspect(new Prospect("past", tag1,
-                new LocalDate(2015, 10, 10), new LocalDate(2015, 10, 15),
+                LocalDate.now(), LocalDate.now().plusDays(5),
                 new Duration(1000 * 60 * 60 * 2), new Duration(1000 * 60 * 60 * 3), weightsPast));
         List<Integer> weightsFuture = new ArrayList<>();
         weightsFuture.add(6);
         weightsFuture.add(6);
         weightsFuture.add(6);
         organizer.addProspect(new Prospect("future", tag2,
-                new LocalDate(2016, 1, 20), new LocalDate(2016, 1, 23),
+                LocalDate.now().minusDays(1), LocalDate.now().plusDays(2),
                 new Duration(1000 * 60 * 60 * 1), new Duration(1000 * 60 * 30 * 5), weightsFuture));
 
         Task task1 = new Task();
         task1.setDescr("test task");
-        task1.setTag(tag2);
+        task1.setTag(tag1);
         organizer.addTask(task1);
 
         Task task2 = new Task();
         task2.setDescr("urg task");
         task2.setUrgency(1);
+        task2.setTag(tag2);
         organizer.addTask(task2);
 
         Task task3 = new Task();
         task3.setDescr("done task");
-        task3.setTag(tag1);
+        task3.setTag(tag3);
         task3.setDone(true);
         organizer.addTask(task3);
     }

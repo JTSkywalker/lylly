@@ -15,6 +15,7 @@ import org.joda.time.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import julian.lylly.R;
 import julian.lylly.model.Pair;
@@ -30,8 +31,8 @@ public class TasksView {
     private final MainActivity main;
 
     //TODO: implement timer sync
-    /*private final ListView budgetListView;
-    private final ArrayAdapter budgetAdapter;*/
+    private final ListView budgetListView;
+    private final ArrayAdapter budgetAdapter;
 
     private final ListView taskListView;
     private final ArrayAdapter taskAdapter;
@@ -39,33 +40,14 @@ public class TasksView {
     private Handler handler = new Handler();
     private List<Pair<TextView, Task>> activeVT = new ArrayList<>();
 
-    /*private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            TextView timerView;
-            Duration timer;
-            Task task;
-            for(Pair<TextView, Task> vt : activeVT) {
-                timerView = vt.getFirst();
-                task = vt.getSecond();
-                if (task.isActive()) {
-                    timer = task.evalDurationSum();
-                    timerView.setText(Util.durationToHourMinuteSecondString(timer));
-                }
-
-                handler.postDelayed(this, 1000);
-            }
-        }
-    };*/
-
     public TasksView(final MainActivity main) {
         this.main = main;
 
         //budgets:
-        /*budgetAdapter =
-                new ArrayAdapter<Map<Tag, Pair<Duration, Duration>>>
+        budgetAdapter =
+                new ArrayAdapter<Pair<Tag, Pair<Duration, Duration>>>
                         (main, R.layout.budget_list_item,
-                                (List<Map<Tag, Pair<Duration, Duration>>>) main.getOrganizer().getTodaysBudgets()) {
+                                mapToPairList(main.getOrganizer().getTodaysBudgets())) {
 //TODO map to list
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
@@ -73,13 +55,16 @@ public class TasksView {
                             LayoutInflater inflater = main.getLayoutInflater();
                             convertView = inflater.inflate(R.layout.budget_list_item, parent, false);
                         }
-                        //fixme
+
+                        Pair<Tag, Pair<Duration,Duration>> budget = getItem(position);
+                        updateBudget(convertView, budget);
+
                         return convertView;
                     }
 
                 };
         budgetListView = (ListView) main.findViewById(R.id.budgetListView);
-        budgetListView.setAdapter(budgetAdapter);*/
+        budgetListView.setAdapter(budgetAdapter);
 
 
         //tasks:
@@ -110,7 +95,6 @@ public class TasksView {
         };
         taskListView.setOnItemClickListener(onTaskClickListener);
 
-        //handler.postDelayed(runnable, 1000);
     }
 
     public void onClickTaskPlayPause(View view) {
@@ -118,18 +102,9 @@ public class TasksView {
         View taskListItem = (View) button.getParent();
         Task task = resolveTaskFromView(taskListItem);
         task.playPause();
-        //updateActiveVT((TextView) taskListItem.findViewById(R.id.taskTimer), task);
+
         updateTimer(taskListItem);
     }
-
-    /*private void updateActiveVT(TextView timerView, Task task) {
-        Pair<TextView, Task> vt = new Pair<>(timerView, task);
-        if (task.isActive()) {
-            activeVT.add(vt);
-        } else {
-            activeVT.remove(vt);
-        }
-    }*/
 
     public void onClickEditTask(View view) {
         View parent = (View) view.getParent();
@@ -143,7 +118,6 @@ public class TasksView {
         Task task = resolveTaskFromView(taskListItem);
         task.finish();
 
-        //updateActiveVT((TextView) taskListItem.findViewById(R.id.taskTimer), task);
         updateTask(taskListItem, task);
     }
 
@@ -203,20 +177,31 @@ public class TasksView {
             descrTextView.setTypeface(null, Typeface.NORMAL);
         }
     }
+
+    private void updateBudget(View view, Pair<Tag, Pair<Duration,Duration>> budget) {
+        TextView runningView = (TextView) view.findViewById(R.id.running);
+        TextView minMinusView= (TextView) view.findViewById(R.id.minMinusRunning);
+        TextView maxMinusView= (TextView) view.findViewById(R.id.maxMinusRunning);
+        TextView tagNameView = (TextView) view.findViewById(R.id.tagName);
+
+        Tag tag = budget.getFirst();
+        Duration min = budget.getSecond().getFirst();
+        Duration max = budget.getSecond().getSecond();
+        Duration running = main.getOrganizer().getTodaysInvTime(tag);
+        Duration toMin = Util.max(Duration.ZERO, min.minus(running));
+        Duration toMax = Util.max(Duration.ZERO, max.minus(running));
+
+        runningView.setText(Util.durationToHourMinuteString(running));
+        tagNameView.setText(tag.getName());
+        minMinusView.setText(" " + Util.durationToHourMinuteString(toMin) + " ");
+        maxMinusView.setText(" " + Util.durationToHourMinuteString(toMax) + " ");
+    }
+
+    private static <K,E> List<Pair<K,E>> mapToPairList(Map<K,E> map) {
+        List result = new ArrayList<>();
+        for (K k : map.keySet()) {
+            result.add((Pair<K,E>) new Pair(k, map.get(k)));
+        }
+        return result;
+    }
 }
-
-/*class VT {
-
-    private final TextView timerView;
-    private final Task task;
-
-    public VT (TextView timerView, Task task) {
-        this.timerView = timerView;
-        this.task = task;
-    }
-
-    void updateTimer() {
-
-    }
-
-}*/

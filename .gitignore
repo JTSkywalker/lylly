@@ -9,7 +9,6 @@ gradlew
 gradlew.bat
 lylly.iml
 settings.gradle
-build.gradle
 gradle.properties
 /.nb-gradle/
 .gitignore
