@@ -39,6 +39,7 @@ public class TasksView {
     private final ArrayAdapter taskAdapter;
     private Button playPauseButton;
 
+
     public TasksView(final MainActivity main) {
         this.main = main;
         taskAdapter =
@@ -48,32 +49,25 @@ public class TasksView {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 Task task = getItem(position);
-                boolean active = task.isActive();
-                Duration timer = task.evalDurationSum();
                 String descr   = task.getDescr();
                 Tag tag        = task.getTag();
                 if (convertView == null) {
                     LayoutInflater inflater = main.getLayoutInflater();
                     convertView = inflater.inflate(R.layout.task_list_item, parent, false);
                 }
-                Button playPauseButton = (Button) convertView.findViewById(R.id.taskPlayPause);
-                TextView timerTextView = (TextView) convertView.findViewById(R.id.taskTimer);
                 TextView descrTextView = (TextView) convertView.findViewById(R.id.taskDescr);
                 TextView tagTextView   = (TextView) convertView.findViewById(R.id.taskTag);
 
-                playPauseButton.setText(active ? "||" : "> ");
-                timerTextView  .setText(Util.durationToHourMinuteSecondString(timer));
+                updateTimer(convertView, task);
                 descrTextView  .setText(descr);
                 tagTextView    .setText(tag.toString());
 
                 return convertView;
             }
         };
-
         taskListView = (ListView) main.findViewById(R.id.taskListView);
         taskListView.setAdapter(taskAdapter);
 
-        //TODO: doesn't work v
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 main.goToTaskEdit((Task) parent.getAdapter().getItem(position));
@@ -85,14 +79,10 @@ public class TasksView {
 
     public void onClickTaskPlayPause(View view) {
         Button button = (Button) view;
-        View parent = (View) button.getParent();
-        int pos = taskListView.getPositionForView(parent);
-        Task task = ((Task) taskAdapter.getItem(pos));
+        View taskListItem = (View) button.getParent();
+        Task task = resolveTaskFromView(taskListItem);
         task.playPause();
-        button.setText(task.isActive() ? "||" : "> ");
-        Duration timer = task.evalDurationSum();
-        TextView timerView = (TextView) parent.findViewById(R.id.taskTimer);
-        timerView.setText(Util.durationToHourMinuteSecondString(timer));//bad style
+        updateTimer(taskListItem);
     }
 
     public void onClickEditTask(View view) {
@@ -100,5 +90,28 @@ public class TasksView {
         int pos = taskListView.getPositionForView(parent);
         Task task = ((Task) taskAdapter.getItem(pos));
         main.goToTaskEdit(task);
+    }
+
+    public void onClickTaskFinish(View view) {
+        Task task = resolveTaskFromView((View) view.getParent());
+        task.finish();
+        updateTimer(taskListView);
+    }
+
+    private Task resolveTaskFromView(View view) {
+        int pos = taskListView.getPositionForView(view);
+        return (Task) taskAdapter.getItem(pos);
+    }
+
+    private void updateTimer(View taskListItem) {
+        updateTimer(taskListItem, resolveTaskFromView(taskListItem));
+    }
+
+    private void updateTimer(View taskListItem, Task task) {
+        Button button = (Button) taskListItem.findViewById(R.id.taskPlayPause);
+        button.setText(task.isActive() ? "||" : "> ");
+        Duration timer = task.evalDurationSum();
+        TextView timerView = (TextView) taskListItem.findViewById(R.id.taskTimer);
+        timerView.setText(Util.durationToHourMinuteSecondString(timer));
     }
 }

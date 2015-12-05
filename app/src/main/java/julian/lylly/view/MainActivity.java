@@ -182,4 +182,8 @@ public class MainActivity extends AppCompatActivity {
     public void onClickEditTask(View view) {
         tasvi.onClickEditTask(view);
     }
+
+    public void onClickTaskFinish(View view) {
+        tasvi.onClickTaskFinish(view);
+    }
 }
