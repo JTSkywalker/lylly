@@ -19,11 +19,11 @@ import julian.lylly.model.Util;
  */
 public class ProspectsView {
 
-    private final MainActivity main;
+    private final Lylly main;
 
     private final ListView listView;
 
-    public ProspectsView(final MainActivity main) {
+    public ProspectsView(final Lylly main) {
         this.main = main;
 
         ArrayAdapter<Prospect> tagAdapter =

@@ -14,7 +14,7 @@ import julian.lylly.model.Task;
  */
 public class TaskEdit {
 
-    private final MainActivity main;
+    private final Lylly main;
     private Task editing;
 
     private final EditText nameInput;
@@ -22,7 +22,7 @@ public class TaskEdit {
     private final CheckBox isUrgentInput;
     private final CheckBox isDoneInput;
 
-    public TaskEdit(MainActivity main, Task editing) {
+    public TaskEdit(Lylly main, Task editing) {
         this.main = main;
         this.editing = editing;
 

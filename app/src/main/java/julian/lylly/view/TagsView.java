@@ -14,7 +14,7 @@ import julian.lylly.model.Tag;
  */
 public class TagsView {
 
-    private MainActivity main;
+    private Lylly main;
     private ArrayAdapter<Tag> tagAdapter;
     private ListView listView;
     private Tag editing;
@@ -22,12 +22,12 @@ public class TagsView {
     // Create a message handling object as an anonymous class.
 
 
-    public TagsView(MainActivity mainActivity) {
-        this.main = mainActivity;
+    public TagsView(Lylly lylly) {
+        this.main = lylly;
 
-        tagAdapter = new ArrayAdapter<>(mainActivity, R.layout.text_view,
-                                        mainActivity.getOrganizer().getTags());
-        listView = (ListView) mainActivity.findViewById(R.id.tagListView);
+        tagAdapter = new ArrayAdapter<>(lylly, R.layout.text_view,
+                                        lylly.getOrganizer().getTags());
+        listView = (ListView) lylly.findViewById(R.id.tagListView);
         listView.setAdapter(tagAdapter);
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {

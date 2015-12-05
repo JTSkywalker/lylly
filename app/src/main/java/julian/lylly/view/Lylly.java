@@ -1,5 +1,6 @@
 package julian.lylly.view;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,13 @@ import android.view.View;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +25,7 @@ import julian.lylly.model.Prospect;
 import julian.lylly.model.Tag;
 import julian.lylly.model.Task;
 
-public class MainActivity extends AppCompatActivity {
+public class Lylly extends AppCompatActivity {
 
     private Organizer organizer;
     private int view;
@@ -32,10 +40,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         view = R.layout.activity_main;
         setContentView(view);
+    }
 
-        helper();//TODO:delete
-        //create screens:
+    protected void onResume() {
+        super.onResume();
+        try{
+            FileInputStream fis = openFileInput("lylly.ly");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            organizer = (Organizer) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException ex) {
+            organizer = new OrganizerImpl();
+        }
+        catch (IOException | ClassNotFoundException exc) {
+            exc.printStackTrace();
+        }
+    }
 
+    protected void onPause() {
+        String filename = "lylly.ly";
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            ObjectOutputStream save = new ObjectOutputStream(outputStream);
+            save.writeObject(organizer);
+            save.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onPause();
     }
 
     public void goToTaskOrganizer() {
@@ -62,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         setView(R.layout.activity_task_edit);
         taed = new TaskEdit(this, task);
     }
-    
+
     public void onClickTaskOrganizer(View v) {
         goToTaskOrganizer();
     }

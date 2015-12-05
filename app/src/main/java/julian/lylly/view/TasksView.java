@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -30,7 +29,7 @@ import julian.lylly.model.Util;
  */
 public class TasksView {
 
-    private final MainActivity main;
+    private final Lylly main;
 
     //TODO: implement timer sync
     private final ListView budgetListView;
@@ -40,7 +39,7 @@ public class TasksView {
     private Handler handler = new Handler();
     private List<Pair<TextView, Task>> activeVT = new ArrayList<>();
 
-    public TasksView(final MainActivity main) {
+    public TasksView(final Lylly main) {
         this.main = main;
 
         //budgets:

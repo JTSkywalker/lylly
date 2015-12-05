@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
-import org.joda.time.Period;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import julian.lylly.model.Util;
  */
 public class ProspectEdit {
 
-    private final MainActivity main;
+    private final Lylly main;
     private final Prospect editing;
 
     private final Spinner tagInput;
@@ -34,7 +33,7 @@ public class ProspectEdit {
 
     private final EditText weightsProvisionalInput;
 
-    public ProspectEdit(MainActivity main, Prospect editing) {
+    public ProspectEdit(Lylly main, Prospect editing) {
         this.main = main;
         this.editing = editing;
 
