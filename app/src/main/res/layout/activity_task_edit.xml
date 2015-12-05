@@ -23,6 +23,14 @@
         android:id="@+id/taskEditIsUrgentInput"
         android:checked="false" />
 
+    <CheckBox
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="done"
+        android:id="@+id/taskEditIsDone"
+        android:checked="false" />
+
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"

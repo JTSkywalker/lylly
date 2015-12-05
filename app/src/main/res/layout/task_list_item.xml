@@ -5,7 +5,7 @@
 
     <Button
         android:id="@+id/taskPlayPause"
-        android:layout_width="wrap_content"
+        android:layout_width="42dp"
         android:layout_height="wrap_content"
         android:onClick="onClickTaskPlayPause"/>
 
@@ -28,6 +28,13 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/taskFinish"
+        android:text="✓"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClickTaskFinish" />
 
     <TextView
         android:id="@+id/taskTimer"

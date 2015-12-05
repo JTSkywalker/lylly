@@ -99,6 +99,9 @@ public class Task implements Serializable {
 		return done;
 	}
 
+	public void setDone(boolean done) {
+		this.done = done;
+	}
 
 
 	/*

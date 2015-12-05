@@ -20,6 +20,7 @@ public class TaskEdit {
     private final EditText nameInput;
     private final Spinner tagInput;
     private final CheckBox isUrgentInput;
+    private final CheckBox isDoneInput;
 
     public TaskEdit(MainActivity main, Task editing) {
         this.main = main;
@@ -28,6 +29,7 @@ public class TaskEdit {
         nameInput = (EditText) main.findViewById(R.id.taskEditNameInput);
         tagInput = (Spinner) main.findViewById(R.id.taskEditTagInput);
         isUrgentInput = (CheckBox) main.findViewById(R.id.taskEditIsUrgentInput);
+        isDoneInput = (CheckBox) main.findViewById(R.id.taskEditIsDone);
 
         initTagInput();
 
@@ -35,6 +37,7 @@ public class TaskEdit {
             nameInput.setText(editing.getDescr());
             tagInput.setSelection(((ArrayAdapter) tagInput.getAdapter()).getPosition(editing.getTag()));
             isUrgentInput.setChecked(editing.getUrgency() > 0);//TODO: no isUrgent!!
+            isDoneInput.setChecked(editing.isDone());
         }
     }
 
@@ -49,6 +52,7 @@ public class TaskEdit {
         String descr = nameInput.getText().toString();
         Tag      tag = (Tag) tagInput.getSelectedItem();
         int  urgency = isUrgentInput.isChecked() ? 1 : 0;
+        boolean done = isDoneInput.isChecked();
 
         Task task;
         if (editing == null) {
@@ -60,6 +64,7 @@ public class TaskEdit {
         task.setDescr(descr);
         task.setTag(tag);
         task.setUrgency(urgency);
+        task.setDone(done);
 
         if (editing == null) {
             main.getOrganizer().addTask(task);

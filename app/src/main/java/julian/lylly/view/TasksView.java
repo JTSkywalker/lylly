@@ -1,5 +1,6 @@
 package julian.lylly.view;
 
+import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -49,18 +50,12 @@ public class TasksView {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 Task task = getItem(position);
-                String descr   = task.getDescr();
-                Tag tag        = task.getTag();
                 if (convertView == null) {
                     LayoutInflater inflater = main.getLayoutInflater();
                     convertView = inflater.inflate(R.layout.task_list_item, parent, false);
                 }
-                TextView descrTextView = (TextView) convertView.findViewById(R.id.taskDescr);
-                TextView tagTextView   = (TextView) convertView.findViewById(R.id.taskTag);
 
-                updateTimer(convertView, task);
-                descrTextView  .setText(descr);
-                tagTextView    .setText(tag.toString());
+                updateTask(convertView, task);
 
                 return convertView;
             }
@@ -93,9 +88,10 @@ public class TasksView {
     }
 
     public void onClickTaskFinish(View view) {
-        Task task = resolveTaskFromView((View) view.getParent());
+        View taskListItem = (View) view.getParent();
+        Task task = resolveTaskFromView(taskListItem);
         task.finish();
-        updateTimer(taskListView);
+        updateTask(taskListItem, task);
     }
 
     private Task resolveTaskFromView(View view) {
@@ -107,11 +103,51 @@ public class TasksView {
         updateTimer(taskListItem, resolveTaskFromView(taskListItem));
     }
 
-    private void updateTimer(View taskListItem, Task task) {
+    private static void updateTimer(View taskListItem, Task task) {
         Button button = (Button) taskListItem.findViewById(R.id.taskPlayPause);
         button.setText(task.isActive() ? "||" : "> ");
         Duration timer = task.evalDurationSum();
         TextView timerView = (TextView) taskListItem.findViewById(R.id.taskTimer);
         timerView.setText(Util.durationToHourMinuteSecondString(timer));
+    }
+
+    private void updateTask(View taskListItem) {
+        updateTask(taskListItem, resolveTaskFromView(taskListItem));
+    }
+
+    private static void updateTask(View taskListItem, Task task) {
+        updateTimer(taskListItem, task);
+
+        boolean done   = task.isDone();
+        String descr   = task.getDescr();
+        Tag tag        = task.getTag();
+        int urgency    = task.getUrgency();
+
+        Button playPauseButton = (Button)   taskListItem.findViewById(R.id.taskPlayPause);
+        Button finishButton    = (Button)   taskListItem.findViewById(R.id.taskFinish);
+        TextView descrTextView = (TextView) taskListItem.findViewById(R.id.taskDescr);
+        TextView tagTextView   = (TextView) taskListItem.findViewById(R.id.taskTag);
+
+        if (descr != null)
+            descrTextView  .setText(descr);
+
+        if (tag != null)
+            tagTextView    .setText(tag.toString());
+
+        if(done) {
+            taskListItem.setBackgroundColor(0xFF78CC78);
+            playPauseButton.setEnabled(false);
+            finishButton.setEnabled(false);
+        } else {
+            taskListItem.setBackgroundColor(0xFFFFFFFF);
+            playPauseButton.setEnabled(true);
+            finishButton.setEnabled(true);
+        }
+
+        if(urgency > 0) {
+            descrTextView.setTypeface(null, Typeface.BOLD);
+        } else {
+            descrTextView.setTypeface(null, Typeface.NORMAL);
+        }
     }
 }

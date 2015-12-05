@@ -133,10 +133,21 @@ public class MainActivity extends AppCompatActivity {
                 new LocalDate(2016, 1, 20), new LocalDate(2016, 1, 23),
                 new Duration(1000 * 60 * 60 * 1), new Duration(1000 * 60 * 30 * 5), weightsFuture));
 
-        Task task = new Task();
-        task.setDescr("test task");
-        task.setTag(tag2);
-        organizer.addTask(task);
+        Task task1 = new Task();
+        task1.setDescr("test task");
+        task1.setTag(tag2);
+        organizer.addTask(task1);
+
+        Task task2 = new Task();
+        task2.setDescr("urg task");
+        task2.setUrgency(1);
+        organizer.addTask(task2);
+
+        Task task3 = new Task();
+        task3.setDescr("done task");
+        task3.setTag(tag1);
+        task3.setDone(true);
+        organizer.addTask(task3);
     }
 
     public void onClickNewTag(View view) {
