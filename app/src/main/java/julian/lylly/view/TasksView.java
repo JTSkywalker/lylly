@@ -195,6 +195,14 @@ public class TasksView {
         tagNameView.setText(tag.getName());
         minMinusView.setText(" " + Util.durationToHourMinuteString(toMin) + " ");
         maxMinusView.setText(" " + Util.durationToHourMinuteString(toMax) + " ");
+
+        if (toMin == Duration.ZERO) {
+            view.setBackgroundColor(0xFF024000);
+        }
+
+        if (toMax == Duration.ZERO) {
+            view.setBackgroundColor(0xFF401E00);
+        }
     }
 
     private static <K,E> List<Pair<K,E>> mapToPairList(Map<K,E> map) {

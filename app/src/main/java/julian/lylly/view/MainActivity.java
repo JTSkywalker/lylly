@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         weightsFuture.add(6);
         organizer.addProspect(new Prospect("future", tag2,
                 LocalDate.now().minusDays(1), LocalDate.now().plusDays(2),
-                new Duration(1000 * 60 * 60 * 1), new Duration(1000 * 60 * 30 * 5), weightsFuture));
+                new Duration(1000 * 60), new Duration(1000 * 60 * 30 * 5), weightsFuture));
 
         Task task1 = new Task();
         task1.setDescr("test task");
