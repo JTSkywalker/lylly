@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.joda.time.Duration;
 
@@ -32,10 +34,8 @@ public class TasksView {
 
     //TODO: implement timer sync
     private final ListView budgetListView;
-    private final ArrayAdapter budgetAdapter;
 
     private final ListView taskListView;
-    private final ArrayAdapter taskAdapter;
 
     private Handler handler = new Handler();
     private List<Pair<TextView, Task>> activeVT = new ArrayList<>();
@@ -44,49 +44,31 @@ public class TasksView {
         this.main = main;
 
         //budgets:
-        budgetAdapter =
-                new ArrayAdapter<Pair<Tag, Pair<Duration, Duration>>>
-                        (main, R.layout.budget_list_item,
-                                mapToPairList(main.getOrganizer().getTodaysBudgets())) {
-//TODO map to list
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        if (convertView == null) {
-                            LayoutInflater inflater = main.getLayoutInflater();
-                            convertView = inflater.inflate(R.layout.budget_list_item, parent, false);
-                        }
+        ArrayAdapter budgetAdapter = new ArrayAdapter<Pair<Tag, Pair<Duration, Duration>>>
+                (main, R.layout.budget_list_item,
+                        mapToPairList(main.getOrganizer().getTodaysBudgets())) {
+            //TODO map to list
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = main.getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.budget_list_item, parent, false);
+                }
 
-                        Pair<Tag, Pair<Duration,Duration>> budget = getItem(position);
-                        updateBudget(convertView, budget);
+                Pair<Tag, Pair<Duration, Duration>> budget = getItem(position);
+                updateBudget(convertView, budget);
 
-                        return convertView;
-                    }
+                return convertView;
+            }
 
-                };
+        };
         budgetListView = (ListView) main.findViewById(R.id.budgetListView);
         budgetListView.setAdapter(budgetAdapter);
 
 
         //tasks:
-        taskAdapter =
-                new ArrayAdapter<Task>(main, R.layout.task_list_item,
-                    main.getOrganizer().getFilteredTasks(new ArrayList<Tag>())) {
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Task task = getItem(position);
-                if (convertView == null) {
-                    LayoutInflater inflater = main.getLayoutInflater();
-                    convertView = inflater.inflate(R.layout.task_list_item, parent, false);
-                }
-
-                updateTask(convertView, task);
-
-                return convertView;
-            }
-        };
         taskListView = (ListView) main.findViewById(R.id.taskListView);
-        taskListView.setAdapter(taskAdapter);
+        updateTasks();
 
         AdapterView.OnItemClickListener onTaskClickListener = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -109,7 +91,7 @@ public class TasksView {
     public void onClickEditTask(View view) {
         View parent = (View) view.getParent();
         int pos = taskListView.getPositionForView(parent);
-        Task task = ((Task) taskAdapter.getItem(pos));
+        Task task = ((Task) taskListView.getAdapter().getItem(pos));
         main.goToTaskEdit(task);
     }
 
@@ -123,7 +105,7 @@ public class TasksView {
 
     private Task resolveTaskFromView(View view) {
         int pos = taskListView.getPositionForView(view);
-        return (Task) taskAdapter.getItem(pos);
+        return (Task) taskListView.getAdapter().getItem(pos);
     }
 
     private void updateTimer(View taskListItem) {
@@ -138,8 +120,33 @@ public class TasksView {
         timerView.setText(Util.durationToHourMinuteSecondString(timer));
     }
 
-    private void updateTask(View taskListItem) {
-        updateTask(taskListItem, resolveTaskFromView(taskListItem));
+    private void updateTasks() {
+        List<Tag> tags = new ArrayList<>();
+        for(int i=0; i < budgetListView.getChildCount(); i++) {
+            View child = budgetListView.getChildAt(i);
+            ToggleButton toggleButton = (ToggleButton) child.findViewById(R.id.toggleButton);
+            if (toggleButton.isChecked()) {
+                Tag tag = ((Pair<Tag, Pair<Duration,Duration>>) budgetListView.getAdapter().getItem(i)).getFirst();
+                tags.add(tag);
+            }
+        }
+        ArrayAdapter taskAdapter = new ArrayAdapter<Task>(main, R.layout.task_list_item,
+                main.getOrganizer().getFilteredTasks(tags)) {
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Task task = getItem(position);
+                if (convertView == null) {
+                    LayoutInflater inflater = main.getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.task_list_item, parent, false);
+                }
+
+                updateTask(convertView, task);
+
+                return convertView;
+            }
+        };
+        taskListView.setAdapter(taskAdapter);
     }
 
     private static void updateTask(View taskListItem, Task task) {
@@ -211,5 +218,9 @@ public class TasksView {
             result.add((Pair<K,E>) new Pair(k, map.get(k)));
         }
         return result;
+    }
+
+    public void onClickToggle(View view) {
+        updateTasks();
     }
 }

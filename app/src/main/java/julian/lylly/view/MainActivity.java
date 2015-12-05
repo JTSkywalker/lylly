@@ -198,4 +198,8 @@ public class MainActivity extends AppCompatActivity {
     public void onClickTaskFinish(View view) {
         tasvi.onClickTaskFinish(view);
     }
+
+    public void onClickToggle(View view) {
+        tasvi.onClickToggle(view);
+    }
 }
