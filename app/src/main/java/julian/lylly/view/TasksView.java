@@ -1,7 +1,6 @@
 package julian.lylly.view;
 
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,10 @@ import android.widget.ToggleButton;
 import org.joda.time.Duration;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import julian.lylly.R;
 import julian.lylly.model.Pair;
@@ -36,8 +37,7 @@ public class TasksView {
 
     private final ListView taskListView;
 
-    private Handler handler = new Handler();
-    private List<Pair<TextView, Task>> activeVT = new ArrayList<>();
+    private Set<Tag> selectedTags = new HashSet<>();
 
     public TasksView(final Lylly main) {
         this.main = main;
@@ -85,6 +85,7 @@ public class TasksView {
         task.playPause();
 
         updateTimer(taskListItem);
+        updateBudgets();
     }
 
     public void onClickEditTask(View view) {
@@ -100,6 +101,7 @@ public class TasksView {
         task.finish();
 
         updateTask(taskListItem, task);
+        updateBudgets();
     }
 
     private Task resolveTaskFromView(View view) {
@@ -120,15 +122,7 @@ public class TasksView {
     }
 
     private void updateTasks() {
-        List<Tag> tags = new ArrayList<>();
-        for(int i=0; i < budgetListView.getChildCount(); i++) {
-            View child = budgetListView.getChildAt(i);
-            ToggleButton toggleButton = (ToggleButton) child.findViewById(R.id.toggleButton);
-            if (toggleButton.isChecked()) {
-                Tag tag = ((Pair<Tag, Pair<Duration,Duration>>) budgetListView.getAdapter().getItem(i)).getFirst();
-                tags.add(tag);
-            }
-        }
+        List<Tag> tags = new ArrayList<>(selectedTags);
         ArrayAdapter taskAdapter = new ArrayAdapter<Task>(main, R.layout.task_list_item,
                 main.getOrganizer().getFilteredTasks(tags)) {
 
@@ -146,6 +140,7 @@ public class TasksView {
             }
         };
         taskListView.setAdapter(taskAdapter);
+        taskListView.deferNotifyDataSetChanged();
     }
 
     private static void updateTask(View taskListItem, Task task) {
@@ -189,6 +184,7 @@ public class TasksView {
         TextView minMinusView= (TextView) view.findViewById(R.id.minMinusRunning);
         TextView maxMinusView= (TextView) view.findViewById(R.id.maxMinusRunning);
         TextView tagNameView = (TextView) view.findViewById(R.id.tagName);
+        ToggleButton toggle =  (ToggleButton) view.findViewById(R.id.toggleButton);
 
         Tag tag = budget.getFirst();
         Duration min = budget.getSecond().getFirst();
@@ -201,14 +197,28 @@ public class TasksView {
         tagNameView.setText(tag.getName());
         minMinusView.setText(" " + Util.durationToHourMinuteString(toMin) + " ");
         maxMinusView.setText(" " + Util.durationToHourMinuteString(toMax) + " ");
+        toggle.setChecked(selectedTags.contains(tag));
 
-        if (toMin == Duration.ZERO) {
-            view.setBackgroundColor(0xFF024000);
-        }
-
-        if (toMax == Duration.ZERO) {
+        if (toMax.equals(Duration.ZERO)) {
             view.setBackgroundColor(0xFF401E00);
+        } else {
+            if (toMin.equals(Duration.ZERO)) {
+                view.setBackgroundColor(0xFF024000);
+            } else {
+                view.setBackgroundColor(0xFF000000);
+            }
         }
+
+    }
+
+    private void updateBudgets() {
+        budgetListView.deferNotifyDataSetChanged();
+        /*for (int i = 0; i < budgetListView.getChildCount(); i++) {
+            View view = budgetListView.getChildAt(i);
+            Pair<Tag,Pair<Duration,Duration>> budget
+                    = (Pair<Tag,Pair<Duration,Duration>>) budgetListView.getAdapter().getItem(i);
+            updateBudget(view, budget);
+        }*/
     }
 
     private static <K,E> List<Pair<K,E>> mapToPairList(Map<K,E> map) {
@@ -219,7 +229,16 @@ public class TasksView {
         return result;
     }
 
-    public void onClickToggle(View view) {
+    public void onClickToggle(View view) {//DANGER ?!
+        View parent = (View) view.getParent();
+        String txt = ((TextView) parent.findViewById(R.id.tagName)).getText().toString();//FIXME
+        Tag tag = new Tag(txt);
+        if(((ToggleButton) view).isChecked()) {
+            selectedTags.add(tag);
+        } else {
+            selectedTags.remove(tag);
+        }
         updateTasks();
+        updateBudgets();
     }
 }
