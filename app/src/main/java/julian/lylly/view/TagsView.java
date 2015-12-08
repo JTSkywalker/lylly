@@ -33,6 +33,8 @@ public class TagsView {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 main.setView(R.layout.activity_tag_edit);
                 editing = (Tag) parent.getAdapter().getItem(position);
+                EditText username=(EditText) main.findViewById(R.id.tagEditText);
+                username.setText(editing.getName());
             }
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
