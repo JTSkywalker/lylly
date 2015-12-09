@@ -79,13 +79,20 @@ public class TasksView {
         Thread updater = new Thread(new Runnable() {
             @Override
             public void run() {
-                main.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TasksView.this.updateBudgets();
-                        TasksView.this.updateTasks();
+                while(true) {
+                    main.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TasksView.this.updateBudgets();
+                            TasksView.this.updateTasks();
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
             }
         });
         updater.start();
