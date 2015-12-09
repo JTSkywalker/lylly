@@ -225,13 +225,13 @@ public class TasksView {
     }
 
     private void updateBudgets() {
-        budgetListView.deferNotifyDataSetChanged();
-        /*for (int i = 0; i < budgetListView.getChildCount(); i++) {
+        //budgetListView.deferNotifyDataSetChanged();
+        for (int i = 0; i < budgetListView.getChildCount(); i++) {
             View view = budgetListView.getChildAt(i);
             Pair<Tag,Pair<Duration,Duration>> budget
                     = (Pair<Tag,Pair<Duration,Duration>>) budgetListView.getAdapter().getItem(i);
             updateBudget(view, budget);
-        }*/
+        }
     }
 
     private static <K,E> List<Pair<K,E>> mapToPairList(Map<K,E> map) {
