@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import java.util.Set;
 
 import julian.lylly.R;
 import julian.lylly.model.Pair;
+import julian.lylly.model.Prospect;
 import julian.lylly.model.Tag;
 import julian.lylly.model.Task;
 import julian.lylly.model.Util;
@@ -67,7 +69,7 @@ public class TasksView {
 
         //tasks:
         taskListView = (ListView) main.findViewById(R.id.taskListView);
-        updateTasks();
+        deployTasks();
 
         AdapterView.OnItemClickListener onTaskClickListener = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -141,7 +143,7 @@ public class TasksView {
         timerView.setText(Util.durationToHourMinuteSecondString(timer));
     }
 
-    private void updateTasks() {
+    private void deployTasks() {
         List<Tag> tags = new ArrayList<>(selectedTags);
         ArrayAdapter taskAdapter = new ArrayAdapter<Task>(main, R.layout.task_list_item,
                 main.getOrganizer().getFilteredTasks(tags)) {
@@ -161,6 +163,10 @@ public class TasksView {
         };
         taskListView.setAdapter(taskAdapter);
         taskListView.deferNotifyDataSetChanged();
+    }
+
+    private void updateTasks() {
+        ((BaseAdapter) taskListView.getAdapter()).notifyDataSetChanged();
     }
 
     private static void updateTask(View taskListItem, Task task) {
@@ -232,13 +238,7 @@ public class TasksView {
     }
 
     private void updateBudgets() {
-        //budgetListView.deferNotifyDataSetChanged();
-        for (int i = 0; i < budgetListView.getChildCount(); i++) {
-            View view = budgetListView.getChildAt(i);
-            Pair<Tag,Pair<Duration,Duration>> budget
-                    = (Pair<Tag,Pair<Duration,Duration>>) budgetListView.getAdapter().getItem(i);
-            updateBudget(view, budget);
-        }
+        ((BaseAdapter) budgetListView.getAdapter()).notifyDataSetChanged();
     }
 
     private static <K,E> List<Pair<K,E>> mapToPairList(Map<K,E> map) {
@@ -258,7 +258,7 @@ public class TasksView {
         } else {
             selectedTags.remove(tag);
         }
-        updateTasks();
+        deployTasks();
         updateBudgets();
     }
 }

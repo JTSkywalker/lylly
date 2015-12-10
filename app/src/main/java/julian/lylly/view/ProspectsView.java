@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,6 +62,26 @@ public class ProspectsView {
             }
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
+
+        Thread updater = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    main.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        updater.start();
     }
 
 }
