@@ -69,7 +69,25 @@ public class TasksView {
 
         //tasks:
         taskListView = (ListView) main.findViewById(R.id.taskListView);
-        deployTasks();
+        List<Tag> tags = new ArrayList<>(selectedTags);
+        ArrayAdapter taskAdapter = new ArrayAdapter<Task>(main, R.layout.task_list_item,
+                main.getOrganizer().getFilteredTasks(tags)) {
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Task task = getItem(position);
+                if (convertView == null) {
+                    LayoutInflater inflater = main.getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.task_list_item, parent, false);
+                }
+
+                updateTask(convertView, task);
+
+                return convertView;
+            }
+        };
+        taskListView.setAdapter(taskAdapter);
+        taskListView.deferNotifyDataSetChanged();
 
         AdapterView.OnItemClickListener onTaskClickListener = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -78,6 +96,7 @@ public class TasksView {
         };
         taskListView.setOnItemClickListener(onTaskClickListener);
 
+        //updater:
         Thread updater = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -144,23 +163,10 @@ public class TasksView {
     }
 
     private void deployTasks() {
+        ArrayAdapter taskAdapter = (ArrayAdapter) taskListView.getAdapter();
+        taskAdapter.clear();
         List<Tag> tags = new ArrayList<>(selectedTags);
-        ArrayAdapter taskAdapter = new ArrayAdapter<Task>(main, R.layout.task_list_item,
-                main.getOrganizer().getFilteredTasks(tags)) {
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Task task = getItem(position);
-                if (convertView == null) {
-                    LayoutInflater inflater = main.getLayoutInflater();
-                    convertView = inflater.inflate(R.layout.task_list_item, parent, false);
-                }
-
-                updateTask(convertView, task);
-
-                return convertView;
-            }
-        };
+        taskAdapter.addAll(main.getOrganizer().getFilteredTasks(tags));
         taskListView.setAdapter(taskAdapter);
         taskListView.deferNotifyDataSetChanged();
     }
