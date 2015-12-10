@@ -6,3 +6,5 @@
 /gradle
 /.nb-gradle/
 /.idea
+/.idea/modules.xml
+/app/app.iml
