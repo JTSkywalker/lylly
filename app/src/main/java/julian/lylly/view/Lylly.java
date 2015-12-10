@@ -28,11 +28,11 @@ public class Lylly extends AppCompatActivity {
 
     private Organizer organizer;
     private int view;
-    private TagsView tavi;
-    private ProspectsView prvi;
-    private ProspectEdit pred;
-    private TasksView tasvi;
-    private TaskEdit taed;
+    private TagsView tagsView;
+    private ProspectsView prospectsView;
+    private ProspectEdit prospectEdit;
+    private TasksView tasksView;
+    private TaskEdit taskEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class Lylly extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         try{
-            FileInputStream fis = openFileInput("lylly.ly");
+            FileInputStream fis = openFileInput("lyl.ly");
             ObjectInputStream ois = new ObjectInputStream(fis);
             organizer = (Organizer) ois.readObject();
             ois.close();
@@ -57,7 +57,7 @@ public class Lylly extends AppCompatActivity {
     }
 
     protected void onPause() {
-        String filename = "lylly.ly";
+        String filename = "lyl.ly";
         FileOutputStream outputStream;
 
         try {
@@ -73,27 +73,27 @@ public class Lylly extends AppCompatActivity {
 
     public void goToTaskOrganizer() {
         setView(R.layout.activity_task_organizer);
-        tasvi = new TasksView(this);
+        tasksView = new TasksView(this);
     }
 
     public void goToProspectOrganizer() {
         setView(R.layout.activity_prospect_organizer);
-        prvi = new ProspectsView(this);
+        prospectsView = new ProspectsView(this);
     }
 
     public void goToTagOrganizer() {
         setView(R.layout.activity_tag_organizer);
-        tavi = new TagsView(this);
+        tagsView = new TagsView(this);
     }
 
     public void goToProspectEdit(Prospect prospect) {
         setView(R.layout.activity_prospect_edit);
-        pred = new ProspectEdit(this, prospect);
+        prospectEdit = new ProspectEdit(this, prospect);
     }
 
     public void goToTaskEdit(Task task) {
         setView(R.layout.activity_task_edit);
-        taed = new TaskEdit(this, task);
+        taskEdit = new TaskEdit(this, task);
     }
 
     public void onClickTaskOrganizer(View v) {
@@ -185,15 +185,15 @@ public class Lylly extends AppCompatActivity {
     }
 
     public void onClickNewTag(View view) {
-        tavi.onClickNewTag();
+        tagsView.onClickNewTag();
     }
 
     public void onClickTagEditOk(View view) {
-        tavi.onClickEditOk();
+        tagsView.onClickEditOk();
     }
 
     public void onClickTagEditCancel(View view) {
-        tavi.onClickCancel();
+        tagsView.onClickCancel();
     }
 
     public void onClickNewProspect(View view) {
@@ -201,15 +201,15 @@ public class Lylly extends AppCompatActivity {
     }
 
     public void onClickProspectEditOk(View view) {
-        pred.onClickOk();
+        prospectEdit.onClickOk();
     }
 
     public void onClickProspectEditCancel(View view) {
-        pred.onClickCancel();
+        prospectEdit.onClickCancel();
     }
 
     public void onClickTaskPlayPause(View view) {
-        tasvi.onClickTaskPlayPause(view);
+        tasksView.onClickTaskPlayPause(view);
     }
 
     public void onClickNewTask(View view) {
@@ -217,26 +217,34 @@ public class Lylly extends AppCompatActivity {
     }
 
     public void onClickTaskEditOk(View view) {
-        taed.onClickOk();
+        taskEdit.onClickOk();
     }
 
     public void onClickTaskEditCancel(View view) {
-        taed.onClickCancel();
+        taskEdit.onClickCancel();
     }
 
     public void onClickEditTask(View view) {
-        tasvi.onClickEditTask(view);
+        tasksView.onClickEditTask(view);
     }
 
     public void onClickTaskFinish(View view) {
-        tasvi.onClickTaskFinish(view);
+        tasksView.onClickTaskFinish(view);
     }
 
     public void onClickToggle(View view) {
-        tasvi.onClickToggle(view);
+        tasksView.onClickToggle(view);
     }
 
     public void onClickTagEditDelete(View view) {
-        tavi.onClickDelete();
+        tagsView.onClickDelete();
+    }
+
+    public void onClickProspectDelete(View view) {
+        prospectEdit.onClickDelete();
+    }
+
+    public void onClickTaskDelete(View view) {
+        taskEdit.onClickDelete();
     }
 }

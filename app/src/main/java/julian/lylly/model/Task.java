@@ -27,7 +27,7 @@ public class Task implements Serializable {
 
 	//status:
 	private boolean fragment = true;
-	private boolean done     = false;
+	private Instant done     = null;
 
 
 	// essential:
@@ -77,7 +77,7 @@ public class Task implements Serializable {
 		if (isActive()) {
 			pause();
 		}
-		done = true;
+		done = Instant.now();
 	}
 
 
@@ -95,12 +95,25 @@ public class Task implements Serializable {
 		return starttime != null;
 	}
 
-	public boolean isDone() {
+	public Instant getDone() {
 		return done;
 	}
 
-	public void setDone(boolean done) {
+	public boolean isDone() {
+		return done != null;
+	}
+
+	public void setDone(Instant done) {
 		this.done = done;
+	}
+
+	public void setDonity(boolean done) {
+		if(!isDone() && done) {
+			this.done = Instant.now();
+		}
+		if(isDone() && !done) {
+			this.done = null;
+		}
 	}
 
 
@@ -253,4 +266,7 @@ public class Task implements Serializable {
 		}
 	}
 
+	public boolean isRecent() {
+		return done == null || !new LocalDate(done).isBefore(LocalDate.now());
+	}//DANGER
 }

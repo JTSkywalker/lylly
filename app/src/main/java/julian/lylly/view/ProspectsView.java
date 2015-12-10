@@ -1,5 +1,6 @@
 package julian.lylly.view;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,26 +33,33 @@ public class ProspectsView {
                         main.getOrganizer().getProspects()){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater = main.getLayoutInflater();
-                View view = inflater.inflate(R.layout.prospect_list_item, parent, false);
+                if(convertView == null) {
+                    LayoutInflater inflater = main.getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.prospect_list_item, parent, false);
+                }
                 Prospect p = getItem(position);
                 Duration running = main.getOrganizer().getInvestedTime(p);
                 Duration toMin = Util.max(Duration.ZERO, p.getMin().minus(running));
                 Duration toMax = Util.max(Duration.ZERO, p.getMax().minus(running));
-                ((TextView) view.findViewById(R.id.running))
-                        .setText(Util.durationToHourMinuteString(running));
-                ((TextView) view.findViewById(R.id.tagName))
-                        .setText(p.getTag().getName());
-                ((TextView) view.findViewById(R.id.minMinusRunning))
-                        .setText(" " + Util.durationToHourMinuteString(toMin) + " ");
-                ((TextView) view.findViewById(R.id.maxMinusRunning))
-                        .setText(" " + Util.durationToHourMinuteString(toMax) + " ");
-                ((TextView) view.findViewById(R.id.startDate))
-                        .setText(Util.daysToDate(p.getStart()));
-                ((TextView) view.findViewById(R.id.endDate))
-                        .setText(Util.daysToDate(p.getEnd()));
 
-                return view;
+                TextView tagView = (TextView) convertView.findViewById(R.id.tagName);
+                TextView runningView = (TextView) convertView.findViewById(R.id.running);
+                TextView minMinusView = (TextView) convertView.findViewById(R.id.minMinusRunning);
+                TextView maxMinusView = (TextView) convertView.findViewById(R.id.maxMinusRunning);
+                TextView startDateView = (TextView) convertView.findViewById(R.id.startDate);
+                TextView endDateView = (TextView) convertView.findViewById(R.id.endDate);
+
+                tagView.setText(p.getTag().getName());
+                if(main.getOrganizer().getDiscardedProspects().contains(p)) {
+                    tagView.setPaintFlags(tagView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+                runningView.setText(Util.durationToHourMinuteString(running));
+                minMinusView.setText(" " + Util.durationToHourMinuteString(toMin) + " ");
+                maxMinusView.setText(" " + Util.durationToHourMinuteString(toMax) + " ");
+                startDateView.setText(Util.daysToDate(p.getStart()));
+                endDateView.setText(Util.daysToDate(p.getEnd()));
+
+                return convertView;
             }
         };
         listView = (ListView) main.findViewById(R.id.prospectListView);

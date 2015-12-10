@@ -150,4 +150,10 @@ public class ProspectEdit {
         main.goToProspectOrganizer();
     }
 
+    public void onClickDelete() {
+        if(editing != null) {
+            main.getOrganizer().discardProspect(editing);
+        }
+        main.goToProspectOrganizer();
+    }
 }

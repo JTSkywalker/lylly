@@ -147,11 +147,13 @@ public class ProspectOrganizerImpl implements ProspectOrganizer {
 	 */
 	@Override
 	public void discardProspect(Prospect prospect) {
-		if (prospect.isActive()) {
-			discarded.add(prospect);
-		}
-		if (!prospect.isOver()) {
-			enabled.remove(prospect);
+		if (enabled.contains(prospect)) {
+			if (prospect.isActive()) {
+				discarded.add(prospect);
+			}
+			if (!prospect.isOver()) {
+				enabled.remove(prospect);
+			}
 		}
 	}
 

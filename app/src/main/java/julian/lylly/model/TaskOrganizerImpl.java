@@ -33,7 +33,11 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 		List<Task> res = new ArrayList<>();
 		for (Tag tag : tags) {
 			if (toDo.containsKey(tag)) {
-				res.addAll(toDo.get(tag));
+				for (Task task : toDo.get(tag)) {
+					if (task.isRecent()) {
+						res.add(task);
+					}
+				}
 			}
 		}
 		return res;

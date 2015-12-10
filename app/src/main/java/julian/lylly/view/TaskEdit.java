@@ -75,4 +75,11 @@ public class TaskEdit {
     public void onClickCancel() {
         main.goToTaskOrganizer();
     }
+
+    public void onClickDelete() {
+        if(editing != null) {
+            main.getOrganizer().removeTask(editing);
+        }
+        main.goToTaskOrganizer();
+    }
 }
