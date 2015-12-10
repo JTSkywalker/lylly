@@ -59,7 +59,7 @@ public class Prospect implements Serializable {
 
 	public boolean isActive() {
 		LocalDate now = LocalDate.now();
-		return !now.isBefore(start) && !end.isBefore(now);
+		return !now.isBefore(start) && now.isBefore(end);
 	}
 
 	public boolean isBeforeStart() {
@@ -113,7 +113,10 @@ public class Prospect implements Serializable {
 	public List<Pair<Duration, Duration>> getBudgets(LocalDate pointer, Duration timespent) {
 		int relDay = Days.daysBetween(start, pointer).getDays();
 		if (pointer.isBefore(start) || !end.isAfter(pointer)) {
-			throw new IllegalArgumentException("day is out of range");
+			throw new IllegalArgumentException("day is out of range:\t"
+					+ "start = " + start.toString() + "\t"
+					+ "pointer = " + pointer.toString() + "\t"
+					+ "end = " + end.toString());
 		}
 		List<Integer> subl = weights.subList(relDay, weights.size());
 		int sum = 0;
