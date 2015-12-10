@@ -59,4 +59,10 @@ public class TagsView {
         main.goToTagOrganizer();
     }
 
+    public void onClickDelete() {
+        if (editing != null) {
+            main.getOrganizer().removeTag(editing);
+        }
+        main.goToTagOrganizer();
+    }
 }

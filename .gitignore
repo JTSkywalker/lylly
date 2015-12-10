@@ -8,3 +8,5 @@
 /.idea
 /.idea/modules.xml
 /app/app.iml
+app/local.properties
+lylly.iml

@@ -64,7 +64,7 @@ public class TaskEdit {
         task.setDescr(descr);
         task.setTag(tag);
         task.setUrgency(urgency);
-        task.setDone(done);
+        task.setDonity(done);
 
         if (editing == null) {
             main.getOrganizer().addTask(task);

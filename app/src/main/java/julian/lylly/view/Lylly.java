@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,7 +180,7 @@ public class Lylly extends AppCompatActivity {
         Task task3 = new Task();
         task3.setDescr("done task");
         task3.setTag(tag3);
-        task3.setDone(true);
+        task3.setDonity(true);
         organizer.addTask(task3);
     }
 
@@ -235,5 +234,9 @@ public class Lylly extends AppCompatActivity {
 
     public void onClickToggle(View view) {
         tasvi.onClickToggle(view);
+    }
+
+    public void onClickTagEditDelete(View view) {
+        tavi.onClickDelete();
     }
 }
