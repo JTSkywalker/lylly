@@ -57,6 +57,11 @@ public class Lylly extends AppCompatActivity {
     }
 
     protected void onPause() {
+        save();
+        super.onPause();
+    }
+
+    void save() {
         String filename = "lyl.ly";
         FileOutputStream outputStream;
 
@@ -68,7 +73,6 @@ public class Lylly extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        super.onPause();
     }
 
     public void goToTaskOrganizer() {
