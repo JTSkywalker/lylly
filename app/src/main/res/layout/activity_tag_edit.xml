@@ -39,15 +39,15 @@
             android:id="@+id/tagEditCancel"
             android:onClick="onClickTagEditCancel"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="delete"
+            android:background="#E05335"
+            android:id="@+id/tagEditDelete"
+            android:onClick="onClickTagEditDelete"/>
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="delete"
-        android:background="#E05335"
-        android:id="@+id/tagEditDelete"
-        android:onClick="onClickTagEditDelete"/>
 
 
 

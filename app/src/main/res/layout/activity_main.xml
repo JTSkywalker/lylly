@@ -16,7 +16,6 @@
         android:text="@string/buttonToTaskOrganizer"
         android:id="@+id/taskOrg"
         android:textSize="20sp"
-        android:layout_margin="30dp"
         android:onClick="onClickTaskOrganizer" />
 
     <Button
@@ -26,7 +25,6 @@
         android:text="@string/buttonToProspectOrganizer"
         android:id="@+id/prospectOrg"
         android:textSize="20sp"
-        android:layout_margin="30dp"
         android:onClick="onClickProspectOrganizer"/>
 
     <Button
@@ -36,6 +34,5 @@
         android:text="@string/buttonToTagOrganizer"
         android:id="@+id/tagOrg"
         android:textSize="20sp"
-        android:layout_margin="30dp"
         android:onClick="onClickTagOrganizer"/>
 </LinearLayout>
