@@ -10,3 +10,7 @@
 /app/app.iml
 app/local.properties
 lylly.iml
+*.aux
+*.log
+*.pdf
+*.synctex.gz

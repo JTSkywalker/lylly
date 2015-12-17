@@ -1,0 +1,78 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{\textbf{Anleitung zum Prototypen \texttt{lylly} 0.1}}
+\author{Julian Rosemann}
+\begin{document}
+\maketitle
+\section{Konzept}
+Dies ist ein Prototyp der dazu dient die Konzepte vorzustellen, die eine spätere Version umsetzen wird. Die wichtigsten Features sind in dem Prototypen zwar im Kern umgesetzt und können getestet werden – diese Version ist aber nicht geeignet um tatsächlich eingesetzt zu werden, da sie zum einen instabil ist und Datenverlust beziehungsweise unerwartetes Verhalten nicht ausgeschlossen werden können, andererseits ist das User-Interface unhandlich und unschön so dass eine effektive Nutzung erschwert wird.
+
+Die Android App \texttt{lylly} soll der Anwenderin helfen ihre Zeit auf die Dinge in dem Maße zu verwenden, wie sie es sich vorher vorgenommen hat. Die Anwenderin definiert sich dafür die Kategorien ihres Alltags, wo sie deren Zeitaufwand genauer kontrollieren und steuern will. Dabei ist es ihr überlassen welche Bereiche in der App auftauchen und welche nicht. %TODO ~~
+
+Dann kann sie sich für ihre Kategorien über fixe Zeiträume ein Zielintervall definieren, welches angibt wie viel Zeit sie für diese Kategorie in dem Zeitraum mindestens und höchstens investieren will. Außerdem werden bei jedem Ziel Gewichte mitangegeben, die der App mitteilen wie sie die Zeit (ungefähr) über die Tage, die das Ziel umfasst, verteilen möchte. Mit diesen Informationen kann die App der Anwenderin jeden Tag zu jeder Kategorie einen Vorschlag machen wie viel Zeit sie damit mindestens und höchstens verbringen sollte. Hält sie sich nicht an diese Vorschläge werden für die anderen Tage die Vorgaben so angepasst, dass das Ziel immer noch erreicht werden kann. Wenn sie also den vorgeschlagenen Höchstwert übertrifft, wird dieser in den folgenden Tagen heruntergesetzt, analog wird der Mindestwert für die nächsten Tage erhöht wenn sie jenen nicht erreicht.
+
+Außerdem können Aufgaben definiert werden welche jeweils einer Kategorie zugeordnet sind. Immer wenn die Benutzerin eine Aufgabe bearbeitet wird die Zeit gestoppt und mit der Zielvorgabe der jeweiligen Kategorie verrechnet. Die Aufgaben können nach Kategorie gefiltert angezeigt werden, sodass die Anwenderin gezielt nach Aufgaben suchen kann, die ihr helfen ihre Zeitvorgaben zu erfüllen.
+
+Die empfohlene Anwendung sieht vor das die Anwenderin sich ihre Ziele so setzt, dass sie sie auch tatsächlich erreicht und die Gewichte so angibt beziehungsweise fortwährend modifiziert, dass sie täglich die Vorschläge erfüllt.
+
+\section{Funktionalität}
+Die App gliedert sich in den TaskOrganizer, den ProspectOrganizer und den TagOrganizer in denen die Aufgaben, Ziele beziehungsweise Kategorien verwaltet werden.
+
+\subsection{TagOrganizer}
+Hier können mit dem "+"-Button neue Kategorien hinzugefügt werden und bestehende modifiziert beziehungsweise gelöscht werden in dem man auf sie tippt.
+
+\subsection{ProspectOrganizer}
+Dies ist der Bildschirm wo bereits existierende Ziele angezeigt werden und bearbeitet werden können. Des weiteren können mithilfe des "+"-Buttons neue angelegt werden.
+
+Bei jedem Ziel wird ganz links angezeigt wie viel Zeit bereits darauf verwendet wurde, daneben oben wie viel Zeit noch zur Mindestforderung fehlt und unten wie viel Zeit noch zur Höchstforderung fehlt. Dann kommt der Name der Kategorie und rechts am Rand stehen jeweils Start- und Enddatum übereinander.
+Wenn der Name durchgestrichen ist, ist das Ziel verworfen.
+\subsubsection{Ziele bearbeiten}
+Ein Ziel besteht aus den folgenden Elementen:
+\begin{itemize}
+	\item \textsf{Kategorie:} die zugeordnete Kategorie
+	\item \textsf{Startdatum:} am Anfang dieses Tages beginnt der Abrechnungszeitraum
+	\item \textsf{Enddatum:} am Anfang dieses Tages endet der Abrechnungszeitraum 
+	\item \textsf{Gewichte:} siehe unten
+	\item \textsf{Mindestaufwand:} der Aufwand in Stunden und Minuten der insgesamt mindestens betrieben werden soll
+	\item \textsf{Höchstaufwand:} der Aufwand in Stunden und Minuten der insgesamt höchstens betrieben werden soll
+\end{itemize}
+Die Gewichte sind eine Folge von \textsf{genau} so vielen Ziffern wie das Intervall (= Enddatum - Startdatum) Tage hat. Diese Ziffern geben an wie viel Zeit an den Tagen relativ zueinander in das Ziel investiert werden soll. Die Gewichtsangaben "112" und "224" bedeuten also genau dasselbe – am dritten Tag soll doppelt so viel Zeit investiert werden wie am ersten oder zweiten. "223" hingegen wäre eine etwas ausgewogenere Verteilung.
+
+Ziele können wenn sie bereits laufen nur noch eingeschränkt bearbeitet werden: Gewichte können immer bearbeitet werden, alles andere jedoch kann nicht mehr bearbeitet werden wenn das Startdatum erreicht wurde. Ziele können allerdings immer verworfen werden.
+
+\subsection{TaskOrganizer}
+Dies ist der Bildschirm der in der Praxis die meiste Zeit verwendet wird. Er wird in dieser Dokumentation zuletzt aufgeführt, da das sinnvolle Nutzen des TaskOrganizers das vorherige Erstellen der Kategorien und Ziele in TagOrganizer und ProspectOrganizer erfordert.
+
+Der Bildschirm ist in zwei Abschnitte gegliedert:
+\begin{itemize}
+	\item die Liste von Kategorien mit je einem Vorschlag für Mindest- und Höchstwert der \textit{heute} zu investierenden Zeit pro Kategorie
+	\item die Liste von Aufgaben, benutzerdefiniert gefiltert
+\end{itemize}
+In der Liste der Kategorien werden für jede Kategorie die Zeiten genauso angezeigt wie bei den Zielen und es gibt je einen Button zum Ein- beziehungsweise Ausblenden aller Aufgaben dieser Kategorie. Wenn alle Buttons auf "Aus" sind, werden alle Aufgaben angezeigt. Des weiteren ändert sich die Farbe der Kategorie, wenn Mindestwert (grün) oder Höchstwert (orange) erreicht wird. 
+
+Aufgaben können durch den "+"-Button hinzugefügt werden und durch antippen bearbeitet werden. Außerdem gibt es für jede Aufgabe einen "Play/Pause"-Button sowie einen "Done"-Button. Diese sollten benutzt werden um der App zu signalisieren, wenn die Aufgabe bearbeitet wird oder erledigt ist. Der Zähler an der Aufgabe läuft aufwärts, wenn die Aufgabe in Bearbeitung ist.
+
+\section{Zukünftige Features}
+Im folgenden liste ich noch ein paar Ideen für zukünftige Versionen auf.
+\subsection{Neue Konzepte}
+\begin{itemize}
+	\item mächtigere Aufgaben
+	\item verbessertes Modell für Gewichte, eventuell Gewichte pro Woche und pro Wochentag
+	\item wiederholende Aufgaben
+	\item wiederholende Ziele
+	\item sich ineinander einschließende Aufgaben
+	\item sich ineinander einschließende Ziele
+	\item sich ineinander einschließende Kategorien
+	\item Warnungen bei Unerreichbarkeit, z.B. ein Tag mit über 24 Stunden Ziel
+	\item Belohnungssystem, z.B. für wiederholtes Erreichen der Tagesziele
+\end{itemize}
+\subsection{User-Interface Verbesserungen}
+\begin{itemize}
+	\item Bearbeitungsintervalle werden angezeigt und sind modifizierbar
+	\item intuitivere Eingabe von Gewichten
+	\item Möglichkeit Gewichte verschiedener Kategorien gleichzeitig zu ändern
+\end{itemize}
+\end{document}
