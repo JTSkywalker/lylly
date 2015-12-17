@@ -43,6 +43,11 @@ public class Lylly extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+        load();
+        //helper();
+    }
+
+    private void load() {
         try{
             FileInputStream fis = openFileInput("lyl.ly");
             ObjectInputStream ois = new ObjectInputStream(fis);
