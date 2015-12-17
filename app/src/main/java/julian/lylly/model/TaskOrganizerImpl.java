@@ -19,7 +19,7 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 
 	//TODO: test!
 
-	private final Map<Tag,List<Task>> toDo = new HashMap<>();
+	private final List<Task> toDo = new ArrayList<>();
 
 	public Duration getInvestedTime(Prospect prospect) {
 		return getInvestedTime(prospect.getStart(), prospect.getEnd(), prospect.getTag());
@@ -27,16 +27,20 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 
 	@Override
 	public List<Task> getFilteredTasks(List<Tag> tags) {
-		if (tags.isEmpty()) {
-			tags = new ArrayList<>(toDo.keySet());
-		}
 		List<Task> res = new ArrayList<>();
+		if (tags.isEmpty()) {
+			for (Task task : toDo) {
+				if (task.isRecent()) {
+					res.add(task);
+				}
+			}
+			return res;
+		}
 		for (Tag tag : tags) {
-			if (toDo.containsKey(tag)) {
-				for (Task task : toDo.get(tag)) {
-					if (task.isRecent()) {
-						res.add(task);
-					}
+			for (Task task :
+					toDo) {
+				if (task.getTag().equals(tag) && task.isRecent()) {
+					res.add(task);
 				}
 			}
 		}
@@ -45,13 +49,11 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 
 	@Override
 	public Duration getInvestedTime(LocalDate start, LocalDate end, Tag tag) {
-		if (!toDo.containsKey(tag)) {
-			return new Duration(0);
-		}
-		List<Task> li = toDo.get(tag);
 		Duration sum = Duration.ZERO;
-		for (Task t : li) {
-			sum = sum.plus(t.getTimeSpentInInterval(start, end));
+		for (Task task : toDo) {
+			if (task.getTag().equals(tag)) {
+				sum = sum.plus(task.getTimeSpentInInterval(start, end));
+			}
 		}
 		return sum;
 	}
@@ -64,23 +66,12 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 
 	@Override
 	public void addTask(Task task) {
-		Tag tag = task.getTag();
-		if (toDo.containsKey(tag)) {
-			toDo.get(tag).add(task);
-		} else {
-			List<Task> arrli = new ArrayList<>();
-			arrli.add(task);
-			toDo.put(tag, arrli);
-		}
+		toDo.add(task);
 	}
 
 	@Override
 	public void removeTask(Task task) {
-		Tag tag = task.getTag();
-		if (!toDo.containsKey(tag)) {
-			throw new IllegalArgumentException("task does not exist");
-		}
-		toDo.get(tag).remove(task);
+		toDo.remove(task);
 	}
 
 }
