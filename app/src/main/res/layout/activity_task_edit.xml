@@ -63,4 +63,16 @@
 
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskEditAddInterval"
+        android:text="+ interval"
+        android:onClick="onClickEditTaskAddInterval" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskEditIntervals"/>
+
 </LinearLayout>

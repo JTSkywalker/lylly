@@ -13,6 +13,8 @@ import org.joda.time.LocalDate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -194,11 +196,26 @@ public class Task implements Serializable {
 
 	public void setIntervals(List<Interval> intervals) {
 		checkDistinctness(intervals);
+		Collections.sort(intervals, new Comparator<Interval>() {
+			@Override
+			public int compare(Interval lhs, Interval rhs) {
+				return lhs.getStart().compareTo(rhs.getStart());
+			}
+		});
 		this.intervals = intervals;
 	}
 
 	static void checkDistinctness(List<Interval> intervals) {
-		//TODO: implement
+		for (int i=0; i<intervals.size(); i++) {
+			Interval x = intervals.get(i);
+			for (int j=i+1; j<intervals.size(); j++) {
+				Interval y = intervals.get(j);
+				if (x.overlaps(y)) {
+					throw new IllegalArgumentException(
+							x.toString() + " overlaps " + y.toString());
+				}
+			}
+		}
 	}
 
 	public List<Interval> getIntervals() {

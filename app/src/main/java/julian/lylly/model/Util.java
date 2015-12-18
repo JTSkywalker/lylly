@@ -7,6 +7,7 @@
 package julian.lylly.model;
 
 
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 
@@ -36,6 +37,15 @@ public class Util {
 		long h = duration.getStandardHours();
 		long m = duration.getStandardMinutes() % 60;
 		return longTo2DigitString(h) + ":" + longTo2DigitString(m);
+	}
+
+	public static String dateTimeToString(DateTime dt) {
+		String y = dt.getYear() + "";
+		String m = longTo2DigitString(dt.getMonthOfYear());
+		String d = longTo2DigitString(dt.getDayOfMonth());
+		String h = longTo2DigitString(dt.getHourOfDay());
+		String mi= longTo2DigitString(dt.getMinuteOfHour());
+		return y + "-" + m + "-" + d + " " + h + ":" + mi;
 	}
 
 	public static String durationToHourMinuteSecondString(Duration duration) {

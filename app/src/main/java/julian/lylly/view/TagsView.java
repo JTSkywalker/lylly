@@ -29,7 +29,8 @@ public class TagsView {
                                         lylly.getOrganizer().getTags());
         listView = (ListView) lylly.findViewById(R.id.tagListView);
         listView.setAdapter(tagAdapter);
-        AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
+        AdapterView.OnItemClickListener mMessageClickedHandler
+                = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 main.setView(R.layout.activity_tag_edit);
                 editing = (Tag) parent.getAdapter().getItem(position);

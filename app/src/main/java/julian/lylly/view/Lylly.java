@@ -119,6 +119,9 @@ public class Lylly extends AppCompatActivity {
 
     public void onBackPressed() {
         switch (view) {
+            case (R.layout.activity_interval_edit):
+                taskEdit.onClickEditIntervalCancel();
+                break;
             case (R.layout.activity_task_edit):
                 goToTaskOrganizer();
                 break;
@@ -255,5 +258,21 @@ public class Lylly extends AppCompatActivity {
 
     public void onClickTaskDelete(View view) {
         taskEdit.onClickDelete();
+    }
+
+    public void onClickEditIntervalOk(View view) {
+        taskEdit.onClickEditIntervalOk();
+    }
+
+    public void onClickEditIntervalCancel(View view) {
+        taskEdit.onClickEditIntervalCancel();
+    }
+
+    public void onClickEditIntervalDelete(View view) {
+        taskEdit.onClickEditIntervalDelete();
+    }
+
+    public void onClickEditTaskAddInterval(View view) {
+        taskEdit.onClickAddInterval();
     }
 }
