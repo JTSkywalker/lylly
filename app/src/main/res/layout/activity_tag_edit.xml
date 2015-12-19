@@ -26,26 +26,27 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/ok"
             android:id="@+id/tagEditOk"
-            android:onClick="onClickTagEditOk"/>
+            android:onClick="onClickTagEditOk"
+            android:layout_weight="0.33" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.66"
             android:text="@string/cancel"
             android:id="@+id/tagEditCancel"
             android:onClick="onClickTagEditCancel"/>
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:text="delete"
             android:background="#E05335"
             android:id="@+id/tagEditDelete"
-            android:onClick="onClickTagEditDelete"/>
+            android:onClick="onClickTagEditDelete"
+            android:layout_weight="0.34" />
     </LinearLayout>
 
 

@@ -60,12 +60,13 @@
 
             <Button
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:background="#E05335"
                 android:id="@+id/editIntervalDelete"
                 android:text="Delete"
-                android:onClick="onClickEditIntervalDelete"/>
+                android:onClick="onClickEditIntervalDelete"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>
