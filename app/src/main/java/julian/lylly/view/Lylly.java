@@ -3,6 +3,7 @@ package julian.lylly.view;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import org.joda.time.Duration;
@@ -16,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import julian.lylly.R;
 import julian.lylly.model.Organizer;
@@ -33,12 +35,16 @@ public class Lylly extends AppCompatActivity {
     private ProspectEdit prospectEdit;
     private TasksView tasksView;
     private TaskEdit taskEdit;
+    // To identify the application when logging
+    public static final String TAG = "LYLLY";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         view = R.layout.activity_main;
         setContentView(view);
+        Log.d(TAG,"Lylly is now online.");
     }
 
     protected void onResume() {
@@ -57,6 +63,7 @@ public class Lylly extends AppCompatActivity {
             organizer = new OrganizerImpl();
         }
         catch (IOException | ClassNotFoundException exc) {
+            Log.e(TAG,"The file was not found.",exc);
             exc.printStackTrace();
         }
     }
@@ -76,6 +83,7 @@ public class Lylly extends AppCompatActivity {
             save.writeObject(organizer);
             save.close();
         } catch (Exception e) {
+            Log.e(TAG,"The save action could not be executed.",e);
             e.printStackTrace();
         }
     }
@@ -83,26 +91,31 @@ public class Lylly extends AppCompatActivity {
     public void goToTaskOrganizer() {
         setView(R.layout.activity_task_organizer);
         tasksView = new TasksView(this);
+        Log.d(TAG,"View changed to TaskOrganizer.");
     }
 
     public void goToProspectOrganizer() {
         setView(R.layout.activity_prospect_organizer);
         prospectsView = new ProspectsView(this);
+        Log.d(TAG,"View changed to ProspectOrganizer.");
     }
 
     public void goToTagOrganizer() {
         setView(R.layout.activity_tag_organizer);
         tagsView = new TagsView(this);
+        Log.d(TAG,"View changed to TagOrganizer.");
     }
 
     public void goToProspectEdit(Prospect prospect) {
         setView(R.layout.activity_prospect_edit);
         prospectEdit = new ProspectEdit(this, prospect);
+        Log.d(TAG,"View changed to ProspectEdit.");
     }
 
     public void goToTaskEdit(Task task) {
         setView(R.layout.activity_task_edit);
         taskEdit = new TaskEdit(this, task);
+        Log.d(TAG,"View changed to TaskEdit.");
     }
 
     public void onClickTaskOrganizer(View v) {
@@ -118,6 +131,7 @@ public class Lylly extends AppCompatActivity {
     }
 
     public void onBackPressed() {
+        Log.d(TAG,"Back button pressed.");
         switch (view) {
             case (R.layout.activity_interval_edit):
                 taskEdit.onClickEditIntervalCancel();

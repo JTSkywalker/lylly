@@ -1,5 +1,6 @@
 package julian.lylly.view;
 
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -142,6 +143,7 @@ public class ProspectEdit {
             }
             main.goToProspectOrganizer();
         } catch (IllegalArgumentException exc) {
+            Log.e(Lylly.TAG,"Invalid Input in ProspectEdit.",exc);
             Toast.makeText(main, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
