@@ -82,10 +82,10 @@ public class TaskEdit {
                     LayoutInflater inflater = main.getLayoutInflater();
                     convertView = inflater.inflate(R.layout.text_view, parent, false);
                 }
-                Interval interval = getItem(position);
-                String startTxt = Util.dateTimeToString(interval.getStart()),
-                         endTxt = Util.dateTimeToString(  interval.getEnd());
-                ((TextView) convertView).setText(startTxt + " / " + endTxt);
+                Interval interval = getItem(position);                                    //W
+                String startTxt = Util.dateTimeToString(interval.getStart().plusHours(1)),//E
+                         endTxt = Util.dateTimeToString(  interval.getEnd().plusHours(1));//A
+                ((TextView) convertView).setText(startTxt + " / " + endTxt);              //K
                 return convertView;
             }
         };

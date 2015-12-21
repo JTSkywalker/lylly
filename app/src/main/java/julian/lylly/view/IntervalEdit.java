@@ -33,7 +33,8 @@ public class IntervalEdit {
         this.endTimeInput   = (TimePicker) main.findViewById(R.id.editIntervalEndTime);
 
         if (editing != null) {
-            DateTime start = editing.getStart();
+            //FIXME: this fucks up other timezones…
+            DateTime start = editing.getStart().plusHours(1);
             startDateInput.updateDate(start.getYear(),
                     // -1 because DatePicker is weird and counts months from 0 to 11
                     start.getMonthOfYear() - 1,
@@ -41,7 +42,7 @@ public class IntervalEdit {
             startTimeInput.setCurrentHour(start.getHourOfDay());
             startTimeInput.setCurrentMinute( start.getMinuteOfHour());
 
-            DateTime end   = editing.getEnd();
+            DateTime end   = editing.getEnd().plusHours(1);
             endDateInput.updateDate(end.getYear(),
                     // -1 because DatePicker is weird and counts months from 0 to 11
                     end.getMonthOfYear() - 1,
@@ -56,16 +57,15 @@ public class IntervalEdit {
                 // +1 because DatePicker is weird and counts months from 0 to 11
                                       startDateInput.getMonth()+1,
                                       startDateInput.getDayOfMonth(),
-                startTimeInput.getCurrentHour(),
-                startTimeInput.getCurrentMinute());
+                                      startTimeInput.getCurrentHour(),//?!
+                                      startTimeInput.getCurrentMinute());
         DateTime end   = new DateTime(endDateInput.getYear(),
                 // +1 because DatePicker is weird and counts months from 0 to 11
                                       endDateInput.getMonth()+1,
                                       endDateInput.getDayOfMonth(),
-                endTimeInput.getCurrentHour(),
-                endTimeInput.getCurrentMinute());
-        //FIXME: this fucks up other timezones…
-        return new Interval(start.plusHours(1).toInstant(), end.plusHours(1).toInstant());
+                                      endTimeInput.getCurrentHour(),//?!
+                                      endTimeInput.getCurrentMinute());
+        return new Interval(start.toInstant(), end.toInstant());
     }
 
 }
