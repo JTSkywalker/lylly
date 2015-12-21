@@ -45,7 +45,8 @@ public class OrganizerImpl implements Organizer, Serializable {
 	}
 
 	private Pair<Duration,Duration> getBudget(Prospect prospect) {
-		return prospect.getNextBudget(LocalDate.now(), taskOrg.getInvestedTime(prospect));
+		return prospect.getNextBudget(LocalDate.now(),//FIXME: maybe buggy at midnight
+				taskOrg.getInvestedTime(prospect.getStart(), LocalDate.now(), prospect.getTag()));
 	}
 
 	/*

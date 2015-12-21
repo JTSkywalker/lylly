@@ -222,19 +222,17 @@ public class TasksView {
         Duration min = budget.getSecond().getFirst();
         Duration max = budget.getSecond().getSecond();
         Duration running = main.getOrganizer().getTodaysInvTime(tag);
-        Duration toMin = Util.max(Duration.ZERO, min.minus(running));
-        Duration toMax = Util.max(Duration.ZERO, max.minus(running));
 
         runningView.setText(Util.durationToHourMinuteString(running));
         tagNameView.setText(tag.getName());
-        minMinusView.setText(" " + Util.durationToHourMinuteString(toMin) + " ");
-        maxMinusView.setText(" " + Util.durationToHourMinuteString(toMax) + " ");
+        minMinusView.setText(" " + Util.durationToHourMinuteString(min) + " ");
+        maxMinusView.setText(" " + Util.durationToHourMinuteString(max) + " ");
         toggle.setChecked(selectedTags.contains(tag));
 
-        if (toMax.equals(Duration.ZERO)) {
+        if (!max.isLongerThan(running)) {
             view.setBackgroundColor(0xFF401E00);
         } else {
-            if (toMin.equals(Duration.ZERO)) {
+            if (!min.isLongerThan(running)) {
                 view.setBackgroundColor(0xFF024000);
             } else {
                 view.setBackgroundColor(0xFF000000);
