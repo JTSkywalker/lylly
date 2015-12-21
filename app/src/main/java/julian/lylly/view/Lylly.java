@@ -1,6 +1,7 @@
 package julian.lylly.view;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -100,7 +101,7 @@ public class Lylly extends AppCompatActivity {
             ObjectOutputStream save = new ObjectOutputStream(outputStream);
             save.writeObject(organizer);
             save.close();
-            Log.d(TAG,"The save action was successful.");
+            Log.d(TAG, "The save action was successful.");
         } catch (Exception e) {
             Log.e(TAG,"The save action could not be executed.",e);
             e.printStackTrace();
@@ -150,7 +151,7 @@ public class Lylly extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        Log.d(TAG,"Back button pressed.");
+        Log.d(TAG, "Back button pressed.");
         switch (view) {
             case (R.layout.activity_interval_edit):
                 taskEdit.onClickEditIntervalCancel();
@@ -307,5 +308,14 @@ public class Lylly extends AppCompatActivity {
 
     public void onClickEditTaskAddInterval(View view) {
         taskEdit.onClickAddInterval();
+    }
+
+
+    // Called on configuration change (Orientation, keyboard visible)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // No further action to not switch to main screen
+        //setContentView(R.layout.activity_main);
     }
 }
