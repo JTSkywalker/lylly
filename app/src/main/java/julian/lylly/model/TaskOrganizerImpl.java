@@ -51,8 +51,11 @@ public class TaskOrganizerImpl implements TaskOrganizer {
 	public Duration getInvestedTime(LocalDate start, LocalDate end, Tag tag) {
 		Duration sum = Duration.ZERO;
 		for (Task task : toDo) {
-			if (task.getTag().equals(tag)) {
-				sum = sum.plus(task.getTimeSpentInInterval(start, end));
+			// Check for null, because some tasks may not have a tag
+			if(task.getTag()!= null) {
+				if (task.getTag().equals(tag)) {
+					sum = sum.plus(task.getTimeSpentInInterval(start, end));
+				}
 			}
 		}
 		return sum;
