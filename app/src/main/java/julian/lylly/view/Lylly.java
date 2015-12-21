@@ -17,7 +17,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import julian.lylly.R;
 import julian.lylly.model.Organizer;
@@ -44,21 +43,45 @@ public class Lylly extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         view = R.layout.activity_main;
         setContentView(view);
-        Log.d(TAG,"Lylly is now online.");
+        Log.d(TAG, "Lylly is now online.");
     }
 
     protected void onResume() {
         super.onResume();
-        load();
+        Log.d(TAG, "onResume. is organizer null: " + (organizer == null));
+        loadIfNecessary();
         //helper();
     }
 
-    private void load() {
+    protected void onPause() {
+        Log.d(TAG, "onPause");
+        super.onPause();
+        save();
+    }
+
+    public void onSaveInstanceState(Bundle bundle) {//Do we need this?
+        Log.d(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(bundle);
+        save();
+    }
+
+    public void onRestoreInstanceState(Bundle bundle) {//Do we need this?
+        Log.d(TAG, "onRestoreInstanceState");
+        super.onRestoreInstanceState(bundle);
+        loadIfNecessary();
+    }
+
+    private void loadIfNecessary() {
+        if (organizer != null) {
+            Log.d(TAG, "No loading needed");
+            return;
+        }
         try{
             FileInputStream fis = openFileInput("lyl.ly");
             ObjectInputStream ois = new ObjectInputStream(fis);
             organizer = (Organizer) ois.readObject();
             ois.close();
+            Log.d(TAG,"The load action was successful.");
         } catch (FileNotFoundException ex) {
             organizer = new OrganizerImpl();
         }
@@ -66,11 +89,6 @@ public class Lylly extends AppCompatActivity {
             Log.e(TAG,"The file was not found.",exc);
             exc.printStackTrace();
         }
-    }
-
-    protected void onPause() {
-        save();
-        super.onPause();
     }
 
     void save() {
@@ -82,6 +100,7 @@ public class Lylly extends AppCompatActivity {
             ObjectOutputStream save = new ObjectOutputStream(outputStream);
             save.writeObject(organizer);
             save.close();
+            Log.d(TAG,"The save action was successful.");
         } catch (Exception e) {
             Log.e(TAG,"The save action could not be executed.",e);
             e.printStackTrace();
