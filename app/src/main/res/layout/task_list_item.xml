@@ -31,7 +31,7 @@
 
     <Button
         android:id="@+id/taskFinish"
-        android:text="✓"
+        android:text="@string/finish"
         android:layout_width="42dp"
         android:layout_height="wrap_content"
         android:onClick="onClickTaskFinish" />

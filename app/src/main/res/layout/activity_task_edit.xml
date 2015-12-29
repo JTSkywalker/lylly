@@ -19,7 +19,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="urgent"
+        android:text="@string/labelUrgent"
         android:id="@+id/taskEditIsUrgentInput"
         android:checked="false" />
 
@@ -27,7 +27,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="done"
+        android:text="@string/labelDone"
         android:id="@+id/taskEditIsDone"
         android:checked="false" />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.33"
             android:onClick="onClickTaskEditOk"
-            android:text="OK"
+            android:text="@string/ok"
             android:id="@+id/taskEditOk" />
 
         <Button
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.33"
             android:onClick="onClickTaskEditCancel"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:id="@+id/taskEditCancel" />
 
         <Button
@@ -58,7 +58,7 @@
             android:layout_height="35dp"
             android:background="#E05335"
             android:onClick="onClickTaskDelete"
-            android:text="Delete"
+            android:text="@string/delete"
             android:id="@+id/taskEditDelete"
             android:layout_weight="0.33" />
 
@@ -68,7 +68,7 @@
         android:layout_width="129dp"
         android:layout_height="wrap_content"
         android:id="@+id/taskEditAddInterval"
-        android:text="+ interval"
+        android:text="@string/newInterval"
         android:onClick="onClickEditTaskAddInterval" />
 
     <ListView

@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="start:"/>
+            android:text="@string/labelStart"/>
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="end:"/>
+            android:text="@string/labelEnd"/>
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/editIntervalOk"
-                android:text="OK"
+                android:text="@string/ok"
                 android:onClick="onClickEditIntervalOk"/>
 
             <Button
@@ -55,7 +55,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/editIntervalCancel"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:onClick="onClickEditIntervalCancel"/>
 
             <Button
@@ -63,7 +63,7 @@
                 android:layout_height="37dp"
                 android:background="#E05335"
                 android:id="@+id/editIntervalDelete"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:onClick="onClickEditIntervalDelete"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1" />

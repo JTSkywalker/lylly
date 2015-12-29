@@ -16,7 +16,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="tag:"/>
+                android:text="@string/labelTag"/>
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="weights:"/>
+                android:text="@string/labelWeights"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="from (inclusive):"/>
+                android:text="@string/labelFrom"/>
             <DatePicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="to (exclusive):"/>
+                android:text="@string/labelTo"/>
             <DatePicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/prospectMin"
+                    android:text="@string/labelMin"
                     android:id="@+id/prospectMin" />
                 <NumberPicker
                     android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/prospectMax"
+                    android:text="@string/labelMax"
                     android:id="@+id/prospectMax" />
                 <NumberPicker
                     android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="discard"
+                    android:text="@string/discard"
                     android:background="#E05335"
                     android:id="@+id/prospectDelete"
                     android:onClick="onClickProspectDelete"

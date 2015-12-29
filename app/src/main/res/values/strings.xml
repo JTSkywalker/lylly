@@ -2,19 +2,36 @@
     <string name="app_name">Lylly</string>
     <string name="title_activity_main">lylly</string>
 
-    <string name="prospectMin">Min:</string>
-    <string name="prospectMax">Max:</string>
-    <string name="buttonNewProspect">+</string>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="buttonToTaskOrganizer">TaskOrganizer</string>
-    <string name="buttonToProspectOrganizer">ProspectOrganizer</string>
-    <string name="buttonToTagOrganizer">TagOrganizer</string>
-    <string name="buttonNewTag">+</string>
-    <string name="tagName">enter tag name:</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_task_organizer">TaskOrganizer</string>
-    <string name="title_activity_prospect_organizer">ProspectOrganizer</string>
-    <string name="title_activity_tag_organizer">TagOrganizer</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="discard">Verwerfe</string>
+    <string name="delete">Lösche</string>
+
+    <string name="buttonToTaskOrganizer">Aufgaben</string>
+    <string name="buttonToProspectOrganizer">Ziele</string>
+    <string name="buttonToTagOrganizer">Kategorien</string>
+
+    <string name="tagName">Name:</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="title_activity_task_organizer">Aufgaben</string>
+    <string name="title_activity_prospect_organizer">Ziele</string>
+    <string name="title_activity_tag_organizer">Kategorien</string>
+
     <string name="buttonNewTask">+</string>
+    <string name="buttonNewProspect">+</string>
+    <string name="buttonNewTag">+</string>
+    <string name="newInterval">+</string>
+    <string name="finish">✓</string>
+
+    <string name="labelTag">Kategorie:</string>
+    <string name="labelWeights">Gewichte:</string>
+    <string name="labelFrom">von (inklusiv):</string>
+    <string name="labelTo">bis (exklusiv):</string>
+    <string name="labelMin">Min:</string>
+    <string name="labelMax">Max:</string>
+    <string name="labelEnd">Ende:</string>
+    <string name="labelStart">Start:</string>
+
+    <string name="labelUrgent">wichtig</string>
+    <string name="labelDone">erledigt</string>
 </resources>
